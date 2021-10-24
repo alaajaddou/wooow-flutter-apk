@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_money_formatter/flutter_money_formatter.dart';
+import 'package:intl/intl.dart';
+
 
 class CheckOutPage extends StatefulWidget {
   const CheckOutPage({Key? key}) : super(key: key);
@@ -20,15 +21,13 @@ class _CheckOutPageState extends State<CheckOutPage> {
           return Column(
             children: <Widget>[
               Expanded(
-                child: Container(
-                  child: ListView(
-                    children: <Widget>[
-                      selectedAddressSection(),
-                      standardDelivery(),
-                      checkoutItem(),
-                      priceSection()
-                    ],
-                  ),
+                child: ListView(
+                  children: <Widget>[
+                    selectedAddressSection(),
+                    standardDelivery(),
+                    checkoutItem(),
+                    priceSection()
+                  ],
                 ),
                 flex: 90,
               ),
@@ -37,7 +36,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   width: double.infinity,
                   // ignore: prefer_const_constructors
                   margin: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       /*Navigator.of(context).push(new MaterialPageRoute(
                           builder: (context) => OrderPlacePage()));*/
@@ -50,8 +49,10 @@ class _CheckOutPageState extends State<CheckOutPage> {
                           fontSize: 14,
                           fontWeight: FontWeight.bold),
                     ),
-                    color: Colors.lightGreen.shade300,
-                    textColor: Colors.white,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen.shade300),
+                      textStyle: MaterialStateProperty.all<TextStyle>(const TextStyle(color: Colors.white)),
+                    ),
                   ),
                 ),
                 flex: 10,
@@ -103,16 +104,18 @@ class _CheckOutPageState extends State<CheckOutPage> {
                     const SizedBox(
                       height: 24,
                     ),
-                    RaisedButton(
+                    ElevatedButton(
                       onPressed: () {},
-                      padding: const EdgeInsets.only(left: 48, right: 48),
                       child: const Text(
                         "Track Order",
                         style: TextStyle(color: Colors.white),
                       ),
-                      color: Colors.pink,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(24))),
+                      style: ButtonStyle(
+                          padding: MaterialStateProperty.all(const EdgeInsets.only(left: 48, right: 48)),
+                          textStyle: MaterialStateProperty.all(const TextStyle(color: Colors.pink)),
+                          shape: MaterialStateProperty.all(const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(24))))
+                      ),
                     )
                   ],
                 ),
@@ -123,7 +126,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
         ),
       );
     },
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(16), topRight: Radius.circular(16))),
         backgroundColor: Colors.white,
@@ -449,18 +452,13 @@ class _CheckOutPageState extends State<CheckOutPage> {
   }
 
   String getFormattedCurrency(double amount) {
-    FlutterMoneyFormatter fmf = FlutterMoneyFormatter(amount: amount);
-    fmf.settings.symbol = "₪";
-    fmf.settings.thousandSeparator = ",";
-    fmf.settings.decimalSeparator = ".";
-    fmf.settings.symbolAndNumberSeparator = ' ';
-    fmf.settings.compactFormatType = CompactFormatType.short;
-    return fmf.amount.toString();
+    final oCcy = NumberFormat("#,##0.00", "he-IL");
+    return oCcy.currencySymbol + ' ' + oCcy.format(amount).toString();
   }
 
   createPriceItem(String key, String value, Color color) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 3),
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 3),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
