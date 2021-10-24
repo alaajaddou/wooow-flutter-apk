@@ -131,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body:  const CheckOutPage(),
+      body:  const HomePage(),
       bottomNavigationBar: Theme(
           data: Theme.of(context).copyWith(
               canvasColor: Colors.lightGreen.shade300, primaryColor: Colors.white, textTheme: Theme.of(context).textTheme.copyWith(caption: const TextStyle(color: Colors.grey))),

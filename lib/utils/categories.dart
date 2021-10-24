@@ -1,10 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
-class Categories extends StatelessWidget {
-  List<Category> items = [];
-  List categoryList = ['Sender 1', 'Message body Test'];
+import 'global.dart';
 
-  Categories({Key? key}) : super(key: key);
+class Categories extends StatelessWidget {
+  List<dynamic> categories = [];
+
+  Categories({Key? key, required this.categories}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,52 +16,49 @@ class Categories extends StatelessWidget {
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
       // Let the ListView know how many items it needs to build.
-      itemCount: categoryList.length,
+      itemCount: categories.length,
       // Provide a builder function. This is where the magic happens.
       // Convert each item into a widget based on the type of item it is.
       itemBuilder: (context, index) {
-        return Category(category: categoryList[index]);
+        print(categories[index]);
+        return Category(category: categories[index]);
       },
     ));
   }
 }
 
 class Category extends StatelessWidget {
-  final String category;
+  final dynamic category;
 
   const Category({Key? key, required this.category}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final item1 = {"name": "Item 1", "categoryName": category, "price": 120.0};
-    final item2 = {"name": "Item 1", "categoryName": category, "price": 120.0};
-    final item3 = {"name": "Item 1", "categoryName": category, "price": 120.0};
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Title(sender: category),
-        CategoryItems(items: [item1, item2, item3])
-      ],
+      children: [Title(sender: category['name']), CategoryItems(items: category['items'])],
     );
   }
 }
 
 class CategoryItems extends StatelessWidget {
-  final List items;
+  final List<dynamic> items;
 
   const CategoryItems({Key? key, required this.items}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     List<Widget> widgets = [];
-    for (int index = 0; index < items.length; index++) {
-      widgets.add(Container(
-          width: 175,
-          margin: const EdgeInsets.all(3.0),
-          padding: const EdgeInsets.all(3.0),
-          decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.lightGreen.shade300), borderRadius: BorderRadius.circular(10)),
-          child: Item(name: items[index]['name'], categoryName: items[index]['categoryName'], price: items[index]['price'])));
+    if (items.isNotEmpty) {
+      for (int index = 0; index < items.length; index++) {
+        widgets.add(Container(
+            width: 175,
+            margin: const EdgeInsets.all(3.0),
+            padding: const EdgeInsets.all(3.0),
+            decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.lightGreen.shade300), borderRadius: BorderRadius.circular(10)),
+            child: Item(item: items[index])));
+      }
     }
     return SizedBox(
         height: 300,
@@ -70,11 +70,12 @@ class CategoryItems extends StatelessWidget {
 }
 
 class Item extends StatefulWidget {
-  final String name;
-  final String categoryName;
-  final double price;
+  final dynamic item;
 
-  Item({Key? key, required this.name, required this.categoryName, required this.price}) : super(key: key);
+  // final String categoryName;
+  // final String price;
+
+  Item({Key? key, required this.item}) : super(key: key);
 
   @override
   State<Item> createState() => _ItemState();
@@ -85,10 +86,11 @@ class _ItemState extends State<Item> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Image.network("https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg", height: 180),
-        Text(widget.name),
-        Text(widget.categoryName),
-        Text('\$' + widget.price.toString()),
+        Image.network("http://" + Global.baseUrl + '/storage/' + widget.item['image'], height: 150),
+        Text(widget.item['name'], textAlign: TextAlign.center, style: const TextStyle(fontSize: 12)),
+        const Spacer(flex: 1),
+        Text(widget.item['categoryName']),
+        Text(getFormattedCurrency(widget.item['price'].toDouble())),
         MaterialButton(child: const Text("Add To Cart"), onPressed: () => {}, color: Colors.lightGreen.shade300),
       ],
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:wooow_supermarket/utils/global.dart';
 
 
 class CheckOutPage extends StatefulWidget {
@@ -449,11 +449,6 @@ class _CheckOutPageState extends State<CheckOutPage> {
         ),
       ),
     );
-  }
-
-  String getFormattedCurrency(double amount) {
-    final oCcy = NumberFormat("#,##0.00", "he-IL");
-    return oCcy.currencySymbol + ' ' + oCcy.format(amount).toString();
   }
 
   createPriceItem(String key, String value, Color color) {
