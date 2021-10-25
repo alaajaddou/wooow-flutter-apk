@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<dynamic> tempCategories = [];
+  late List<dynamic> tempCategories = [];
   List<dynamic> categories = [];
 
   List<dynamic> items = [];

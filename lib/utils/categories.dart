@@ -1,7 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_cart/model/cart_model.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
+import 'alert.dart';
 import 'global.dart';
 
 class Categories extends StatelessWidget {
@@ -91,7 +94,10 @@ class _ItemState extends State<Item> {
         const Spacer(flex: 1),
         Text(widget.item['categoryName']),
         Text(getFormattedCurrency(widget.item['price'].toDouble())),
-        MaterialButton(child: const Text("Add To Cart"), onPressed: () => {}, color: Colors.lightGreen.shade300),
+        MaterialButton(child: const Text("Add To Cart"), onPressed: () => {
+          CartItem()
+          showSuccessDialog(context, "Success", " The item added to your cart successfully")
+        }, color: Colors.lightGreen.shade300),
       ],
     );
   }

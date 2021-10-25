@@ -11,7 +11,6 @@ class Global {
 }
 
 class ApiBaseHelper {
-
   Future<dynamic> get(String url) async {
     print('Api Get, url $url');
     var responseJson;
@@ -76,3 +75,4 @@ String getFormattedCurrency(double amount) {
   final oCcy = NumberFormat("#,##0.00", "he-IL");
   return oCcy.currencySymbol + ' ' + oCcy.format(amount).toString();
 }
+
