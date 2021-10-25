@@ -95,7 +95,6 @@ class _ItemState extends State<Item> {
         Text(widget.item['categoryName']),
         Text(getFormattedCurrency(widget.item['price'].toDouble())),
         MaterialButton(child: const Text("Add To Cart"), onPressed: () => {
-          CartItem()
           showSuccessDialog(context, "Success", " The item added to your cart successfully")
         }, color: Colors.lightGreen.shade300),
       ],
