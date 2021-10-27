@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wooow_supermarket/utils/custom_appbar.dart';
+import 'package:wooow_supermarket/utils/custom_navigator.dart';
 
 class AboutPage extends StatefulWidget {
   const AboutPage({Key? key}) : super(key: key);
@@ -11,6 +13,8 @@ class _AboutPageState extends State<AboutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const CustomAppBar(),
+      bottomNavigationBar: const CustomNavigator(),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(

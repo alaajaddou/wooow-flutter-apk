@@ -1,8 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_cart/flutter_cart.dart';
 import 'package:flutter_cart/model/cart_model.dart';
+import 'package:flutter_cart/model/cart_response_wrapper.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:wooow_supermarket/main.dart';
+import 'package:wooow_supermarket/utils/custom_appbar.dart';
+import 'package:wooow_supermarket/utils/custom_navigator.dart';
+import 'package:wooow_supermarket/utils/global.dart';
+import 'package:wooow_supermarket/utils/notification.dart';
+import 'package:wooow_supermarket/utils/shopping_cart_icon.dart';
 
 import 'alert.dart';
 import 'global.dart';
@@ -16,17 +24,17 @@ class Categories extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
         child: ListView.builder(
-      shrinkWrap: true,
-      scrollDirection: Axis.vertical,
-      // Let the ListView know how many items it needs to build.
-      itemCount: categories.length,
-      // Provide a builder function. This is where the magic happens.
-      // Convert each item into a widget based on the type of item it is.
-      itemBuilder: (context, index) {
-        print(categories[index]);
-        return Category(category: categories[index]);
-      },
-    ));
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          // Let the ListView know how many items it needs to build.
+          itemCount: categories.length,
+          // Provide a builder function. This is where the magic happens.
+          // Convert each item into a widget based on the type of item it is.
+          itemBuilder: (context, index) {
+            print(categories[index]);
+            return Category(category: categories[index]);
+          },
+        ));
   }
 }
 
@@ -94,8 +102,17 @@ class _ItemState extends State<Item> {
         const Spacer(flex: 1),
         Text(widget.item['categoryName']),
         Text(getFormattedCurrency(widget.item['price'].toDouble())),
-        MaterialButton(child: const Text("Add To Cart"), onPressed: () => {
-          showSuccessDialog(context, "Success", " The item added to your cart successfully")
+        MaterialButton(child: const Text("Add To Cart"), onPressed: () {
+          int? itemIndex = cart.findItemIndexFromCart(widget.item['id']);
+          CartResponseWrapper cartResponseWrapper;
+          if (itemIndex == null) {
+            cartResponseWrapper = cart.addToCart(productId: widget.item['id'], unitPrice: widget.item['price']);
+          } else {
+            cartResponseWrapper = cart.incrementItemToCart(itemIndex);
+          }
+          cartCount = cart.getCartItemCount();
+          MyNotification(count: cart.getCartItemCount()).dispatch(context);
+          showSuccessDialog(context, "Success", cartResponseWrapper.message);
         }, color: Colors.lightGreen.shade300),
       ],
     );

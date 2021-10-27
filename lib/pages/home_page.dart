@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import 'package:wooow_supermarket/utils/categories.dart';
 import 'package:wooow_supermarket/utils/circle_image.dart';
+import 'package:wooow_supermarket/utils/custom_appbar.dart';
+import 'package:wooow_supermarket/utils/custom_navigator.dart';
 import 'package:wooow_supermarket/utils/global.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,13 +33,17 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     getAllData();
-    return Column(children: [
-      Image.asset(
-        'assets/images/banner.jpg',
-      ),
-      CircleImages(categories: tempCategories),
-      Categories(categories: categories),
-    ]);
+    return Scaffold(
+      appBar: const CustomAppBar(),
+      body: Column(children: [
+        Image.asset(
+          'assets/images/banner.jpg',
+        ),
+        CircleImages(categories: tempCategories),
+        Categories(categories: categories),
+      ]),
+      bottomNavigationBar: const CustomNavigator(),
+    );
   }
 
   List<dynamic> prepareItems(List<dynamic> categories) {

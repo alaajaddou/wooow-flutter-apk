@@ -8,6 +8,8 @@ import 'package:intl/intl.dart';
 class Global {
   static const baseUrl = "vmi561267.contaboserver.net";
   static const apiPath = "api/";
+
+  static int cartCount = 0;
 }
 
 class ApiBaseHelper {
