@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wooow_supermarket/utils/global.dart';
 
 class CustomNavigator extends StatefulWidget {
   const CustomNavigator({Key? key}) : super(key: key);
@@ -12,18 +13,17 @@ class _CustomNavigatorState extends State<CustomNavigator> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    String page = getPageFromIndex(index);
+    Navigator.of(context).pushNamed(page);
   }
 
   @override
   Widget build(BuildContext context) {
     return Theme(
         data: Theme.of(context).copyWith(
-            canvasColor: Colors.lightGreen.shade300, primaryColor: Colors.white, textTheme: Theme.of(context).textTheme.copyWith(caption: const TextStyle(color: Colors.grey))),
+            canvasColor: getPrimaryColor(), primaryColor: Colors.white, textTheme: Theme.of(context).textTheme.copyWith(caption: const TextStyle(color: Colors.grey))),
         child: BottomNavigationBar(
-          backgroundColor: Colors.lightGreen.shade300,
+          backgroundColor: getPrimaryColor(),
           selectedItemColor: Colors.black,
           unselectedItemColor: Colors.white70,
           showUnselectedLabels: true,
@@ -48,5 +48,19 @@ class _CustomNavigatorState extends State<CustomNavigator> {
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
         ));
+  }
+
+  String getPageFromIndex(index) {
+    switch (index) {
+      case 1:
+        return 'categories';
+      case 2:
+        return 'orders';
+      case 3:
+        return 'account';
+      case 0:
+      default:
+        return '';
+    }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wooow_supermarket/utils/global.dart';
 
 import 'cart_page.dart';
 
@@ -31,7 +32,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
   void addColor() {
     listColor.add(Colors.red);
-    listColor.add(Colors.lightGreen.shade300);
+    listColor.add(getPrimaryColor());
     listColor.add(Colors.yellow);
     listColor.add(Colors.black);
     listColor.add(Colors.teal);
@@ -204,7 +205,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 child: Text(
                   "\$299.00",
                   style: TextStyle(
-                      color: Colors.lightGreen.shade300, fontSize: 14),
+                      color: getPrimaryColor(), fontSize: 14),
                 ),
               ),
             ],
@@ -212,7 +213,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           const SizedBox(height: 16),
           RaisedButton(
             onPressed: () {},
-            color: Colors.lightGreen.shade300,
+            color: getPrimaryColor(),
             padding: EdgeInsets.only(top: 12, left: 60, right: 60, bottom: 12),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(24))),

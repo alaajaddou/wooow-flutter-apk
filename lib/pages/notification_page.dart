@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wooow_supermarket/utils/custom_appbar.dart';
+import 'package:wooow_supermarket/utils/custom_navigator.dart';
 
 class NotificationPage extends StatefulWidget {
   @override
@@ -9,12 +11,14 @@ class _NotificationPageState extends State<NotificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const CustomAppBar(),
       body: ListView.builder(
         itemBuilder: (context, index) {
           return createNotificationListItem(index);
         },
         itemCount: getDummyList().length,
       ),
+      bottomNavigationBar: const CustomNavigator(),
     );
   }
 

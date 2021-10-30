@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -78,3 +79,15 @@ String getFormattedCurrency(double amount) {
   return oCcy.currencySymbol + ' ' + oCcy.format(amount).toString();
 }
 
+ButtonStyle getButtonStyle() {
+  return ElevatedButton.styleFrom(
+    primary: getPrimaryColor(),
+    textStyle: const TextStyle(fontSize: 16),
+    padding: const EdgeInsets.only(top: 12, left: 60, right: 60, bottom: 12),
+    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(24))),
+  );
+}
+
+Color getPrimaryColor() {
+  return Colors.lightGreen.shade300;
+}

@@ -31,7 +31,6 @@ class Categories extends StatelessWidget {
           // Provide a builder function. This is where the magic happens.
           // Convert each item into a widget based on the type of item it is.
           itemBuilder: (context, index) {
-            print(categories[index]);
             return Category(category: categories[index]);
           },
         ));
@@ -67,8 +66,14 @@ class CategoryItems extends StatelessWidget {
             width: 175,
             margin: const EdgeInsets.all(3.0),
             padding: const EdgeInsets.all(3.0),
-            decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.lightGreen.shade300), borderRadius: BorderRadius.circular(10)),
-            child: Item(item: items[index])));
+            decoration: BoxDecoration(border: Border.all(width: 1, color: getPrimaryColor()), borderRadius: BorderRadius.circular(10)),
+            child: GestureDetector(
+                onTap: (){
+                  Navigator.of(context).pushNamed('product');
+                },
+                child: Item(item: items[index])
+            )
+        ));
       }
     }
     return SizedBox(
@@ -103,17 +108,23 @@ class _ItemState extends State<Item> {
         Text(widget.item['categoryName']),
         Text(getFormattedCurrency(widget.item['price'].toDouble())),
         MaterialButton(child: const Text("Add To Cart"), onPressed: () {
+          print(widget.item['id']);
           int? itemIndex = cart.findItemIndexFromCart(widget.item['id']);
           CartResponseWrapper cartResponseWrapper;
           if (itemIndex == null) {
-            cartResponseWrapper = cart.addToCart(productId: widget.item['id'], unitPrice: widget.item['price']);
+            cartResponseWrapper = cart.addToCart(
+                productId: widget.item['id'],
+                unitPrice: widget.item['price'],
+              productName: widget.item['name'],
+              productDetailsObject: widget.item
+            );
           } else {
             cartResponseWrapper = cart.incrementItemToCart(itemIndex);
           }
           cartCount = cart.getCartItemCount();
           MyNotification(count: cart.getCartItemCount()).dispatch(context);
-          showSuccessDialog(context, "Success", cartResponseWrapper.message);
-        }, color: Colors.lightGreen.shade300),
+          showSuccessDialog(context, "نجاح", "تمت الاضافة");
+        }, color: getPrimaryColor()),
       ],
     );
   }
@@ -144,10 +155,10 @@ class Title extends StatelessWidget {
               )
             ],
             border: Border(
-              top: BorderSide(width: 5.0, color: Colors.lightGreen.shade300),
-              bottom: BorderSide(width: 5.0, color: Colors.lightGreen.shade300),
-              left: BorderSide(width: 15.0, color: Colors.lightGreen.shade300),
-              right: BorderSide(width: 15.0, color: Colors.lightGreen.shade300),
+              top: BorderSide(width: 5.0, color: getPrimaryColor()),
+              bottom: BorderSide(width: 5.0, color: getPrimaryColor()),
+              left: BorderSide(width: 15.0, color: getPrimaryColor()),
+              right: BorderSide(width: 15.0, color: getPrimaryColor()),
             )),
         child: Text(sender, textAlign: TextAlign.center));
   }

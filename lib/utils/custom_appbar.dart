@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wooow_supermarket/utils/global.dart';
 import 'package:wooow_supermarket/utils/notification_icon.dart';
 import 'package:wooow_supermarket/utils/route_generator.dart';
 import 'package:wooow_supermarket/utils/shopping_cart_icon.dart';
@@ -12,7 +13,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-          backgroundColor: Colors.lightGreen.shade300,
+          backgroundColor: getPrimaryColor(),
           leading: Padding(
             padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
             child: Image.asset(
@@ -28,21 +29,25 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 size: 30,
               ),
               onPressed: () {
-                if (RouteGenerator.currentRoute != 'about') {
-                  Navigator.of(context).pushNamed('about', arguments: 'test');
+                if (RouteGenerator.currentRoute != 'search') {
+                  Navigator.of(context).pushNamed('search');
                 }
               },
             ),
             IconButton(
-              icon: ShoppingCartIcon(),
+              icon: const ShoppingCartIcon(),
               onPressed: () {
-                // do something
+                if (RouteGenerator.currentRoute != 'cart') {
+                  Navigator.of(context).pushNamed('cart');
+                }
               },
             ),
             IconButton(
-              icon: NotificationIcon(),
+              icon: const NotificationIcon(),
               onPressed: () {
-                // do something
+                if (RouteGenerator.currentRoute != 'notification') {
+                  Navigator.of(context).pushNamed('notification');
+                }
               },
             ),
             IconButton(
@@ -52,7 +57,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 size: 30,
               ),
               onPressed: () {
-                // do something
+                if (RouteGenerator.currentRoute != 'account') {
+                  Navigator.of(context).pushNamed('account');
+                }
               },
             ),
           ],

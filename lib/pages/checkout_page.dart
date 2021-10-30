@@ -50,7 +50,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                           fontWeight: FontWeight.bold),
                     ),
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen.shade300),
+                      backgroundColor: MaterialStateProperty.all<Color>(getPrimaryColor()),
                       textStyle: MaterialStateProperty.all<TextStyle>(const TextStyle(color: Colors.white)),
                     ),
                   ),

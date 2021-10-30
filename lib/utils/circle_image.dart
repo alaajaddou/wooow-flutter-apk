@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:wooow_supermarket/utils/global.dart';
 
 class CircleImages extends StatefulWidget {
-
   List<dynamic> categories = [];
+
   CircleImages({Key? key, required this.categories}) : super(key: key);
 
   @override
@@ -18,24 +18,28 @@ class CircleWidgets extends State<CircleImages> {
     List<Widget> widgets = [];
     if (widget.categories.isNotEmpty) {
       for (var element in widget.categories) {
-        widgets.add(Column(
-          children: [
-            Container(
-                height: 50.0,
-                width: 50.0,
-                margin: const EdgeInsets.all(6.0),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100.0),
-                    boxShadow: const [BoxShadow(color: Color.fromARGB(100, 0, 0, 0), blurRadius: 5.0, offset: Offset(5.0, 5.0))],
-                    border: Border.all(width: 2.0, style: BorderStyle.solid, color: Colors.lightGreen.shade300),
-                    image: DecorationImage(fit: BoxFit.cover, image: NetworkImage('http://' + Global.baseUrl + '/storage/' + element['image'])))),
-            Text(
-              element['name'],
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 10),
-            )
-          ],
-        ));
+        widgets.add(GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed('category');
+            },
+            child: Column(
+              children: [
+                Container(
+                    height: 50.0,
+                    width: 50.0,
+                    margin: const EdgeInsets.all(6.0),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100.0),
+                        boxShadow: const [BoxShadow(color: Color.fromARGB(100, 0, 0, 0), blurRadius: 5.0, offset: Offset(5.0, 5.0))],
+                        border: Border.all(width: 2.0, style: BorderStyle.solid, color: getPrimaryColor()),
+                        image: DecorationImage(fit: BoxFit.cover, image: NetworkImage('http://' + Global.baseUrl + '/storage/' + element['image'])))),
+                Text(
+                  element['name'],
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 10),
+                )
+              ],
+            )));
       }
     }
     return Container(

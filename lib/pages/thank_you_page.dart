@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wooow_supermarket/utils/global.dart';
 
 class ThankYouPage extends StatefulWidget {
   @override
@@ -59,7 +60,7 @@ class _OrderPlacePageState extends State<ThankYouPage> {
                           "اعرض تفاصيل الطلب",
                           style: TextStyle(color: Colors.white),
                         ),
-                        color: Colors.lightGreen.shade300,
+                        color: getPrimaryColor(),
                         shape: RoundedRectangleBorder(
                             borderRadius:
                             BorderRadius.all(Radius.circular(24))),

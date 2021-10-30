@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
+import 'global.dart';
+
 showSuccessDialog(BuildContext context, String title, String desc) {
   Alert(
       context: context,
@@ -17,7 +19,7 @@ showSuccessDialog(BuildContext context, String title, String desc) {
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),
           onPressed: () => Navigator.pop(context),
-          color: Colors.lightGreen.shade300,
+          color: getPrimaryColor(),
         ),
       ]).show();
 }
@@ -38,7 +40,7 @@ showErrorDialog(BuildContext context, String title, String desc) {
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),
           onPressed: () => Navigator.pop(context),
-          color: Colors.lightGreen.shade300,
+          color: getPrimaryColor(),
         ),
       ]).show();
 }

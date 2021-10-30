@@ -3,6 +3,9 @@ import 'package:wooow_supermarket/pages/about_page.dart';
 import 'package:wooow_supermarket/pages/edit_profile_page.dart';
 import 'package:wooow_supermarket/pages/invite_friends_page.dart';
 import 'package:wooow_supermarket/pages/notification_page.dart';
+import 'package:wooow_supermarket/utils/custom_appbar.dart';
+import 'package:wooow_supermarket/utils/custom_navigator.dart';
+import 'package:wooow_supermarket/utils/global.dart';
 
 
 class ProfilePage extends StatefulWidget {
@@ -47,6 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const CustomAppBar(),
       body: ListView(
         children: <Widget>[
           const SizedBox(height: 24),
@@ -55,6 +59,7 @@ class _ProfilePageState extends State<ProfilePage> {
           buildListView()
         ],
       ),
+      bottomNavigationBar: const CustomNavigator(),
     );
   }
 
@@ -62,7 +67,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Container(
       margin: const EdgeInsets.all(0.0),
       decoration: BoxDecoration(
-        color: Colors.lightGreen.shade300
+        color: getPrimaryColor()
       ),
       child: Row(
         children: <Widget>[
