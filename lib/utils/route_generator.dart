@@ -4,10 +4,12 @@ import 'package:wooow_supermarket/pages/cart_page.dart';
 import 'package:wooow_supermarket/pages/category_list.dart';
 import 'package:wooow_supermarket/pages/category_page.dart';
 import 'package:wooow_supermarket/pages/home_page.dart';
+import 'package:wooow_supermarket/pages/login_page.dart';
 import 'package:wooow_supermarket/pages/notification_page.dart';
 import 'package:wooow_supermarket/pages/order_list.dart';
 import 'package:wooow_supermarket/pages/product_detail_page.dart';
 import 'package:wooow_supermarket/pages/profile_page.dart';
+import 'package:wooow_supermarket/pages/register_page.dart';
 import 'package:wooow_supermarket/pages/search_page.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
 import 'package:wooow_supermarket/utils/custom_navigator.dart';
@@ -36,10 +38,10 @@ class RouteGenerator {
           return MaterialPageRoute(builder: (_) => const OrderList());
         case 'account':
           return MaterialPageRoute(builder: (_) => const ProfilePage());
-        // case 'login':
-        //   return MaterialPageRoute(builder: (_) => const LoginPage());
-        // case 'register':
-        //   return MaterialPageRoute(builder: (_) => const RegisterPage());
+        case 'login':
+          return MaterialPageRoute(builder: (_) => LoginPage());
+        case 'register':
+          return MaterialPageRoute(builder: (_) => RegisterPage());
         default:
           return MaterialPageRoute(builder: (_) => const ErrorPage());
       }

@@ -23,10 +23,6 @@ class _HomePageState extends State<HomePage> {
 
   dynamic getAllData() async {
     return await ApiBaseHelper().get('get-all-data');
-    // ApiBaseHelper().get('get-all-data').then((response) {
-    //   tempCategories = response['categories'];
-    //   categories = prepareItems(tempCategories);
-    // });
   }
 
   @override

@@ -29,6 +29,21 @@ class ApiBaseHelper {
     print('api get recieved!');
     return responseJson;
   }
+  Future<dynamic> post(String url, Object body) async {
+    print('Api Post, url $url');
+    var responseJson;
+    try {
+      var client = http.Client();
+      var api = Uri.http(Global.baseUrl, Global.apiPath + url);
+      final response = await client.post(api, body: body);
+      responseJson = _returnResponse(response);
+    } on SocketException catch (exception) {
+      print(exception);
+      throw FetchDataException('No Internet connection');
+    }
+    print('api get recieved!');
+    return responseJson;
+  }
 
   dynamic _returnResponse(http.Response response) {
     switch (response.statusCode) {

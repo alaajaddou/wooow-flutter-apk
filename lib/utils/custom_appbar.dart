@@ -37,6 +37,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             IconButton(
               icon: const ShoppingCartIcon(),
               onPressed: () {
+
                 if (RouteGenerator.currentRoute != 'cart') {
                   Navigator.of(context).pushNamed('cart');
                 }
