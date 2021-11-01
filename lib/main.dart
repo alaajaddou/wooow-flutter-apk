@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cart/flutter_cart.dart';
+import 'package:intl/intl.dart';
 import 'package:wooow_supermarket/utils/route_generator.dart';
 
 FlutterCart cart = FlutterCart();
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
