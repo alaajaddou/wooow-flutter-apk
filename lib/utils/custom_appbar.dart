@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wooow_supermarket/main.dart';
 import 'package:wooow_supermarket/utils/global.dart';
 import 'package:wooow_supermarket/utils/notification_icon.dart';
 import 'package:wooow_supermarket/utils/route_generator.dart';
@@ -58,8 +59,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 size: 30,
               ),
               onPressed: () {
-                if (RouteGenerator.currentRoute != 'account') {
-                  Navigator.of(context).pushNamed('account');
+
+                if (auth.getUser() != null) {
+                  if (RouteGenerator.currentRoute != 'account') {
+                    Navigator.of(context).pushNamed('account');
+                  }
+                } else {
+                  if (RouteGenerator.currentRoute != 'register') {
+                    Navigator.of(context).pushNamed('register');
+                  }
                 }
               },
             ),

@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:wooow_supermarket/main.dart';
 import 'package:wooow_supermarket/pages/about_page.dart';
 import 'package:wooow_supermarket/pages/edit_profile_page.dart';
 import 'package:wooow_supermarket/pages/invite_friends_page.dart';
@@ -64,6 +66,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Container buildHeader() {
+    User? user = auth.getUser();
+
     return Container(
       margin: const EdgeInsets.all(0.0),
       decoration: BoxDecoration(
@@ -71,7 +75,6 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       child: Row(
         children: <Widget>[
-          const SizedBox(width: 14),
           Container(
             width: 60,
             margin: const EdgeInsets.only(top: 8, bottom: 8),
@@ -90,14 +93,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "Riya Patel",
+                      user!.displayName ?? '',
                       textAlign: TextAlign.start,
                       style: TextStyle(color: Colors.blue.shade900, fontSize: 14),
                     ),
                     const SizedBox(height: 2),
-                    const Text(
-                      "riya@gmail.com",
-                      style: TextStyle(color: Colors.white, fontSize: 12),
+                    Text(
+                      user.email ?? '',
+                      style: const TextStyle(color: Colors.white, fontSize: 12),
                     ),
                   ],
                 ),

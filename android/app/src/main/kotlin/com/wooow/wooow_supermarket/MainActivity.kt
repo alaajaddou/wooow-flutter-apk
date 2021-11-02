@@ -1,4 +1,4 @@
-package com.wooow.wooow_supermarket
+package com.wooow.wooowSupermarket
 
 import io.flutter.embedding.android.FlutterActivity
 

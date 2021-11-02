@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "616786469896",
+    "project_id": "wooow-supermarket-caeb2",
+    "storage_bucket": "wooow-supermarket-caeb2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:616786469896:android:eaac194744eead18a7ddbd",
+        "android_client_info": {
+          "package_name": "com.wooow.wooowSupermarket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "616786469896-f98ilcbm0dd5639tgmqet6v5bi2pujo0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgRCML98P09c1Hu0Nin5otaI0HIPPG_jY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "616786469896-f98ilcbm0dd5639tgmqet6v5bi2pujo0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
