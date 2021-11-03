@@ -15,37 +15,35 @@ class Global {
 
 class ApiBaseHelper {
   Future<dynamic> get(String url) async {
-    print('Api Get, url $url');
-    var responseJson;
-    try {
-      var client = http.Client();
-      var api = Uri.http(Global.baseUrl, Global.apiPath + url);
-      final response = await client.get(api);
-      responseJson = _returnResponse(response);
-    } on SocketException catch (exception) {
-      print(exception);
-      throw FetchDataException('No Internet connection');
+      debugPrint('Api GET, url $url');
+      late var responseJson = '';
+      try {
+        var client = http.Client();
+        var api = Uri.http(Global.baseUrl, Global.apiPath + url);
+        final response = await client.get(api);
+        responseJson = _returnResponse(response);
+      } on SocketException catch (exception) {
+        throw FetchDataException('No Internet connection' + exception.message);
+      }
+      return responseJson;
     }
-    print('api get recieved!');
-    return responseJson;
-  }
+
   Future<dynamic> post(String url, Object body) async {
-    print('Api Post, url $url');
-    var responseJson;
+    debugPrint('Api Post, url $url');
+
     try {
       var client = http.Client();
       var api = Uri.http(Global.baseUrl, Global.apiPath + url);
       final response = await client.post(api, body: body);
-      responseJson = _returnResponse(response);
-    } on SocketException catch (exception) {
-      print(exception);
-      throw FetchDataException('No Internet connection');
+      debugPrint('Api GET, received');
+      return response;
+    } catch (exception) {
+      rethrow;
     }
-    print('api get recieved!');
-    return responseJson;
   }
 
   dynamic _returnResponse(http.Response response) {
+    debugPrint(response.statusCode.toString());
     switch (response.statusCode) {
       case 200:
         var responseJson = json.decode(response.body.toString());
@@ -57,17 +55,18 @@ class ApiBaseHelper {
         throw UnauthorisedException(response.body.toString());
       case 500:
       default:
-        throw FetchDataException('Error occured while Communication with Server with StatusCode : ${response.statusCode}');
+        throw FetchDataException('Error occurred while Communication with Server with StatusCode : ${response.statusCode}');
     }
   }
 }
 
 class AppException implements Exception {
-  final _message;
-  final _prefix;
+  final dynamic _message;
+  final dynamic _prefix;
 
   AppException([this._message, this._prefix]);
 
+  @override
   String toString() {
     return "$_prefix$_message";
   }
@@ -103,6 +102,25 @@ ButtonStyle getButtonStyle() {
   );
 }
 
+ButtonStyle getTransparentButtonStyle() {
+  return ElevatedButton.styleFrom(
+    primary: getTransparentColor(),
+    textStyle: const TextStyle(fontSize: 16),
+    padding: const EdgeInsets.only(top: 12, left: 60, right: 60, bottom: 12),
+    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(24))),
+  );
+}
+
 Color getPrimaryColor() {
   return Colors.lightGreen.shade300;
+}
+
+Color getTransparentColor() {
+  return Colors.transparent;
+}
+
+bool get isInDebugMode {
+  bool inDebugMode = false;
+  assert(inDebugMode = true);
+  return inDebugMode;
 }

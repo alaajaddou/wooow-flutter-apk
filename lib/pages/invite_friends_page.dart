@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 
+import 'package:wooow_supermarket/utils/global.dart';
+
 class InviteFriendsPage extends StatefulWidget {
   const InviteFriendsPage({Key? key}) : super(key: key);
 
@@ -17,9 +19,9 @@ class _InviteFriendsPageState extends State<InviteFriendsPage> {
     String response = "";
     try {
       String result = await platform.invokeMethod("shareApp");
-      print("METHOD : " + result);
+
       response = result;
-    } on PlatformException catch (e) {
+    } on PlatformException {
       response = "Failed "
           "to shared app";
     }
@@ -40,7 +42,7 @@ class _InviteFriendsPageState extends State<InviteFriendsPage> {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
         leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               color: Colors.black,
             ),
@@ -72,15 +74,12 @@ class _InviteFriendsPageState extends State<InviteFriendsPage> {
         children: <Widget>[
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(left: 4, right: 4, bottom: 4),
-              child: RaisedButton(
-                padding: EdgeInsets.symmetric(vertical: 16),
+              margin: const EdgeInsets.only(left: 4, right: 4, bottom: 4),
+              child: ElevatedButton(
                 onPressed: () {
                   shareApp();
-                  Scaffold.of(context)
-                      .showSnackBar(SnackBar(content: Text(shareResponse)));
                 },
-                color: Colors.blue,
+                style: getButtonStyle(),
                 child: const Text(
                   "Share Link",
                   style: TextStyle(color: Colors.white),
@@ -91,15 +90,14 @@ class _InviteFriendsPageState extends State<InviteFriendsPage> {
           ),
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(right: 4, bottom: 8, top: 6),
-              child: RaisedButton(
-                padding: EdgeInsets.symmetric(vertical: 14),
+              margin: const EdgeInsets.only(right: 4, bottom: 8, top: 6),
+              child: ElevatedButton(
                 onPressed: () {},
-                child: Image(
+                child: const Image(
                   image: AssetImage("images/ic_qr_code.png"),
                   color: Colors.white,
                 ),
-                color: Colors.blue,
+                style: getButtonStyle()
               ),
             ),
             flex: 15,
@@ -144,12 +142,12 @@ class _InviteFriendsPageState extends State<InviteFriendsPage> {
 
   createMiddle() {
     return Container(
-      margin: EdgeInsets.only(top: 14),
+      margin: const EdgeInsets.only(top: 14),
       color: Colors.white,
       child: Column(
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
+            padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -170,11 +168,11 @@ class _InviteFriendsPageState extends State<InviteFriendsPage> {
             height: 1,
             width: double.infinity,
           ),
-          Container(
+          SizedBox(
             height: 60,
             child: GridView.builder(
               gridDelegate:
-              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+              const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
               itemBuilder: (context, index) {
                 return gridItem();
               },
@@ -189,8 +187,8 @@ class _InviteFriendsPageState extends State<InviteFriendsPage> {
 
   gridItem() {
     return Container(
-      padding: EdgeInsets.all(10),
-      margin: EdgeInsets.only(
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.only(
         top: 8,
       ),
       height: 40,
@@ -199,7 +197,7 @@ class _InviteFriendsPageState extends State<InviteFriendsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const SizedBox(width: 8),
-          Icon(
+          const Icon(
             Icons.menu,
             color: Colors.blue,
           ),
@@ -212,11 +210,9 @@ class _InviteFriendsPageState extends State<InviteFriendsPage> {
                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
               ),
               const SizedBox(width: 4),
-              Container(
-                child: Text(
-                  "Today Reward",
-                  style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
-                ),
+              Text(
+                "Today Reward",
+                style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
               )
             ],
           ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
+  const SearchPage({Key? key}) : super(key: key);
+
   @override
   _SearchPageState createState() => _SearchPageState();
 }
@@ -58,7 +60,7 @@ class _SearchPageState extends State<SearchPage> {
   searchHeader() {
     return Container(
         color: Colors.white,
-        padding: EdgeInsets.symmetric(horizontal: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Row(
           children: <Widget>[
             Icon(
@@ -80,7 +82,7 @@ class _SearchPageState extends State<SearchPage> {
         ));
   }
 
-  OutlineInputBorder textFieldBorder() => OutlineInputBorder(
+  OutlineInputBorder textFieldBorder() => const OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(0)),
       borderSide: BorderSide(color: Colors.transparent));
 
@@ -94,11 +96,11 @@ class _SearchPageState extends State<SearchPage> {
 
   categoryList() {
     return Container(
-      padding: EdgeInsets.only(top: 16, bottom: 16),
+      padding: const EdgeInsets.only(top: 16, bottom: 16),
       color: Colors.white,
       width: double.infinity,
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: 30, minWidth: double.infinity),
+        constraints: const BoxConstraints(maxHeight: 30, minWidth: double.infinity),
         child: ListView.builder(
           itemBuilder: (context, index) {
             return categoryListItem(listCategory[index], index);
@@ -136,7 +138,7 @@ class _SearchPageState extends State<SearchPage> {
 
   recentSearchListView() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       color: Colors.white,
       child: Column(
         children: <Widget>[
@@ -213,21 +215,21 @@ class _SearchPageState extends State<SearchPage> {
   wishListItemListView() {
     return Container(
       color: Colors.white,
-      padding: EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.only(bottom: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             child: Text(
               "ITEMS YOU HAVE WISHLISTED",
               style: TextStyle(color: Colors.black.withOpacity(.5), fontSize: 11),
             ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 8),
+            margin: const EdgeInsets.symmetric(horizontal: 8),
             child: ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: 200),
+              constraints: const BoxConstraints(maxHeight: 200),
               child: ListView.builder(
                 itemBuilder: (context, index) {
                   return createWishListItem();
@@ -245,7 +247,7 @@ class _SearchPageState extends State<SearchPage> {
 
   createWishListItem() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 4),
+      margin: const EdgeInsets.symmetric(horizontal: 4),
       decoration:
       BoxDecoration(border: Border.all(color: Colors.grey.shade100)),
       child: Column(
@@ -256,7 +258,7 @@ class _SearchPageState extends State<SearchPage> {
               width: 120,
               decoration: BoxDecoration(
                 color: Colors.teal.shade200,
-                image: DecorationImage(
+                image: const DecorationImage(
                     image: AssetImage("images/shoes_1.png"), fit: BoxFit.cover),
               ),
             ),
@@ -307,7 +309,7 @@ class _SearchPageState extends State<SearchPage> {
   viewedItemListView() {
     return Container(
       color: Colors.white,
-      padding: EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.only(bottom: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -339,7 +341,7 @@ class _SearchPageState extends State<SearchPage> {
 
   createViewedListItem() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 4),
+      margin: const EdgeInsets.symmetric(horizontal: 4),
       decoration:
       BoxDecoration(border: Border.all(color: Colors.grey.shade100)),
       child: Column(
@@ -350,7 +352,7 @@ class _SearchPageState extends State<SearchPage> {
               width: 120,
               decoration: BoxDecoration(
                 color: Colors.teal.shade200,
-                image: DecorationImage(
+                image: const DecorationImage(
                     image: AssetImage("images/shoes_1.png"), fit: BoxFit.cover),
               ),
             ),

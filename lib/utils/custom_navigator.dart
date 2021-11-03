@@ -13,6 +13,7 @@ class _CustomNavigatorState extends State<CustomNavigator> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
+    _selectedIndex = index;
     String page = getPageFromIndex(index);
     Navigator.of(context).pushNamed(page);
   }

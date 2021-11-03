@@ -1,7 +1,5 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-
 import 'package:wooow_supermarket/utils/categories.dart';
 import 'package:wooow_supermarket/utils/circle_image.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
@@ -35,7 +33,7 @@ class _HomePageState extends State<HomePage> {
         ),
         FutureBuilder<dynamic>(
             future: getAllData(),
-            initialData: {},
+            initialData: const {},
             builder: (context, snapshot) {
               return snapshot.hasData && snapshot.data['categories'] != null
                   ? CircleImages(categories: prepareItems(snapshot.data['categories']))
@@ -43,7 +41,7 @@ class _HomePageState extends State<HomePage> {
             }),
         FutureBuilder<dynamic>(
             future: getAllData(),
-            initialData: {},
+            initialData: const {},
             builder: (context, snapshot) {
               return snapshot.hasData && snapshot.data['categories'] != null
                   ? Categories(categories: prepareItems(snapshot.data['categories']))

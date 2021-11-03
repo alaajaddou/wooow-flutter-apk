@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                       Utils.getSizedBox(height: 20),
                       TextFormField(
                         decoration: InputDecoration(
-                            contentPadding: EdgeInsets.fromLTRB(16, 16, 16, 12),
+                            contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
                             border: CustomBorder.enabledBorder,
                             labelText: "Password",
                             focusedBorder: CustomBorder.focusBorder,
@@ -95,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                           Expanded(
                             child: Container(
                               color: Colors.grey.shade200,
-                              margin: EdgeInsets.only(right: 16),
+                              margin: const EdgeInsets.only(right: 16),
                               height: 1,
                             ),
                             flex: 40,
@@ -159,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => RegisterPage()));
+                                  builder: (context) => const RegisterPage()));
                             },
                           ),
                         ],

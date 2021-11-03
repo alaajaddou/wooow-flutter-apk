@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wooow_supermarket/utils/global.dart';
 
 class CategoryPage extends StatefulWidget {
   const CategoryPage({Key? key}) : super(key: key);
@@ -112,22 +113,22 @@ class _CategoryPageState extends State<CategoryPage> {
       child: Container(
         decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(6)),
+            borderRadius: const BorderRadius.all(Radius.circular(6)),
             border: Border.all(color: Colors.grey.shade200)),
-        padding: EdgeInsets.only(left: 10, top: 10),
-        margin: EdgeInsets.all(8),
+        padding: const EdgeInsets.only(left: 10, top: 10),
+        margin: const EdgeInsets.all(8),
         child: Column(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(right: 12),
+              margin: const EdgeInsets.only(right: 12),
               alignment: Alignment.topRight,
               child: Container(
                 alignment: Alignment.center,
                 width: 24,
                 height: 24,
                 decoration:
-                BoxDecoration(shape: BoxShape.circle, color: Colors.indigo),
-                child: Text(
+                const BoxDecoration(shape: BoxShape.circle, color: Colors.indigo),
+                child: const Text(
                   "30%",
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.white, fontSize: 10),
@@ -147,48 +148,46 @@ class _CategoryPageState extends State<CategoryPage> {
   }
 
   gridBottomView() {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Container(
-            child: Text(
-              "Chair Dacey li - Black",
-              style: TextStyle(fontSize: 12),
-              textAlign: TextAlign.start,
+    return Column(
+      children: <Widget>[
+        Container(
+          child: const Text(
+            "Chair Dacey li - Black",
+            style: TextStyle(fontSize: 12),
+            textAlign: TextAlign.start,
+          ),
+          alignment: Alignment.topLeft,
+        ),
+        const SizedBox(width: 6),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              "\$50.00",
+              style: TextStyle(color: Colors.indigo.shade700, fontSize: 14),
             ),
-            alignment: Alignment.topLeft,
-          ),
-          const SizedBox(width: 6),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                "\$50.00",
-                style: TextStyle(color: Colors.indigo.shade700, fontSize: 14),
-              ),
-              const SizedBox(width: 8),
-              const Text(
-                "\$80.00",
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 14,
-                    decoration: TextDecoration.lineThrough),
-              ),
-            ],
-          ),
-          const SizedBox(width: 6),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const <Widget>[
-              SizedBox(width: 4),
-              Text(
-                "4.5",
-                style: TextStyle(color: Colors.black, fontSize: 14),
-              ),
-            ],
-          )
-        ],
-      ),
+            const SizedBox(width: 8),
+            const Text(
+              "\$80.00",
+              style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 14,
+                  decoration: TextDecoration.lineThrough),
+            ),
+          ],
+        ),
+        const SizedBox(width: 6),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const <Widget>[
+            SizedBox(width: 4),
+            Text(
+              "4.5",
+              style: TextStyle(color: Colors.black, fontSize: 14),
+            ),
+          ],
+        )
+      ],
     );
   }
 
@@ -206,7 +205,7 @@ class _CategoryPageState extends State<CategoryPage> {
           (context) {
         return filterBottomSheetContent();
       },
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(16), topLeft: Radius.circular(16))),
     );
@@ -214,11 +213,11 @@ class _CategoryPageState extends State<CategoryPage> {
 
   filterBottomSheetContent() {
     return Container(
-      padding: EdgeInsets.only(left: 16, right: 16, top: 10),
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(color: Colors.grey.shade200, width: 1),
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
             topRight: Radius.circular(16), topLeft: Radius.circular(16)),
       ),
       width: double.infinity,
@@ -270,7 +269,7 @@ class _CategoryPageState extends State<CategoryPage> {
               ),
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.only(left: 4),
+                  margin: const EdgeInsets.only(left: 4),
                   height: 1,
                   color: Colors.grey,
                 ),
@@ -307,7 +306,7 @@ class _CategoryPageState extends State<CategoryPage> {
             primary: false,
             itemBuilder: (context, position) {
               return Container(
-                margin: EdgeInsets.only(top: 4, bottom: 4, left: 4),
+                margin: const EdgeInsets.only(top: 4, bottom: 4, left: 4),
                 child: Column(
                   children: <Widget>[
                     Row(
@@ -344,13 +343,13 @@ class _CategoryPageState extends State<CategoryPage> {
           ),
           const SizedBox(width: 8),
           ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: 30),
+            constraints: const BoxConstraints(maxHeight: 30),
             child: ListView.builder(
               primary: false,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, position) {
                 return Container(
-                  margin: EdgeInsets.only(top: 4, bottom: 4, left: 4),
+                  margin: const EdgeInsets.only(top: 4, bottom: 4, left: 4),
                   width: 24,
                   height: 24,
                   decoration: BoxDecoration(
@@ -364,15 +363,13 @@ class _CategoryPageState extends State<CategoryPage> {
           const SizedBox(width: 8),
           SizedBox(
             width: double.infinity,
-            child: RaisedButton(
+            child: ElevatedButton(
               onPressed: () {},
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4))),
+              style: getButtonStyle(),
               child: const Text(
                 "Apply Filter",
                 style: TextStyle(color: Colors.white),
-              ),
-              color: Colors.indigo,
+              )
             ),
           )
         ],
@@ -381,6 +378,6 @@ class _CategoryPageState extends State<CategoryPage> {
   }
 
   var border = OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(8)),
+      borderRadius: const BorderRadius.all(Radius.circular(8)),
       borderSide: BorderSide(color: Colors.grey.shade300, width: 1));
 }

@@ -3,10 +3,8 @@ import 'package:wooow_supermarket/utils/global.dart';
 
 import 'cart_page.dart';
 
-
 class ProductDetailsPage extends StatefulWidget {
-
-  ProductDetailsPage();
+  const ProductDetailsPage({Key? key}) : super(key: key);
 
   @override
   _ProductDetailsPageState createState() => _ProductDetailsPageState();
@@ -18,7 +16,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   int selectedColor = -1;
 
   var selectedSize = -1;
-
 
   _ProductDetailsPageState();
 
@@ -53,22 +50,23 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               Hero(
                   tag: 'Test',
                   child: Image(
-                    image: const NetworkImage("https://images.ctfassets.net/od02wyo8cgm5/1CXWFsj9uO4PFVauqBPKvj/c60845261ae99ce3150879f0f1b943a9/cloud-fw21-zinc_white-m-g1.png?w=630&h=630&fl=progressive&q=71&fit=pad&bg=rgb:f7f7f7&fm=jpg"),
+                    image: const NetworkImage(
+                        "https://images.ctfassets.net/od02wyo8cgm5/1CXWFsj9uO4PFVauqBPKvj/c60845261ae99ce3150879f0f1b943a9/cloud-fw21-zinc_white-m-g1.png?w=630&h=630&fl=progressive&q=71&fit=pad&bg=rgb:f7f7f7&fm=jpg"),
                     height: halfOfScreen,
                     width: double.infinity,
                     fit: BoxFit.cover,
                   )),
               Container(
-                margin: EdgeInsets.symmetric(vertical: 36),
+                margin: const EdgeInsets.symmetric(vertical: 36),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(left: 8),
+                      margin: const EdgeInsets.only(left: 8),
                       height: 28,
                       width: 32,
                       child: IconButton(
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.arrow_back,
                           color: Colors.white,
                         ),
@@ -84,34 +82,29 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(right: 8),
+                      margin: const EdgeInsets.only(right: 8),
                       child: Stack(
                         children: <Widget>[
                           Container(
                             height: 4,
                             width: 4,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle, color: Colors.red),
+                            decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.red),
                           ),
                           Container(
                             height: 28,
                             width: 32,
                             child: IconButton(
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.shopping_cart,
                                 color: Colors.white,
                               ),
                               alignment: Alignment.center,
                               onPressed: () {
-                                Navigator.of(context).push(
-                                    new MaterialPageRoute(
-                                        builder: (context) => CartPage()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CartPage()));
                               },
                               iconSize: 14,
                             ),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.grey.shade400),
+                            decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.grey.shade400),
                           ),
                         ],
                       ),
@@ -172,7 +165,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           const SizedBox(height: 16),
           Container(
             alignment: Alignment.topLeft,
-            margin: EdgeInsets.only(left: 8),
+            margin: const EdgeInsets.only(left: 8),
             child: Text(
               "Size",
               style: TextStyle(color: Colors.black.withOpacity(0.8), fontSize: 12),
@@ -180,7 +173,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ),
           const SizedBox(height: 8),
           ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: 40),
+            constraints: const BoxConstraints(maxHeight: 40),
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
@@ -194,61 +187,48 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(left: 8),
-                child: Text(
+                margin: const EdgeInsets.only(left: 8),
+                child: const Text(
                   "Total",
                   style: TextStyle(color: Colors.grey, fontSize: 12),
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(right: 8),
+                margin: const EdgeInsets.only(right: 8),
                 child: Text(
                   "\$299.00",
-                  style: TextStyle(
-                      color: getPrimaryColor(), fontSize: 14),
+                  style: TextStyle(color: getPrimaryColor(), fontSize: 14),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 16),
-          RaisedButton(
+          ElevatedButton(
             onPressed: () {},
-            color: getPrimaryColor(),
-            padding: EdgeInsets.only(top: 12, left: 60, right: 60, bottom: 12),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(24))),
-            child: Text(
+            style: getButtonStyle(),
+            child: const Text(
               "Add To Cart",
               style: TextStyle(color: Colors.white),
             ),
           )
         ],
       ),
-      decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+      decoration: const BoxDecoration(shape: BoxShape.rectangle, color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
     );
   }
 
   Container createSizeItem(int index) {
     return Container(
       width: 28,
-      margin: EdgeInsets.all(4),
+      margin: const EdgeInsets.all(4),
       height: 28,
-      padding: EdgeInsets.only(top: 8),
+      padding: const EdgeInsets.only(top: 8),
       child: Text(
         listSize[index],
         style: TextStyle(fontSize: 12, color: Colors.black.withOpacity(0.8)),
         textAlign: TextAlign.center,
       ),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-              color: selectedSize == index ? Colors.blue : Colors.grey,
-              width: 1),
-          shape: BoxShape.circle),
+      decoration: BoxDecoration(color: Colors.white, border: Border.all(color: selectedSize == index ? Colors.blue : Colors.grey, width: 1), shape: BoxShape.circle),
     );
   }
 
@@ -256,13 +236,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     return GestureDetector(
       child: Container(
         width: 24,
-        margin: EdgeInsets.all(4),
+        margin: const EdgeInsets.all(4),
         height: 24,
-        decoration: BoxDecoration(
-            color: listColor[index],
-            border: Border.all(
-                color: Colors.grey, width: selectedColor == index ? 2 : 0),
-            shape: BoxShape.circle),
+        decoration: BoxDecoration(color: listColor[index], border: Border.all(color: Colors.grey, width: selectedColor == index ? 2 : 0), shape: BoxShape.circle),
       ),
       onTap: () {
         setState(() {

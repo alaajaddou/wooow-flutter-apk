@@ -1,39 +1,35 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_cart/flutter_cart.dart';
-import 'package:flutter_cart/model/cart_model.dart';
-import 'package:flutter_cart/model/cart_response_wrapper.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wooow_supermarket/main.dart';
-import 'package:wooow_supermarket/utils/custom_appbar.dart';
-import 'package:wooow_supermarket/utils/custom_navigator.dart';
 import 'package:wooow_supermarket/utils/global.dart';
-import 'package:wooow_supermarket/utils/notification.dart';
-import 'package:wooow_supermarket/utils/shopping_cart_icon.dart';
 
 import 'alert.dart';
 import 'global.dart';
 
-class Categories extends StatelessWidget {
-  List<dynamic> categories = [];
+class Categories extends StatefulWidget {
+  final List<dynamic> categories;
 
-  Categories({Key? key, required this.categories}) : super(key: key);
+  const Categories({Key? key, required this.categories}) : super(key: key);
 
+  @override
+  State<Categories> createState() => _CategoriesState();
+}
+
+class _CategoriesState extends State<Categories> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
         child: ListView.builder(
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          // Let the ListView know how many items it needs to build.
-          itemCount: categories.length,
-          // Provide a builder function. This is where the magic happens.
-          // Convert each item into a widget based on the type of item it is.
-          itemBuilder: (context, index) {
-            return Category(category: categories[index]);
-          },
-        ));
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      // Let the ListView know how many items it needs to build.
+      itemCount: widget.categories.length,
+      // Provide a builder function. This is where the magic happens.
+      // Convert each item into a widget based on the type of item it is.
+      itemBuilder: (context, index) {
+        return Category(category: widget.categories[index]);
+      },
+    ));
   }
 }
 
@@ -68,12 +64,10 @@ class CategoryItems extends StatelessWidget {
             padding: const EdgeInsets.all(3.0),
             decoration: BoxDecoration(border: Border.all(width: 1, color: getPrimaryColor()), borderRadius: BorderRadius.circular(10)),
             child: GestureDetector(
-                onTap: (){
+                onTap: () {
                   Navigator.of(context).pushNamed('product');
                 },
-                child: Item(item: items[index])
-            )
-        ));
+                child: Item(item: items[index]))));
       }
     }
     return SizedBox(
@@ -91,7 +85,7 @@ class Item extends StatefulWidget {
   // final String categoryName;
   // final String price;
 
-  Item({Key? key, required this.item}) : super(key: key);
+  const Item({Key? key, required this.item}) : super(key: key);
 
   @override
   State<Item> createState() => _ItemState();
@@ -107,24 +101,26 @@ class _ItemState extends State<Item> {
         const Spacer(flex: 1),
         Text(widget.item['categoryName']),
         Text(getFormattedCurrency(widget.item['price'].toDouble())),
-        MaterialButton(child: const Text("Add To Cart"), onPressed: () {
-          print(widget.item['id']);
-          int? itemIndex = cart.findItemIndexFromCart(widget.item['id']);
-          CartResponseWrapper cartResponseWrapper;
-          if (itemIndex == null) {
-            cartResponseWrapper = cart.addToCart(
-                productId: widget.item['id'],
-                unitPrice: widget.item['price'],
-              productName: widget.item['name'],
-              productDetailsObject: widget.item
-            );
-          } else {
-            cartResponseWrapper = cart.incrementItemToCart(itemIndex);
-          }
-          cartCount = cart.getCartItemCount();
-          MyNotification(count: cart.getCartItemCount()).dispatch(context);
-          showSuccessDialog(context, "نجاح", "تمت الاضافة");
-        }, color: getPrimaryColor()),
+        MaterialButton(
+            child: const Text("Add To Cart"),
+            onPressed: () {
+              debugPrint(widget.item['id']);
+              int? itemIndex = cart.findItemIndexFromCart(widget.item['id']);
+              bool isAdded;
+              if (itemIndex == null) {
+                isAdded =
+                    cart.addToCart(productId: widget.item['id'], unitPrice: widget.item['price'], productName: widget.item['name'], productDetailsObject: widget.item);
+              } else {
+                isAdded = cart.incrementItemToCart(itemIndex);
+              }
+              cartCount = cart.getCartItemCount();
+              if (isAdded) {
+                showSuccessDialog(context, "نجاح", "تمت الاضافة");
+              } else {
+                showErrorDialog(context, "خطأ", "حدث خطأ بالاضافة");
+              }
+            },
+            color: getPrimaryColor()),
       ],
     );
   }
@@ -133,7 +129,7 @@ class _ItemState extends State<Item> {
 class Title extends StatelessWidget {
   final String sender;
 
-  Title({Key? key, required this.sender}) : super(key: key);
+  const Title({Key? key, required this.sender}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

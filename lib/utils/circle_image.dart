@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wooow_supermarket/utils/global.dart';
 
 class CircleImages extends StatefulWidget {
-  List<dynamic> categories = [];
+  final List<dynamic> categories;
 
   CircleImages({Key? key, required this.categories}) : super(key: key);
 

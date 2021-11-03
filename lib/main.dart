@@ -1,11 +1,8 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cart/flutter_cart.dart';
-import 'package:intl/intl.dart';
 import 'package:wooow_supermarket/utils/route_generator.dart';
 import 'package:wooow_supermarket/utils/authentication.dart';
 
@@ -15,7 +12,6 @@ Authentication auth = Authentication();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -28,22 +24,17 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
-  late StreamSubscription<User?> user;
+  // late StreamSubscription<User?> user;
 
   @override
   void initState() {
 
     super.initState();
-    user = FirebaseAuth.instance.authStateChanges().listen((user) {
-      if (user != null) {
-        auth.userDetails = user;
-      }
-    });
   }
 
   @override
   void dispose() {
-    user.cancel();
+    // user.cancel();
     super.dispose();
   }
 

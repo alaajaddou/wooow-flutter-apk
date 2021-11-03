@@ -6,11 +6,10 @@ import 'package:wooow_supermarket/utils/custom_border.dart';
 import 'package:wooow_supermarket/utils/custom_navigator.dart';
 import 'package:wooow_supermarket/utils/custom_text_style.dart';
 import 'package:wooow_supermarket/utils/custom_utils.dart';
-import 'package:wooow_supermarket/utils/global.dart';
 import 'package:wooow_supermarket/utils/validators.dart';
 
 class RegisterPage extends StatefulWidget {
-  RegisterPage({Key? key}) : super(key: key);
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
   _RegisterPageState createState() => _RegisterPageState();
@@ -20,12 +19,16 @@ class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final passwordConfirmationController = TextEditingController();
+  final nameController = TextEditingController();
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     emailController.dispose();
     passwordController.dispose();
+    passwordConfirmationController.dispose();
+    nameController.dispose();
     super.dispose();
   }
 
@@ -35,13 +38,13 @@ class _RegisterPageState extends State<RegisterPage> {
       appBar: const CustomAppBar(),
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         child: Column(
           children: <Widget>[
             const Expanded(
               child: Image(image: AssetImage("assets/images/topbar-icon.png"), height: 140, alignment: Alignment.center, width: 200),
-              flex: 35,
+              flex: 20,
             ),
             Expanded(
               child: Container(
@@ -55,8 +58,24 @@ class _RegisterPageState extends State<RegisterPage> {
                             child: Column(
                               children: [
                                 TextFormField(
+                                    controller: nameController,
+                                    validator: (value) => Validators.validateName(value),
+                                    textDirection: TextDirection.rtl,
+                                    textAlign: TextAlign.right,
+                                    decoration: InputDecoration(
+                                      contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+                                      border: CustomBorder.enabledBorder,
+                                      labelText: "الاسم",
+                                      focusedBorder: CustomBorder.focusBorder,
+                                      errorBorder: CustomBorder.errorBorder,
+                                      enabledBorder: CustomBorder.enabledBorder,
+                                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                    ),
+                                    keyboardType: TextInputType.text),
+                                Utils.getSizedBox(height: 15),
+                                TextFormField(
                                     controller: emailController,
-                                    validator: (value) => Validators().validateEmail(value),
+                                    validator: (value) => Validators.validateEmail(value),
                                     textDirection: TextDirection.rtl,
                                     textAlign: TextAlign.right,
                                     decoration: InputDecoration(
@@ -72,11 +91,25 @@ class _RegisterPageState extends State<RegisterPage> {
                                 Utils.getSizedBox(height: 15),
                                 TextFormField(
                                   controller: passwordController,
-                                  validator: (value) => Validators().validatePassword(value),
+                                  validator: (value) => Validators.validatePassword(value),
                                   decoration: InputDecoration(
                                       contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
                                       border: CustomBorder.enabledBorder,
                                       labelText: "كلمة المرور",
+                                      focusedBorder: CustomBorder.focusBorder,
+                                      errorBorder: CustomBorder.errorBorder,
+                                      enabledBorder: CustomBorder.enabledBorder,
+                                      floatingLabelBehavior: FloatingLabelBehavior.auto),
+                                  obscureText: true,
+                                ),
+                                Utils.getSizedBox(height: 15),
+                                TextFormField(
+                                  controller: passwordConfirmationController,
+                                  validator: (value) => Validators.validatePasswordConfirmation(value, passwordController.text),
+                                  decoration: InputDecoration(
+                                      contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+                                      border: CustomBorder.enabledBorder,
+                                      labelText: "تأكيد كلمة المرور",
                                       focusedBorder: CustomBorder.focusBorder,
                                       errorBorder: CustomBorder.errorBorder,
                                       enabledBorder: CustomBorder.enabledBorder,
@@ -96,7 +129,14 @@ class _RegisterPageState extends State<RegisterPage> {
                                         ScaffoldMessenger.of(context).showSnackBar(
                                           const SnackBar(content: Text('Processing Data')),
                                         );
-                                        auth.createWithCredentials(emailController.text, passwordController.text);
+
+                                        dynamic data = {
+                                          "email": emailController.text,
+                                          "password": passwordController.text,
+                                          "password_confirmation": passwordConfirmationController.text,
+                                          "name": nameController.text
+                                        };
+                                        auth.createWithCredentials(data);
                                       }
                                     },
                                   ),
@@ -109,7 +149,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         Expanded(
                           child: Container(
                             color: Colors.grey.shade200,
-                            margin: EdgeInsets.only(right: 16),
+                            margin: const EdgeInsets.only(right: 16),
                             height: 1,
                           ),
                           flex: 40,
@@ -144,7 +184,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           Buttons.Google,
                           text: "تسجيل باستخدام GOOGLE",
                           onPressed: () {
-                            auth.signInWithGoogle();
+                            // auth.signInWithGoogle();
                           },
                         )
 
@@ -165,7 +205,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ],
                 ),
               ),
-              flex: 65,
+              flex: 80,
             ),
           ],
         ),

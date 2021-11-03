@@ -16,7 +16,7 @@ class CategoryList extends StatelessWidget {
       appBar: const CustomAppBar(),
       body: FutureBuilder<dynamic>(
           future: getAllData(),
-          initialData: {},
+          initialData: const {},
           builder: (context, projectSnap) {
             return projectSnap.hasData && projectSnap.data['categories'] != null
                 ? ListView.builder(

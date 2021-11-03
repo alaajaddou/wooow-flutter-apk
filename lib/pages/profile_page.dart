@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wooow_supermarket/main.dart';
 import 'package:wooow_supermarket/pages/about_page.dart';
@@ -29,7 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void createListItem() {
     listSection.add(createSection("Notifications", "https://w7.pngwing.com/pngs/257/702/png-transparent-about-us-logo-business-logo-company-brand-service-icon-about-us-hd-miscellaneous-blue-text.png",
-        Colors.blue.shade800, NotificationPage()));
+        Colors.blue.shade800, const NotificationPage()));
     // listSection.add(createSection(
     //     "Payment Method", "images/ic_payment.png", Colors.teal.shade800, null));
     listSection.add(createSection(
@@ -66,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Container buildHeader() {
-    User? user = auth.getUser();
+    var user = auth.getUser();
 
     return Container(
       margin: const EdgeInsets.all(0.0),
