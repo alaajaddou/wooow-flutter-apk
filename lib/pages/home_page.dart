@@ -1,3 +1,4 @@
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:wooow_supermarket/utils/categories.dart';
@@ -35,24 +36,26 @@ class _HomePageState extends State<HomePage> {
             future: getAllData(),
             initialData: const {},
             builder: (context, snapshot) {
-              return snapshot.hasData && snapshot.data['categories'] != null
-                  ? CircleImages(categories: prepareItems(snapshot.data['categories']))
-                  : Container(height: 90.0, decoration: const BoxDecoration(color: Colors.black12), child: const Center(child: CircularProgressIndicator()));
+              return snapshot.hasData ? CircleImages(categories: prepareItems(snapshot.data)) : Container(height: 90.0, decoration: const BoxDecoration(color: Colors.black12), child: const Center(child: CircularProgressIndicator()));
             }),
         FutureBuilder<dynamic>(
             future: getAllData(),
             initialData: const {},
             builder: (context, snapshot) {
-              return snapshot.hasData && snapshot.data['categories'] != null
-                  ? Categories(categories: prepareItems(snapshot.data['categories']))
-                  : const Expanded(child: Center(child: CircularProgressIndicator()));
+              return snapshot.hasData ? Categories(categories: prepareItems(snapshot.data)) : const Expanded(child: Center(child: CircularProgressIndicator()));
             }),
       ]),
       bottomNavigationBar: const CustomNavigator(),
     );
   }
 
-  List<dynamic> prepareItems(List<dynamic> categories) {
+  List<dynamic> prepareItems(dynamic data) {
+    String dataString = data.toString();
+    final dynamic dataConverted = jsonDecode(dataString);
+    if (dataConverted['categories'] == null) {
+      return [];
+    }
+    List<dynamic> categories = dataConverted['categories'];
     List<dynamic> categoriesWithItems = [];
     if (categories.isNotEmpty) {
       for (var category in categories) {

@@ -29,20 +29,13 @@ class CategoryList extends StatelessWidget {
                           },
                           child: Container(
                               margin: const EdgeInsets.symmetric(vertical: 5.0),
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      fit: BoxFit.fill,
-                                      image: NetworkImage(category['image'] == ''
-                                          ? "https://i.pinimg.com/originals/87/21/98/872198c2f62aa608f6d657b61c5e65b6.jpg"
-                                          : 'http://' + Global.baseUrl + '/storage/' + category['image']))),
+                              decoration:
+                                  BoxDecoration(image: DecorationImage(fit: BoxFit.fill, image: NetworkImage(category['image'] == '' ? "https://i.pinimg.com/originals/87/21/98/872198c2f62aa608f6d657b61c5e65b6.jpg" : 'http://' + Global.baseUrl + '/storage/' + category['image']))),
                               width: MediaQuery.of(context).size.width,
                               height: 110,
                               child: Center(
                                   child: Container(
-                                      decoration: BoxDecoration(
-                                          color: getPrimaryColor(),
-                                          borderRadius: const BorderRadius.all(Radius.circular(15.0)),
-                                          boxShadow: const [BoxShadow(color: Color.fromARGB(100, 0, 0, 0), blurRadius: 2.0, offset: Offset(2.0, 2.0))]),
+                                      decoration: BoxDecoration(color: getPrimaryColor(), borderRadius: const BorderRadius.all(Radius.circular(15.0)), boxShadow: const [BoxShadow(color: Color.fromARGB(100, 0, 0, 0), blurRadius: 2.0, offset: Offset(2.0, 2.0))]),
                                       padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
                                       child: Text(category['name'], style: const TextStyle(color: Colors.white))))));
                     },

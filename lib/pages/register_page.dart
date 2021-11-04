@@ -32,6 +32,8 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
+  String error = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,13 +118,15 @@ class _RegisterPageState extends State<RegisterPage> {
                                       floatingLabelBehavior: FloatingLabelBehavior.auto),
                                   obscureText: true,
                                 ),
-                                Utils.getSizedBox(height: 15),
+                                Text(error, textDirection: TextDirection.rtl, style: const TextStyle(color: Colors.red)),
+                                Utils.getSizedBox(height: 14),
                                 SizedBox(
                                   width: double.infinity,
                                   child: SignInButton(
                                     Buttons.Email,
                                     text: "تسجيل باستخدام البريد الالكتروني",
                                     onPressed: () {
+                                      error = '';
                                       if (_formKey.currentState!.validate()) {
                                         // If the form is valid, display a snackbar. In the real world,
                                         // you'd often call a server or save the information in a database.
@@ -130,13 +134,18 @@ class _RegisterPageState extends State<RegisterPage> {
                                           const SnackBar(content: Text('Processing Data')),
                                         );
 
-                                        dynamic data = {
-                                          "email": emailController.text,
-                                          "password": passwordController.text,
-                                          "password_confirmation": passwordConfirmationController.text,
-                                          "name": nameController.text
-                                        };
-                                        auth.createWithCredentials(data);
+                                        dynamic data = {"email": emailController.text, "password": passwordController.text, "password_confirmation": passwordConfirmationController.text, "name": nameController.text};
+                                        auth.createWithCredentials(data).then((authResponse) {
+                                          if (authResponse['success'] != null) {
+                                            List errorList = authResponse['data']!.keys.toList();
+                                            if (errorList.isNotEmpty) {
+                                              /* Error handling */
+                                              String errorKey = authResponse['data'].keys.toList()[0];
+                                              error = authResponse['data'][errorKey][0].toString();
+                                              debugPrint(error);
+                                            }
+                                          }
+                                        });
                                       }
                                     },
                                   ),
@@ -186,21 +195,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           onPressed: () {
                             // auth.signInWithGoogle();
                           },
-                        )
-
-                        // ElevatedButton(
-                        //     onPressed: () {
-                        //       auth.signInWithGoogle();
-                        //     },
-                        //     child: Text(
-                        //       "تسجيل باستخدام GOOGLE",
-                        //       textDirection: TextDirection.rtl,
-                        //       style: CustomTextStyle.textFormFieldMedium
-                        //           .copyWith(color: Colors.white, fontSize: 14),
-                        //     )
-                        // )
-
-                        ),
+                        )),
                     Utils.getSizedBox(height: 10),
                   ],
                 ),

@@ -40,7 +40,7 @@ dependencies:
   http: ^0.13.4
   badges: ^2.0.1
   flutter_signin_button: ^2.0.0
-  email_validator: ^1.0.6
+  email_validator: ^2.0.1
 
 dev_dependencies:
   flutter_test:

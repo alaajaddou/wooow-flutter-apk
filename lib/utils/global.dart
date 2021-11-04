@@ -1,9 +1,10 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'dart:async';
-
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
 class Global {
@@ -15,18 +16,18 @@ class Global {
 
 class ApiBaseHelper {
   Future<dynamic> get(String url) async {
-      debugPrint('Api GET, url $url');
-      late var responseJson = '';
-      try {
-        var client = http.Client();
-        var api = Uri.http(Global.baseUrl, Global.apiPath + url);
-        final response = await client.get(api);
-        responseJson = _returnResponse(response);
-      } on SocketException catch (exception) {
-        throw FetchDataException('No Internet connection' + exception.message);
-      }
-      return responseJson;
+    debugPrint('Api GET, url $url');
+    late var responseJson = '';
+    try {
+      var client = http.Client();
+      var api = Uri.http(Global.baseUrl, Global.apiPath + url);
+      final response = await client.get(api);
+      return response.body;
+    } on SocketException catch (exception) {
+      throw FetchDataException('No Internet connection' + exception.message);
     }
+    return responseJson;
+  }
 
   Future<dynamic> post(String url, Object body) async {
     debugPrint('Api Post, url $url');
@@ -34,9 +35,8 @@ class ApiBaseHelper {
     try {
       var client = http.Client();
       var api = Uri.http(Global.baseUrl, Global.apiPath + url);
-      final response = await client.post(api, body: body);
-      debugPrint('Api GET, received');
-      return response;
+      Response response = await client.post(api, body: body);
+      return _returnResponse(response);
     } catch (exception) {
       rethrow;
     }
@@ -44,12 +44,12 @@ class ApiBaseHelper {
 
   dynamic _returnResponse(http.Response response) {
     debugPrint(response.statusCode.toString());
+    debugPrint(response.body.toString());
     switch (response.statusCode) {
       case 200:
+      case 400:
         var responseJson = json.decode(response.body.toString());
         return responseJson;
-      case 400:
-        throw BadRequestException(response.body.toString());
       case 401:
       case 403:
         throw UnauthorisedException(response.body.toString());
@@ -123,4 +123,10 @@ bool get isInDebugMode {
   bool inDebugMode = false;
   assert(inDebugMode = true);
   return inDebugMode;
+}
+
+dynamic convertDataToDynamic(authResponseData) {
+  final String tempData = authResponseData.toString();
+  print(tempData);
+  return jsonDecode(tempData);
 }
