@@ -1,13 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:wooow_supermarket/main.dart';
+import 'package:wooow_supermarket/models/category.dart';
+import 'package:wooow_supermarket/models/item.dart';
 import 'package:wooow_supermarket/utils/global.dart';
 
 import 'alert.dart';
 import 'global.dart';
 
 class Categories extends StatefulWidget {
-  final List<dynamic> categories;
+  final List<CategoryModel> categories;
 
   const Categories({Key? key, required this.categories}) : super(key: key);
 
@@ -16,8 +17,32 @@ class Categories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<Categories> {
+
+  Future<List<CategoryModel>> getCategories() async {
+    List<CategoryModel> categories = [];
+
+    if(database!.isOpen) {
+      var categoriesTemp = await database!.query('categories');
+      for (dynamic category in categoriesTemp) {
+        print(category['id']);
+        var categoryItems = await database!.query('items', where: 'categoryId = ?', whereArgs: [category['id']]);
+        print(categoryItems);
+        CategoryModel tempCategory = CategoryModel(
+            id: category['id'],
+            name: category['name'],
+            parent: category['parent'],
+            imagePath: category['image'],
+            items: _prepareItemsForCategory(categoryItems, category['id'], category['name'])
+        );
+      }
+    }
+
+    return categories;
+  }
+
   @override
   Widget build(BuildContext context) {
+    getCategories();
     return Expanded(
         child: ListView.builder(
       shrinkWrap: true,
@@ -31,6 +56,30 @@ class _CategoriesState extends State<Categories> {
       },
     ));
   }
+
+
+  List<ItemModel> _prepareItemsForCategory(List<dynamic> items, categoryId, categoryName) {
+    List<ItemModel> itemsList = [];
+    if (items.isNotEmpty) {
+      for (var item in items) {
+        itemsList.add(
+            ItemModel(id: item['id'],
+                name: item['name'],
+                imagePath: item['image'],
+                description: item['description'],
+                price: item['price'].toDouble(),
+                categoryId: categoryId,
+                categoryName: categoryName,
+                availableQuantity: item['quantity'],
+                discount: item['discount'] != null && item['discount'] != "null" ? item['discount'].toDouble() : 0,
+                discountFrom: item['discount_from'],
+                discountTo: item['discount_to']
+            )
+        );
+      }
+    }
+    return itemsList;
+  }
 }
 
 class Category extends StatelessWidget {
@@ -43,13 +92,13 @@ class Category extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: [Title(sender: category['name']), CategoryItems(items: category['items'])],
+      children: [Title(sender: category.name), CategoryItems(items: category.items)],
     );
   }
 }
 
 class CategoryItems extends StatelessWidget {
-  final List<dynamic> items;
+  final List<ItemModel> items;
 
   const CategoryItems({Key? key, required this.items}) : super(key: key);
 
@@ -67,7 +116,7 @@ class CategoryItems extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).pushNamed('product');
                 },
-                child: Item(item: items[index]))));
+                child: ItemWidget(item: items[index]))));
       }
     }
     return SizedBox(
@@ -79,37 +128,36 @@ class CategoryItems extends StatelessWidget {
   }
 }
 
-class Item extends StatefulWidget {
-  final dynamic item;
+class ItemWidget extends StatefulWidget {
+  final ItemModel item;
 
   // final String categoryName;
   // final String price;
 
-  const Item({Key? key, required this.item}) : super(key: key);
+  const ItemWidget({Key? key, required this.item}) : super(key: key);
 
   @override
-  State<Item> createState() => _ItemState();
+  State<ItemWidget> createState() => _ItemWidgetState();
 }
 
-class _ItemState extends State<Item> {
+class _ItemWidgetState extends State<ItemWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Image.network("http://" + Global.baseUrl + '/storage/' + widget.item['image'], height: 150),
-        Text(widget.item['name'], textAlign: TextAlign.center, style: const TextStyle(fontSize: 12)),
+        Image.network("http://" + Global.baseUrl + '/storage/' + widget.item.imagePath, height: 150),
+        Text(widget.item.name, textAlign: TextAlign.center, style: const TextStyle(fontSize: 12)),
         const Spacer(flex: 1),
-        Text(widget.item['categoryName']),
-        Text(getFormattedCurrency(widget.item['price'].toDouble())),
+        Text(widget.item.categoryName),
+        Text(getFormattedCurrency(widget.item.price.toDouble())),
         MaterialButton(
             child: const Text("Add To Cart"),
             onPressed: () {
-              debugPrint(widget.item['id']);
-              int? itemIndex = cart.findItemIndexFromCart(widget.item['id']);
+              int? itemIndex = cart.findItemIndexFromCart(widget.item.id);
               bool isAdded;
               if (itemIndex == null) {
                 isAdded =
-                    cart.addToCart(productId: widget.item['id'], unitPrice: widget.item['price'], productName: widget.item['name'], productDetailsObject: widget.item);
+                    cart.addToCart(productId: widget.item.id, unitPrice: widget.item.price, productName: widget.item.name, productDetailsObject: widget.item);
               } else {
                 isAdded = cart.incrementItemToCart(itemIndex);
               }

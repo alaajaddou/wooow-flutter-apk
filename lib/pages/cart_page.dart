@@ -136,7 +136,7 @@ class _CartPageState extends State<CartPage> {
                 height: 80,
                 decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(40)),
-                    image: DecorationImage(image: NetworkImage("http://" + Global.baseUrl + "/storage/" + newItem.item.productDetails['image']))),
+                    image: DecorationImage(image: NetworkImage("http://" + Global.baseUrl + "/storage/" + newItem.item.productDetails['imagePath']))),
               ),
               Expanded(
                 child: Container(

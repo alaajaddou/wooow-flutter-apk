@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:wooow_supermarket/models/category.dart';
 import 'package:wooow_supermarket/utils/global.dart';
 
 class CircleImages extends StatefulWidget {
-  final List<dynamic> categories;
+  final List<CategoryModel> categories;
 
-  CircleImages({Key? key, required this.categories}) : super(key: key);
+  const CircleImages({Key? key, required this.categories}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -32,9 +33,9 @@ class CircleWidgets extends State<CircleImages> {
                         borderRadius: BorderRadius.circular(100.0),
                         boxShadow: const [BoxShadow(color: Color.fromARGB(100, 0, 0, 0), blurRadius: 5.0, offset: Offset(5.0, 5.0))],
                         border: Border.all(width: 2.0, style: BorderStyle.solid, color: getPrimaryColor()),
-                        image: DecorationImage(fit: BoxFit.cover, image: NetworkImage('http://' + Global.baseUrl + '/storage/' + element['image'])))),
+                        image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(element.imagePath == '' ? "https://i.pinimg.com/originals/87/21/98/872198c2f62aa608f6d657b61c5e65b6.jpg" :'http://' + Global.baseUrl + '/storage/' + element.imagePath)))),
                 Text(
-                  element['name'],
+                  element.name,
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontSize: 10),
                 )

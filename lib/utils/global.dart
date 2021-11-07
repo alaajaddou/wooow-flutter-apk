@@ -22,7 +22,7 @@ class ApiBaseHelper {
       var client = http.Client();
       var api = Uri.http(Global.baseUrl, Global.apiPath + url);
       final response = await client.get(api);
-      return response.body;
+      return _returnResponse(response);
     } on SocketException catch (exception) {
       throw FetchDataException('No Internet connection' + exception.message);
     }
@@ -43,8 +43,8 @@ class ApiBaseHelper {
   }
 
   dynamic _returnResponse(http.Response response) {
-    debugPrint(response.statusCode.toString());
-    debugPrint(response.body.toString());
+    // debugPrint(response.statusCode.toString());
+    // debugPrint(response.body.toString());
     switch (response.statusCode) {
       case 200:
       case 400:

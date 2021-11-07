@@ -1,6 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:wooow_supermarket/main.dart';
+import 'package:wooow_supermarket/models/category.dart';
+import 'package:wooow_supermarket/models/item.dart';
 import 'package:wooow_supermarket/utils/categories.dart';
 import 'package:wooow_supermarket/utils/circle_image.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
@@ -15,13 +17,39 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late List<dynamic> tempCategories = [];
-  List<dynamic> categories = [];
+  List<CategoryModel> _prepareCategories(data) {
+    List<CategoryModel> categories = [];
+    if (data['categories'] == null) {
+      return categories;
+    }
 
-  List<dynamic> items = [];
+    for (dynamic category in data['categories']) {
+      if (category['items'] != null && category['items'].isNotEmpty) {
+        CategoryModel tempCategory = CategoryModel(
+            id: category['id'],
+            name: category['name'],
+            parent: category['parent'],
+            imagePath: category['image'],
+            items: _prepareItemsForCategory(category['items'], category['id'], category['name']));
+
+        if (database!.isOpen) {
+          database!.insert(
+            'categories',
+            tempCategory.toMap(),
+            conflictAlgorithm: ConflictAlgorithm.replace,
+          );
+        }
+        categories.add(tempCategory);
+      }
+    }
+
+    return categories;
+  }
 
   dynamic getAllData() async {
-    return await ApiBaseHelper().get('get-all-data');
+    dynamic allData = await ApiBaseHelper().get('get-all-data');
+    List<CategoryModel> preparedData = _prepareCategories(allData);
+    return preparedData;
   }
 
   @override
@@ -35,40 +63,55 @@ class _HomePageState extends State<HomePage> {
         FutureBuilder<dynamic>(
             future: getAllData(),
             initialData: const {},
+            // builder: (context, snapshot) {
+            //   return snapshot.hasData ? CircleImages(categories: prepareItems(snapshot.data)) : Container(
+            //       height: 90.0, decoration: const BoxDecoration(color: Colors.black12), child: const Center(child: CircularProgressIndicator()));
+            // }),
             builder: (context, snapshot) {
-              return snapshot.hasData ? CircleImages(categories: prepareItems(snapshot.data)) : Container(height: 90.0, decoration: const BoxDecoration(color: Colors.black12), child: const Center(child: CircularProgressIndicator()));
+              return snapshot.hasData && snapshot.connectionState == ConnectionState.done
+                  ? CircleImages(categories: snapshot.data)
+                  : Container(height: 90.0, decoration: const BoxDecoration(color: Colors.black12), child: const Center(child: CircularProgressIndicator()));
             }),
         FutureBuilder<dynamic>(
             future: getAllData(),
             initialData: const {},
             builder: (context, snapshot) {
-              return snapshot.hasData ? Categories(categories: prepareItems(snapshot.data)) : const Expanded(child: Center(child: CircularProgressIndicator()));
+              return snapshot.hasData && snapshot.connectionState == ConnectionState.done
+                  ? Categories(categories: snapshot.data)
+                  : const Expanded(child: Center(child: CircularProgressIndicator()));
             }),
       ]),
       bottomNavigationBar: const CustomNavigator(),
     );
   }
 
-  List<dynamic> prepareItems(dynamic data) {
-    String dataString = data.toString();
-    final dynamic dataConverted = jsonDecode(dataString);
-    if (dataConverted['categories'] == null) {
-      return [];
-    }
-    List<dynamic> categories = dataConverted['categories'];
-    List<dynamic> categoriesWithItems = [];
-    if (categories.isNotEmpty) {
-      for (var category in categories) {
-        if (category['items'].isNotEmpty) {
-          for (var item in category['items']) {
-            item['categoryName'] = category['name'];
-          }
-        }
-        if (category['items'].length > 0) {
-          categoriesWithItems.add(category);
+  List<ItemModel> _prepareItemsForCategory(List<dynamic> items, categoryId, categoryName) {
+    List<ItemModel> itemsList = [];
+    if (items.isNotEmpty) {
+      for (var item in items) {
+        ItemModel tempItem = ItemModel(
+            id: item['id'],
+            name: item['name'],
+            imagePath: item['image'],
+            description: item['description'],
+            price: item['price'].toDouble(),
+            categoryId: categoryId,
+            categoryName: categoryName,
+            availableQuantity: item['quantity'],
+            discount: item['discount'] != null && item['discount'] != "null" ? item['discount'].toDouble() : 0,
+            discountFrom: item['discount_from'],
+            discountTo: item['discount_to']);
+        itemsList.add(tempItem);
+
+        if (database!.isOpen) {
+          database!.insert(
+            'items',
+            tempItem.toMap(),
+            conflictAlgorithm: ConflictAlgorithm.replace,
+          );
         }
       }
     }
-    return categoriesWithItems;
+    return itemsList;
   }
 }
