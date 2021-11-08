@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:wooow_supermarket/main.dart';
 import 'package:wooow_supermarket/models/category.dart';
+import 'package:wooow_supermarket/models/custom_cart_item.dart';
+import 'package:wooow_supermarket/models/db_cart_item.dart';
 import 'package:wooow_supermarket/models/item.dart';
 import 'package:wooow_supermarket/utils/global.dart';
 
@@ -156,6 +159,16 @@ class _ItemWidgetState extends State<ItemWidget> {
               int? itemIndex = cart.findItemIndexFromCart(widget.item.id);
               bool isAdded;
               if (itemIndex == null) {
+                if (database!.isOpen) {
+
+                  if (user != null) {
+                    DBCartItem dbItem = DBCartItem(
+                      id: widget.item.id,
+                      productId: widget.item.id
+                    );
+                    database!.insert('cartItems', dbItem.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+                  }
+                }
                 isAdded =
                     cart.addToCart(productId: widget.item.id, unitPrice: widget.item.price, productName: widget.item.name, productDetailsObject: widget.item);
               } else {
