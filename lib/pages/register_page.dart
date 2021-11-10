@@ -136,6 +136,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
                                         dynamic data = {"email": emailController.text, "password": passwordController.text, "password_confirmation": passwordConfirmationController.text, "name": nameController.text};
                                         auth.createWithCredentials(data).then((authResponse) {
+                                          print('authResponse');
+                                          print(authResponse);
                                           if (authResponse['success'] != null) {
                                             List errorList = authResponse['data']!.keys.toList();
                                             if (errorList.isNotEmpty) {
@@ -193,7 +195,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           Buttons.Google,
                           text: "تسجيل باستخدام GOOGLE",
                           onPressed: () {
-                            // auth.signInWithGoogle();
+                            signInWithGoogle();
                           },
                         )),
                     Utils.getSizedBox(height: 10),

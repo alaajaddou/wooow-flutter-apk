@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:wooow_supermarket/main.dart';
 import 'package:wooow_supermarket/models/category.dart';
-import 'package:wooow_supermarket/models/custom_cart_item.dart';
 import 'package:wooow_supermarket/models/db_cart_item.dart';
 import 'package:wooow_supermarket/models/item.dart';
 import 'package:wooow_supermarket/utils/global.dart';
@@ -20,11 +19,10 @@ class Categories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<Categories> {
-
   Future<List<CategoryModel>> getCategories() async {
     List<CategoryModel> categories = [];
 
-    if(database!.isOpen) {
+    if (database!.isOpen) {
       var categoriesTemp = await database!.query('categories');
       for (dynamic category in categoriesTemp) {
         print(category['id']);
@@ -35,8 +33,7 @@ class _CategoriesState extends State<Categories> {
             name: category['name'],
             parent: category['parent'],
             imagePath: category['image'],
-            items: _prepareItemsForCategory(categoryItems, category['id'], category['name'])
-        );
+            items: _prepareItemsForCategory(categoryItems, category['id'], category['name']));
       }
     }
 
@@ -60,25 +57,22 @@ class _CategoriesState extends State<Categories> {
     ));
   }
 
-
   List<ItemModel> _prepareItemsForCategory(List<dynamic> items, categoryId, categoryName) {
     List<ItemModel> itemsList = [];
     if (items.isNotEmpty) {
       for (var item in items) {
-        itemsList.add(
-            ItemModel(id: item['id'],
-                name: item['name'],
-                imagePath: item['image'],
-                description: item['description'],
-                price: item['price'].toDouble(),
-                categoryId: categoryId,
-                categoryName: categoryName,
-                availableQuantity: item['quantity'],
-                discount: item['discount'] != null && item['discount'] != "null" ? item['discount'].toDouble() : 0,
-                discountFrom: item['discount_from'],
-                discountTo: item['discount_to']
-            )
-        );
+        itemsList.add(ItemModel(
+            id: item['id'],
+            name: item['name'],
+            imagePath: item['image'],
+            description: item['description'],
+            price: item['price'].toDouble(),
+            categoryId: categoryId,
+            categoryName: categoryName,
+            availableQuantity: item['quantity'],
+            discount: item['discount'] != null && item['discount'] != "null" ? item['discount'].toDouble() : 0,
+            discountFrom: item['discount_from'],
+            discountTo: item['discount_to']));
       }
     }
     return itemsList;
@@ -160,17 +154,12 @@ class _ItemWidgetState extends State<ItemWidget> {
               bool isAdded;
               if (itemIndex == null) {
                 if (database!.isOpen) {
-
                   if (user != null) {
-                    DBCartItem dbItem = DBCartItem(
-                      id: widget.item.id,
-                      productId: widget.item.id
-                    );
+                    DBCartItem dbItem = DBCartItem(id: widget.item.id, productId: widget.item.id);
                     database!.insert('cartItems', dbItem.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
                   }
                 }
-                isAdded =
-                    cart.addToCart(productId: widget.item.id, unitPrice: widget.item.price, productName: widget.item.name, productDetailsObject: widget.item);
+                isAdded = cart.addToCart(productId: widget.item.id, unitPrice: widget.item.price, productName: widget.item.name, productDetailsObject: widget.item);
               } else {
                 isAdded = cart.incrementItemToCart(itemIndex);
               }

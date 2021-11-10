@@ -21,7 +21,7 @@ class ApiBaseHelper {
     try {
       var client = http.Client();
       var api = Uri.http(Global.baseUrl, Global.apiPath + url);
-      final response = await client.get(api);
+      final response = await client.get(api, headers: {HttpHeaders.contentTypeHeader: 'application/json'});
       return _returnResponse(response);
     } on SocketException catch (exception) {
       throw FetchDataException('No Internet connection' + exception.message);
@@ -29,13 +29,23 @@ class ApiBaseHelper {
     return responseJson;
   }
 
-  Future<dynamic> post(String url, Object body) async {
+  Future<dynamic> post(String url, dynamic body) async {
     debugPrint('Api Post, url $url');
 
     try {
+      // Map<String,String> headers = {'Content-Type':'application/json'};
+      // final msg = jsonEncode(body);
       var client = http.Client();
       var api = Uri.http(Global.baseUrl, Global.apiPath + url);
-      Response response = await client.post(api, body: body);
+      print(api);
+      print(body);
+
+      Response response = await http.post(api, body: jsonEncode(body), headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.ACCEPT: 'application/json'
+      });
+      // Response response = await client.post(api);
+
       return _returnResponse(response);
     } catch (exception) {
       rethrow;
@@ -43,11 +53,13 @@ class ApiBaseHelper {
   }
 
   dynamic _returnResponse(http.Response response) {
-    // debugPrint(response.statusCode.toString());
-    // debugPrint(response.body.toString());
+    debugPrint(response.statusCode.toString());
+    debugPrint(response.body.toString());
     switch (response.statusCode) {
       case 200:
+      case 201:
       case 400:
+        print(response.body.toString());
         var responseJson = json.decode(response.body.toString());
         return responseJson;
       case 401:

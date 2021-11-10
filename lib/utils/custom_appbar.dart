@@ -65,8 +65,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     Navigator.of(context).pushNamed('account');
                   }
                 } else {
-                  if (RouteGenerator.currentRoute != 'register') {
-                    Navigator.of(context).pushNamed('register');
+                  if (RouteGenerator.currentRoute != 'login') {
+                    Navigator.of(context).pushNamed('login');
                   }
                 }
               },

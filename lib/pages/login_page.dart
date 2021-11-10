@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wooow_supermarket/main.dart';
 import 'package:wooow_supermarket/pages/home_page.dart';
 import 'package:wooow_supermarket/pages/register_page.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
@@ -16,6 +17,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  String error = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,136 +41,160 @@ class _LoginPageState extends State<LoginPage> {
                 flex: 25,
               ),
               Expanded(
-                child: Container(
-                  margin: const EdgeInsets.all(16),
-                  child: Column(
-                    children: <Widget>[
-                      TextFormField(
-                        decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-                            border: CustomBorder.enabledBorder,
-                            labelText: "Mobile No. or Email",
-                            focusedBorder: CustomBorder.focusBorder,
-                            errorBorder: CustomBorder.errorBorder,
-                            enabledBorder: CustomBorder.enabledBorder,
-                            labelStyle: CustomTextStyle.textFormFieldMedium
-                                .copyWith(
-                                fontSize:
-                                MediaQuery.of(context).textScaleFactor *
-                                    16,
-                                color: Colors.black), floatingLabelBehavior: FloatingLabelBehavior.auto),
-                      ),
-                      Utils.getSizedBox(height: 20),
-                      TextFormField(
-                        decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-                            border: CustomBorder.enabledBorder,
-                            labelText: "Password",
-                            focusedBorder: CustomBorder.focusBorder,
-                            errorBorder: CustomBorder.errorBorder,
-                            enabledBorder: CustomBorder.enabledBorder,
-                            labelStyle: CustomTextStyle.textFormFieldMedium
-                                .copyWith(
-                                fontSize:
-                                MediaQuery.of(context).textScaleFactor *
-                                    16,
-                                color: Colors.black)),
-                        obscureText: true,
-                      ),
-                      Utils.getSizedBox(height: 20),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const HomePage()));
-                          },
-                          style: getButtonStyle(),
-                          child: Text(
-                            "LOGIN",
-                            style: CustomTextStyle.textFormFieldRegular
-                                .copyWith(color: Colors.white, fontSize: 14),
-                          ),
+                child: Form(
+                  key: _formKey,
+                  child: Container(
+                    margin: const EdgeInsets.all(16),
+                    child: Column(
+                      children: <Widget>[
+                        TextFormField(
+                          controller: emailController,
+                          decoration: InputDecoration(
+                              contentPadding:
+                                  const EdgeInsets.fromLTRB(16, 16, 16, 12),
+                              border: CustomBorder.enabledBorder,
+                              labelText: "Mobile No. or Email",
+                              focusedBorder: CustomBorder.focusBorder,
+                              errorBorder: CustomBorder.errorBorder,
+                              enabledBorder: CustomBorder.enabledBorder,
+                              labelStyle: CustomTextStyle.textFormFieldMedium
+                                  .copyWith(
+                                      fontSize: MediaQuery.of(context)
+                                              .textScaleFactor *
+                                          16,
+                                      color: Colors.black),
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.auto),
                         ),
-                      ),
-                      Utils.getSizedBox(height: 10),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Container(
-                              color: Colors.grey.shade200,
-                              margin: const EdgeInsets.only(right: 16),
-                              height: 1,
-                            ),
-                            flex: 40,
-                          ),
-                          Text(
-                            "Or",
-                            style: CustomTextStyle.textFormFieldMedium
-                                .copyWith(fontSize: 14),
-                          ),
-                          Expanded(
-                            child: Container(
-                              color: Colors.grey.shade200,
-                              margin: const EdgeInsets.only(left: 16),
-                              height: 1,
-                            ),
-                            flex: 40,
-                          )
-                        ],
-                      ),
-                      Utils.getSizedBox(height: 14),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text(
-                            "FACEBOOK LOGIN",
-                            style: CustomTextStyle.textFormFieldMedium
-                                .copyWith(color: Colors.white, fontSize: 14),
-                          ),
-                          style: getButtonStyle()
+                        Utils.getSizedBox(height: 20),
+                        TextFormField(
+                          controller: passwordController,
+                          decoration: InputDecoration(
+                              contentPadding:
+                                  const EdgeInsets.fromLTRB(16, 16, 16, 12),
+                              border: CustomBorder.enabledBorder,
+                              labelText: "Password",
+                              focusedBorder: CustomBorder.focusBorder,
+                              errorBorder: CustomBorder.errorBorder,
+                              enabledBorder: CustomBorder.enabledBorder,
+                              labelStyle: CustomTextStyle.textFormFieldMedium
+                                  .copyWith(
+                                      fontSize: MediaQuery.of(context)
+                                              .textScaleFactor *
+                                          16,
+                                      color: Colors.black)),
+                          obscureText: true,
                         ),
-                      ),
-                      Utils.getSizedBox(height: 14),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text(
-                            "GOOGLE LOGIN",
-                            style: CustomTextStyle.textFormFieldMedium
-                                .copyWith(color: Colors.white, fontSize: 14),
-                          ),
-                          style: getButtonStyle()
-                        ),
-                      ),
-                      Utils.getSizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            "Don't have an account?",
-                            style: CustomTextStyle.textFormFieldMedium
-                                .copyWith(fontSize: 14),
-                          ),
-                          Utils.getSizedBox(width: 4),
-                          GestureDetector(
-                            child: Text(
-                              "Sign Up",
-                              style: CustomTextStyle.textFormFieldBold
-                                  .copyWith(fontSize: 14, color: Colors.blue),
-                            ),
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const RegisterPage()));
+                        Utils.getSizedBox(height: 20),
+                        Text(error,
+                            textDirection: TextDirection.rtl,
+                            style: const TextStyle(color: Colors.red)),
+                        Utils.getSizedBox(height: 14),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              error = '';
+                              if (_formKey.currentState!.validate()) {
+                                // If the form is valid, display a snackbar. In the real world,
+                                // you'd often call a server or save the information in a database.
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text('Processing Data')),
+                                );
+                                auth.login(emailController.text, passwordController.text);
+                              }
+                              // Navigator.pushReplacement(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => const HomePage()));
                             },
+                            style: getButtonStyle(),
+                            child: Text(
+                              "LOGIN",
+                              style: CustomTextStyle.textFormFieldRegular
+                                  .copyWith(color: Colors.white, fontSize: 14),
+                            ),
                           ),
-                        ],
-                      )
-                    ],
+                        ),
+                        Utils.getSizedBox(height: 10),
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Container(
+                                color: Colors.grey.shade200,
+                                margin: const EdgeInsets.only(right: 16),
+                                height: 1,
+                              ),
+                              flex: 40,
+                            ),
+                            Text(
+                              "Or",
+                              style: CustomTextStyle.textFormFieldMedium
+                                  .copyWith(fontSize: 14),
+                            ),
+                            Expanded(
+                              child: Container(
+                                color: Colors.grey.shade200,
+                                margin: const EdgeInsets.only(left: 16),
+                                height: 1,
+                              ),
+                              flex: 40,
+                            )
+                          ],
+                        ),
+                        Utils.getSizedBox(height: 14),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                              onPressed: () {},
+                              child: Text(
+                                "FACEBOOK LOGIN",
+                                style: CustomTextStyle.textFormFieldMedium
+                                    .copyWith(
+                                        color: Colors.white, fontSize: 14),
+                              ),
+                              style: getButtonStyle()),
+                        ),
+                        Utils.getSizedBox(height: 14),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                              onPressed: () {},
+                              child: Text(
+                                "GOOGLE LOGIN",
+                                style: CustomTextStyle.textFormFieldMedium
+                                    .copyWith(
+                                        color: Colors.white, fontSize: 14),
+                              ),
+                              style: getButtonStyle()),
+                        ),
+                        Utils.getSizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "Don't have an account?",
+                              style: CustomTextStyle.textFormFieldMedium
+                                  .copyWith(fontSize: 14),
+                            ),
+                            Utils.getSizedBox(width: 4),
+                            GestureDetector(
+                              child: Text(
+                                "Sign Up",
+                                style: CustomTextStyle.textFormFieldBold
+                                    .copyWith(fontSize: 14, color: Colors.blue),
+                              ),
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        const RegisterPage()));
+                              },
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 flex: 75,

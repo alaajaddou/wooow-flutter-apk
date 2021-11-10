@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cart/flutter_cart.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart' show Database, getDatabasesPath, openDatabase;
 import 'package:wooow_supermarket/models/user.dart';
@@ -12,7 +13,15 @@ import 'package:wooow_supermarket/utils/route_generator.dart';
 FlutterCart cart = FlutterCart();
 int cartCount = cart.getCartItemCount();
 Authentication auth = Authentication();
-late StreamSubscription<User?> user;
+GoogleSignIn _googleSignIn = GoogleSignIn(
+  // Optional clientId
+  clientId: '479882132969-9i9aqik3jfjd7qhci1nqf0bm2g71rm1u.apps.googleusercontent.com',
+  scopes: <String>[
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+  ],
+);
+late User user;
 
 void initializeDataBase() async {
   database = await openDatabase(
@@ -21,6 +30,15 @@ void initializeDataBase() async {
     onOpen: (db) => _prepareData(db),
     version: 1,
   );
+}
+
+
+Future<void> signInWithGoogle() async {
+  try {
+    await _googleSignIn.signIn();
+  } catch (error) {
+    print(error);
+  }
 }
 
 String userSqlCreateQuery = 'CREATE TABLE users(id INTEGER PRIMARY KEY, addressId INTEGER, name TEXT, email TEXT, imagePath TEXT, loginProvider TEXT, token TEXT)';
@@ -48,6 +66,7 @@ void _prepareData(db) {}
 
 Database? database;
 
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initializeDataBase();
@@ -62,14 +81,26 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  GoogleSignInAccount? _currentUser;
+  String _contactText = '';
+
   @override
   void initState() {
     super.initState();
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
+      setState(() {
+        _currentUser = account;
+      });
+      if (_currentUser != null) {
+        print('_currentUser');
+        print(_currentUser);
+      }
+    });
+    _googleSignIn.signInSilently();
   }
 
   @override
   void dispose() {
-    user.cancel();
     super.dispose();
   }
 
