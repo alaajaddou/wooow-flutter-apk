@@ -47,9 +47,7 @@ class _NotificationPageState extends State<NotificationPage> {
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
         width: double.infinity,
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10), bottomLeft: Radius.circular(10))),
+        decoration: const BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10))),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -58,9 +56,7 @@ class _NotificationPageState extends State<NotificationPage> {
                 width: 4,
                 margin: const EdgeInsets.only(right: 4),
                 decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      bottomLeft: Radius.circular(10)),
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
                   color: Colors.green,
                 ),
               ),

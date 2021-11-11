@@ -43,7 +43,7 @@ dependencies:
   sqflite: ^2.0.0+4
   path: ^1.8.0
   google_sign_in: ^5.2.1
-
+  shared_preferences: ^2.0.8
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -8,7 +8,6 @@ import 'package:wooow_supermarket/utils/custom_appbar.dart';
 import 'package:wooow_supermarket/utils/custom_navigator.dart';
 import 'package:wooow_supermarket/utils/global.dart';
 
-
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
@@ -27,19 +26,12 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void createListItem() {
-    listSection.add(createSection("Notifications", "https://w7.pngwing.com/pngs/257/702/png-transparent-about-us-logo-business-logo-company-brand-service-icon-about-us-hd-miscellaneous-blue-text.png",
-        Colors.blue.shade800, const NotificationPage()));
+    listSection.add(createSection("Notifications", "https://w7.pngwing.com/pngs/257/702/png-transparent-about-us-logo-business-logo-company-brand-service-icon-about-us-hd-miscellaneous-blue-text.png", Colors.blue.shade800, const NotificationPage()));
     // listSection.add(createSection(
     //     "Payment Method", "images/ic_payment.png", Colors.teal.shade800, null));
-    listSection.add(createSection(
-        "Settings", "https://w7.pngwing.com/pngs/257/702/png-transparent-about-us-logo-business-logo-company-brand-service-icon-about-us-hd-miscellaneous-blue-text.png", Colors.red.shade800, const EditProfilePage()));
-    listSection.add(createSection(
-        "Invite Friends",
-        "https://w7.pngwing.com/pngs/257/702/png-transparent-about-us-logo-business-logo-company-brand-service-icon-about-us-hd-miscellaneous-blue-text.png",
-        Colors.indigo.shade800,
-        const InviteFriendsPage()));
-    listSection.add(createSection("About Us", "https://w7.pngwing.com/pngs/257/702/png-transparent-about-us-logo-business-logo-company-brand-service-icon-about-us-hd-miscellaneous-blue-text.png",
-        Colors.black.withOpacity(0.8), const AboutPage()));
+    listSection.add(createSection("Settings", "https://w7.pngwing.com/pngs/257/702/png-transparent-about-us-logo-business-logo-company-brand-service-icon-about-us-hd-miscellaneous-blue-text.png", Colors.red.shade800, const EditProfilePage()));
+    listSection.add(createSection("Invite Friends", "https://w7.pngwing.com/pngs/257/702/png-transparent-about-us-logo-business-logo-company-brand-service-icon-about-us-hd-miscellaneous-blue-text.png", Colors.indigo.shade800, const InviteFriendsPage()));
+    listSection.add(createSection("About Us", "https://w7.pngwing.com/pngs/257/702/png-transparent-about-us-logo-business-logo-company-brand-service-icon-about-us-hd-miscellaneous-blue-text.png", Colors.black.withOpacity(0.8), const AboutPage()));
     // listSection.add(createSection(
     //     "Logout", "images/ic_logout.png", Colors.red.withOpacity(0.7), null));
   }
@@ -55,7 +47,15 @@ class _ProfilePageState extends State<ProfilePage> {
       body: ListView(
         children: <Widget>[
           const SizedBox(height: 24),
-          buildHeader(),
+          FutureBuilder<Widget>(
+              builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+                  return snapshot.data as Widget;
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+              future: buildHeader()),
           const SizedBox(height: 24),
           buildListView()
         ],
@@ -64,24 +64,19 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Container buildHeader() {
-    var user = auth.getUser();
+  Future<Widget>? buildHeader() async {
+    var user = await auth.getUser();
 
     return Container(
       margin: const EdgeInsets.all(0.0),
-      decoration: BoxDecoration(
-        color: getPrimaryColor()
-      ),
+      decoration: BoxDecoration(color: getPrimaryColor()),
       child: Row(
         children: <Widget>[
           Container(
             width: 60,
             margin: const EdgeInsets.only(top: 8, bottom: 8),
             height: 60,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: NetworkImage("https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_1280.png")),
-                borderRadius: BorderRadius.all(Radius.circular(24))),
+            decoration: const BoxDecoration(image: DecorationImage(image: NetworkImage("https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_1280.png")), borderRadius: BorderRadius.all(Radius.circular(24))),
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -92,13 +87,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      user!.displayName ?? '',
+                      user!.name,
                       textAlign: TextAlign.start,
                       style: TextStyle(color: Colors.blue.shade900, fontSize: 14),
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      user.email ?? '',
+                      user.email,
                       style: const TextStyle(color: Colors.white, fontSize: 12),
                     ),
                   ],
@@ -135,8 +130,7 @@ class _ProfilePageState extends State<ProfilePage> {
       return InkWell(
         splashColor: Colors.teal.shade200,
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => listSection.widget));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => listSection.widget));
         },
         child: Container(
           padding: const EdgeInsets.only(top: 14, left: 24, right: 8, bottom: 14),
@@ -145,9 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Expanded(
                 child: Container(
                   height: 30,
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(24)),
-                      color: listSection.color),
+                  decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(24)), color: listSection.color),
                   child: Image(
                     image: NetworkImage(listSection.icon),
                     color: Colors.white,

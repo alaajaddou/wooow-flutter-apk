@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
+import 'package:wooow_supermarket/main.dart';
+import 'package:wooow_supermarket/models/user.dart';
 
 class Global {
   static const baseUrl = "vmi561267.contaboserver.net";
@@ -17,35 +19,23 @@ class Global {
 class ApiBaseHelper {
   Future<dynamic> get(String url) async {
     debugPrint('Api GET, url $url');
-    late var responseJson = '';
     try {
-      var client = http.Client();
       var api = Uri.http(Global.baseUrl, Global.apiPath + url);
-      final response = await client.get(api, headers: {HttpHeaders.contentTypeHeader: 'application/json'});
+      var headers = await getHeaders() as Map<String, String>;
+      final response = await http.get(api, headers: headers);
       return _returnResponse(response);
     } on SocketException catch (exception) {
       throw FetchDataException('No Internet connection' + exception.message);
     }
-    return responseJson;
   }
 
   Future<dynamic> post(String url, dynamic body) async {
     debugPrint('Api Post, url $url');
 
     try {
-      // Map<String,String> headers = {'Content-Type':'application/json'};
-      // final msg = jsonEncode(body);
-      var client = http.Client();
       var api = Uri.http(Global.baseUrl, Global.apiPath + url);
-      print(api);
-      print(body);
-
-      Response response = await http.post(api, body: jsonEncode(body), headers: {
-        HttpHeaders.contentTypeHeader: 'application/json',
-        HttpHeaders.ACCEPT: 'application/json'
-      });
-      // Response response = await client.post(api);
-
+      var headers = await getHeaders() as Map<String, String>;
+      Response response = await http.post(api, body: jsonEncode(body), headers: headers);
       return _returnResponse(response);
     } catch (exception) {
       rethrow;
@@ -59,7 +49,6 @@ class ApiBaseHelper {
       case 200:
       case 201:
       case 400:
-        print(response.body.toString());
         var responseJson = json.decode(response.body.toString());
         return responseJson;
       case 401:
@@ -69,6 +58,17 @@ class ApiBaseHelper {
       default:
         throw FetchDataException('Error occurred while Communication with Server with StatusCode : ${response.statusCode}');
     }
+  }
+
+  getHeaders() async {
+    var headers = {HttpHeaders.contentTypeHeader: 'application/json', HttpHeaders.acceptHeader: 'application/json'};
+
+    User? user = await auth.getUser();
+    if (user != null) {
+      headers[HttpHeaders.authorizationHeader] = 'bearer ' + user.token;
+    }
+
+    return headers;
   }
 }
 
@@ -139,6 +139,5 @@ bool get isInDebugMode {
 
 dynamic convertDataToDynamic(authResponseData) {
   final String tempData = authResponseData.toString();
-  print(tempData);
   return jsonDecode(tempData);
 }

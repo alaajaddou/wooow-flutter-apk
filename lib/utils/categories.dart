@@ -4,6 +4,7 @@ import 'package:wooow_supermarket/main.dart';
 import 'package:wooow_supermarket/models/category.dart';
 import 'package:wooow_supermarket/models/db_cart_item.dart';
 import 'package:wooow_supermarket/models/item.dart';
+import 'package:wooow_supermarket/models/user.dart';
 import 'package:wooow_supermarket/utils/global.dart';
 
 import 'alert.dart';
@@ -25,15 +26,8 @@ class _CategoriesState extends State<Categories> {
     if (database!.isOpen) {
       var categoriesTemp = await database!.query('categories');
       for (dynamic category in categoriesTemp) {
-        print(category['id']);
         var categoryItems = await database!.query('items', where: 'categoryId = ?', whereArgs: [category['id']]);
-        print(categoryItems);
-        CategoryModel tempCategory = CategoryModel(
-            id: category['id'],
-            name: category['name'],
-            parent: category['parent'],
-            imagePath: category['image'],
-            items: _prepareItemsForCategory(categoryItems, category['id'], category['name']));
+        CategoryModel(id: category['id'], name: category['name'], parent: category['parent'], imagePath: category['image'], items: _prepareItemsForCategory(categoryItems, category['id'], category['name']));
       }
     }
 
@@ -138,6 +132,7 @@ class ItemWidget extends StatefulWidget {
 }
 
 class _ItemWidgetState extends State<ItemWidget> {
+  User? user = auth.user;
   @override
   Widget build(BuildContext context) {
     return Column(

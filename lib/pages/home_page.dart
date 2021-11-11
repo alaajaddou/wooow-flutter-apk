@@ -25,12 +25,7 @@ class _HomePageState extends State<HomePage> {
 
     for (dynamic category in data['categories']) {
       if (category['items'] != null && category['items'].isNotEmpty) {
-        CategoryModel tempCategory = CategoryModel(
-            id: category['id'],
-            name: category['name'],
-            parent: category['parent'],
-            imagePath: category['image'],
-            items: _prepareItemsForCategory(category['items'], category['id'], category['name']));
+        CategoryModel tempCategory = CategoryModel(id: category['id'], name: category['name'], parent: category['parent'], imagePath: category['image'], items: _prepareItemsForCategory(category['items'], category['id'], category['name']));
 
         if (database!.isOpen) {
           database!.insert(
@@ -68,17 +63,13 @@ class _HomePageState extends State<HomePage> {
             //       height: 90.0, decoration: const BoxDecoration(color: Colors.black12), child: const Center(child: CircularProgressIndicator()));
             // }),
             builder: (context, snapshot) {
-              return snapshot.hasData && snapshot.connectionState == ConnectionState.done
-                  ? CircleImages(categories: snapshot.data)
-                  : Container(height: 90.0, decoration: const BoxDecoration(color: Colors.black12), child: const Center(child: CircularProgressIndicator()));
+              return snapshot.hasData && snapshot.connectionState == ConnectionState.done ? CircleImages(categories: snapshot.data) : Container(height: 90.0, decoration: const BoxDecoration(color: Colors.black12), child: const Center(child: CircularProgressIndicator()));
             }),
         FutureBuilder<dynamic>(
             future: getAllData(),
             initialData: const {},
             builder: (context, snapshot) {
-              return snapshot.hasData && snapshot.connectionState == ConnectionState.done
-                  ? Categories(categories: snapshot.data)
-                  : const Expanded(child: Center(child: CircularProgressIndicator()));
+              return snapshot.hasData && snapshot.connectionState == ConnectionState.done ? Categories(categories: snapshot.data) : const Expanded(child: Center(child: CircularProgressIndicator()));
             }),
       ]),
       bottomNavigationBar: const CustomNavigator(),

@@ -14,64 +14,62 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-          backgroundColor: getPrimaryColor(),
-          leading: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
-            child: Image.asset(
-              "assets/images/logo.png",
-            ),
+      backgroundColor: getPrimaryColor(),
+      leading: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
+        child: Image.asset(
+          "assets/images/logo.png",
+        ),
+      ),
+      actions: <Widget>[
+        IconButton(
+          splashRadius: Material.defaultSplashRadius,
+          icon: const Icon(
+            Icons.search,
+            color: Colors.white,
+            size: 30,
           ),
-          actions: <Widget>[
-            IconButton(
-              splashRadius: Material.defaultSplashRadius,
-              icon: const Icon(
-                Icons.search,
-                color: Colors.white,
-                size: 30,
-              ),
-              onPressed: () {
-                if (RouteGenerator.currentRoute != 'search') {
-                  Navigator.of(context).pushNamed('search');
-                }
-              },
-            ),
-            IconButton(
-              icon: const ShoppingCartIcon(),
-              onPressed: () {
-
-                if (RouteGenerator.currentRoute != 'cart') {
-                  Navigator.of(context).pushNamed('cart');
-                }
-              },
-            ),
-            IconButton(
-              icon: const NotificationIcon(),
-              onPressed: () {
-                if (RouteGenerator.currentRoute != 'notification') {
-                  Navigator.of(context).pushNamed('notification');
-                }
-              },
-            ),
-            IconButton(
-              icon: const Icon(
-                Icons.account_circle,
-                color: Colors.white,
-                size: 30,
-              ),
-              onPressed: () {
-
-                if (auth.getUser() != null) {
-                  if (RouteGenerator.currentRoute != 'account') {
-                    Navigator.of(context).pushNamed('account');
-                  }
-                } else {
-                  if (RouteGenerator.currentRoute != 'login') {
-                    Navigator.of(context).pushNamed('login');
-                  }
-                }
-              },
-            ),
-          ],
-        );
+          onPressed: () {
+            if (RouteGenerator.currentRoute != 'search') {
+              Navigator.of(context).pushNamed('search');
+            }
+          },
+        ),
+        IconButton(
+          icon: const ShoppingCartIcon(),
+          onPressed: () {
+            if (RouteGenerator.currentRoute != 'cart') {
+              Navigator.of(context).pushNamed('cart');
+            }
+          },
+        ),
+        IconButton(
+          icon: const NotificationIcon(),
+          onPressed: () {
+            if (RouteGenerator.currentRoute != 'notification') {
+              Navigator.of(context).pushNamed('notification');
+            }
+          },
+        ),
+        IconButton(
+          icon: const Icon(
+            Icons.account_circle,
+            color: Colors.white,
+            size: 30,
+          ),
+          onPressed: () {
+            if (auth.getUser() != null) {
+              if (RouteGenerator.currentRoute != 'account') {
+                Navigator.of(context).pushNamed('account');
+              }
+            } else {
+              if (RouteGenerator.currentRoute != 'login') {
+                Navigator.of(context).pushNamed('login');
+              }
+            }
+          },
+        ),
+      ],
+    );
   }
 }

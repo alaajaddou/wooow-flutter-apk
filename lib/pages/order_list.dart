@@ -29,10 +29,7 @@ class OrderList extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                        Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -55,10 +52,7 @@ class OrderList extends StatelessWidget {
                     children: [
                       Row(children: [
                         Expanded(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                          child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         )
                       ]),
                       Row(children: [
@@ -148,10 +142,7 @@ class OrderList extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                        Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -174,10 +165,7 @@ class OrderList extends StatelessWidget {
                     children: [
                       Row(children: [
                         Expanded(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                          child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         )
                       ]),
                       Row(children: [
@@ -267,10 +255,7 @@ class OrderList extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                        Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -293,10 +278,7 @@ class OrderList extends StatelessWidget {
                     children: [
                       Row(children: [
                         Expanded(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                          child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         )
                       ]),
                       Row(children: [
@@ -386,10 +368,7 @@ class OrderList extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                        Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -412,10 +391,7 @@ class OrderList extends StatelessWidget {
                     children: [
                       Row(children: [
                         Expanded(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                          child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         )
                       ]),
                       Row(children: [
@@ -505,10 +481,7 @@ class OrderList extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                        Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -531,10 +504,7 @@ class OrderList extends StatelessWidget {
                     children: [
                       Row(children: [
                         Expanded(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                          child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         )
                       ]),
                       Row(children: [
@@ -624,10 +594,7 @@ class OrderList extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                        Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -650,10 +617,7 @@ class OrderList extends StatelessWidget {
                     children: [
                       Row(children: [
                         Expanded(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                          child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         )
                       ]),
                       Row(children: [
@@ -743,10 +707,7 @@ class OrderList extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                        Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -769,10 +730,7 @@ class OrderList extends StatelessWidget {
                     children: [
                       Row(children: [
                         Expanded(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                          child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         )
                       ]),
                       Row(children: [
@@ -862,10 +820,7 @@ class OrderList extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                        Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -888,10 +843,7 @@ class OrderList extends StatelessWidget {
                     children: [
                       Row(children: [
                         Expanded(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                          child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         )
                       ]),
                       Row(children: [
@@ -981,10 +933,7 @@ class OrderList extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                        Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1007,10 +956,7 @@ class OrderList extends StatelessWidget {
                     children: [
                       Row(children: [
                         Expanded(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                          child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         )
                       ]),
                       Row(children: [
@@ -1100,10 +1046,7 @@ class OrderList extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                        Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1126,10 +1069,7 @@ class OrderList extends StatelessWidget {
                     children: [
                       Row(children: [
                         Expanded(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                          child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         )
                       ]),
                       Row(children: [
@@ -1219,10 +1159,7 @@ class OrderList extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                        Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1245,10 +1182,7 @@ class OrderList extends StatelessWidget {
                     children: [
                       Row(children: [
                         Expanded(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                          child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         )
                       ]),
                       Row(children: [
@@ -1338,10 +1272,7 @@ class OrderList extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                        Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1364,10 +1295,7 @@ class OrderList extends StatelessWidget {
                     children: [
                       Row(children: [
                         Expanded(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                          child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         )
                       ]),
                       Row(children: [
@@ -1457,10 +1385,7 @@ class OrderList extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                        Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1483,10 +1408,7 @@ class OrderList extends StatelessWidget {
                     children: [
                       Row(children: [
                         Expanded(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                          child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         )
                       ]),
                       Row(children: [
@@ -1576,10 +1498,7 @@ class OrderList extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                        Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1602,10 +1521,7 @@ class OrderList extends StatelessWidget {
                     children: [
                       Row(children: [
                         Expanded(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                          child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         )
                       ]),
                       Row(children: [
@@ -1695,10 +1611,7 @@ class OrderList extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                        Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1721,10 +1634,7 @@ class OrderList extends StatelessWidget {
                     children: [
                       Row(children: [
                         Expanded(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                          child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         )
                       ]),
                       Row(children: [
@@ -1814,10 +1724,7 @@ class OrderList extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                        Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1840,10 +1747,7 @@ class OrderList extends StatelessWidget {
                     children: [
                       Row(children: [
                         Expanded(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                          child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         )
                       ]),
                       Row(children: [
@@ -1933,10 +1837,7 @@ class OrderList extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                        Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1959,10 +1860,7 @@ class OrderList extends StatelessWidget {
                     children: [
                       Row(children: [
                         Expanded(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                          child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         )
                       ]),
                       Row(children: [
@@ -2052,10 +1950,7 @@ class OrderList extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                        Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -2078,10 +1973,7 @@ class OrderList extends StatelessWidget {
                     children: [
                       Row(children: [
                         Expanded(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                          child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         )
                       ]),
                       Row(children: [
@@ -2171,10 +2063,7 @@ class OrderList extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                        Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -2197,10 +2086,7 @@ class OrderList extends StatelessWidget {
                     children: [
                       Row(children: [
                         Expanded(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
+                          child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [Text("تتبع طلبيتك", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500))]),
                         )
                       ]),
                       Row(children: [

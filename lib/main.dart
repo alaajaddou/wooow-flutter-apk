@@ -6,7 +6,6 @@ import 'package:flutter_cart/flutter_cart.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart' show Database, getDatabasesPath, openDatabase;
-import 'package:wooow_supermarket/models/user.dart';
 import 'package:wooow_supermarket/utils/authentication.dart';
 import 'package:wooow_supermarket/utils/route_generator.dart';
 
@@ -21,7 +20,6 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
     'https://www.googleapis.com/auth/userinfo.profile',
   ],
 );
-late User user;
 
 void initializeDataBase() async {
   database = await openDatabase(
@@ -32,19 +30,17 @@ void initializeDataBase() async {
   );
 }
 
-
 Future<void> signInWithGoogle() async {
   try {
     await _googleSignIn.signIn();
   } catch (error) {
-    print(error);
+    //
   }
 }
 
 String userSqlCreateQuery = 'CREATE TABLE users(id INTEGER PRIMARY KEY, addressId INTEGER, name TEXT, email TEXT, imagePath TEXT, loginProvider TEXT, token TEXT)';
 String categorySqlCreateQuery = 'CREATE TABLE categories(id INTEGER PRIMARY KEY, parent INTEGER, name TEXT, imagePath TEXT)';
-String itemSqlCreateQuery =
-    'CREATE TABLE items(id INTEGER PRIMARY KEY, categoryId INTEGER, availableQuantity INTEGER, price TEXT, discount TEXT, name TEXT, imagePath TEXT, description TEXT, discountFrom TEXT, discountTo TEXT)';
+String itemSqlCreateQuery = 'CREATE TABLE items(id INTEGER PRIMARY KEY, categoryId INTEGER, availableQuantity INTEGER, price TEXT, discount TEXT, name TEXT, imagePath TEXT, description TEXT, discountFrom TEXT, discountTo TEXT)';
 String addressSqlCreateQuery = 'CREATE TABLE addresses(id INTEGER PRIMARY KEY, userId INTEGER, city TEXT, village TEXT, phone TEXT, mobile TEXT, address TEXT, building TEXT)';
 String notificationSqlCreateQuery = 'CREATE TABLE notifications(id INTEGER PRIMARY KEY, title TEXT, body TEXT, isShown INTEGER)';
 String orderStatusSqlCreateQuery = 'CREATE TABLE orderStatuses(id INTEGER PRIMARY KEY, name TEXT)';
@@ -66,7 +62,6 @@ void _prepareData(db) {}
 
 Database? database;
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initializeDataBase();
@@ -82,7 +77,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   GoogleSignInAccount? _currentUser;
-  String _contactText = '';
 
   @override
   void initState() {
@@ -91,10 +85,7 @@ class _MyAppState extends State<MyApp> {
       setState(() {
         _currentUser = account;
       });
-      if (_currentUser != null) {
-        print('_currentUser');
-        print(_currentUser);
-      }
+      if (_currentUser != null) {}
     });
     _googleSignIn.signInSilently();
   }

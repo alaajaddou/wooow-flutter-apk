@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wooow_supermarket/main.dart';
-import 'package:wooow_supermarket/pages/home_page.dart';
 import 'package:wooow_supermarket/pages/register_page.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
 import 'package:wooow_supermarket/utils/custom_border.dart';
@@ -33,11 +32,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: <Widget>[
               const Expanded(
-                child: Image(
-                    image: AssetImage("assets/images/topbar-icon.png"),
-                    height: 100,
-                    alignment: Alignment.bottomCenter,
-                    width: 200),
+                child: Image(image: AssetImage("assets/images/topbar-icon.png"), height: 100, alignment: Alignment.bottomCenter, width: 200),
                 flex: 25,
               ),
               Expanded(
@@ -50,45 +45,30 @@ class _LoginPageState extends State<LoginPage> {
                         TextFormField(
                           controller: emailController,
                           decoration: InputDecoration(
-                              contentPadding:
-                                  const EdgeInsets.fromLTRB(16, 16, 16, 12),
+                              contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
                               border: CustomBorder.enabledBorder,
                               labelText: "Mobile No. or Email",
                               focusedBorder: CustomBorder.focusBorder,
                               errorBorder: CustomBorder.errorBorder,
                               enabledBorder: CustomBorder.enabledBorder,
-                              labelStyle: CustomTextStyle.textFormFieldMedium
-                                  .copyWith(
-                                      fontSize: MediaQuery.of(context)
-                                              .textScaleFactor *
-                                          16,
-                                      color: Colors.black),
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.auto),
+                              labelStyle: CustomTextStyle.textFormFieldMedium.copyWith(fontSize: MediaQuery.of(context).textScaleFactor * 16, color: Colors.black),
+                              floatingLabelBehavior: FloatingLabelBehavior.auto),
                         ),
                         Utils.getSizedBox(height: 20),
                         TextFormField(
                           controller: passwordController,
                           decoration: InputDecoration(
-                              contentPadding:
-                                  const EdgeInsets.fromLTRB(16, 16, 16, 12),
+                              contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
                               border: CustomBorder.enabledBorder,
                               labelText: "Password",
                               focusedBorder: CustomBorder.focusBorder,
                               errorBorder: CustomBorder.errorBorder,
                               enabledBorder: CustomBorder.enabledBorder,
-                              labelStyle: CustomTextStyle.textFormFieldMedium
-                                  .copyWith(
-                                      fontSize: MediaQuery.of(context)
-                                              .textScaleFactor *
-                                          16,
-                                      color: Colors.black)),
+                              labelStyle: CustomTextStyle.textFormFieldMedium.copyWith(fontSize: MediaQuery.of(context).textScaleFactor * 16, color: Colors.black)),
                           obscureText: true,
                         ),
                         Utils.getSizedBox(height: 20),
-                        Text(error,
-                            textDirection: TextDirection.rtl,
-                            style: const TextStyle(color: Colors.red)),
+                        Text(error, textDirection: TextDirection.rtl, style: const TextStyle(color: Colors.red)),
                         Utils.getSizedBox(height: 14),
                         SizedBox(
                           width: double.infinity,
@@ -99,10 +79,15 @@ class _LoginPageState extends State<LoginPage> {
                                 // If the form is valid, display a snackbar. In the real world,
                                 // you'd often call a server or save the information in a database.
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text('Processing Data')),
+                                  const SnackBar(content: Text('Processing Data')),
                                 );
-                                auth.login(emailController.text, passwordController.text);
+                                auth.login(emailController.text, passwordController.text).then((user) {
+                                  if (user != null) {
+                                    Navigator.of(context).pushNamed('account');
+                                  } else {
+                                    error = 'حصل خطأ في تسجيل الدخول تاكد من البريد الالكتروني وكلمة المرور';
+                                  }
+                                });
                               }
                               // Navigator.pushReplacement(
                               //     context,
@@ -112,8 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                             style: getButtonStyle(),
                             child: Text(
                               "LOGIN",
-                              style: CustomTextStyle.textFormFieldRegular
-                                  .copyWith(color: Colors.white, fontSize: 14),
+                              style: CustomTextStyle.textFormFieldRegular.copyWith(color: Colors.white, fontSize: 14),
                             ),
                           ),
                         ),
@@ -130,8 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             Text(
                               "Or",
-                              style: CustomTextStyle.textFormFieldMedium
-                                  .copyWith(fontSize: 14),
+                              style: CustomTextStyle.textFormFieldMedium.copyWith(fontSize: 14),
                             ),
                             Expanded(
                               child: Container(
@@ -150,9 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                               onPressed: () {},
                               child: Text(
                                 "FACEBOOK LOGIN",
-                                style: CustomTextStyle.textFormFieldMedium
-                                    .copyWith(
-                                        color: Colors.white, fontSize: 14),
+                                style: CustomTextStyle.textFormFieldMedium.copyWith(color: Colors.white, fontSize: 14),
                               ),
                               style: getButtonStyle()),
                         ),
@@ -163,9 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                               onPressed: () {},
                               child: Text(
                                 "GOOGLE LOGIN",
-                                style: CustomTextStyle.textFormFieldMedium
-                                    .copyWith(
-                                        color: Colors.white, fontSize: 14),
+                                style: CustomTextStyle.textFormFieldMedium.copyWith(color: Colors.white, fontSize: 14),
                               ),
                               style: getButtonStyle()),
                         ),
@@ -175,20 +154,16 @@ class _LoginPageState extends State<LoginPage> {
                           children: <Widget>[
                             Text(
                               "Don't have an account?",
-                              style: CustomTextStyle.textFormFieldMedium
-                                  .copyWith(fontSize: 14),
+                              style: CustomTextStyle.textFormFieldMedium.copyWith(fontSize: 14),
                             ),
                             Utils.getSizedBox(width: 4),
                             GestureDetector(
                               child: Text(
                                 "Sign Up",
-                                style: CustomTextStyle.textFormFieldBold
-                                    .copyWith(fontSize: 14, color: Colors.blue),
+                                style: CustomTextStyle.textFormFieldBold.copyWith(fontSize: 14, color: Colors.blue),
                               ),
                               onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        const RegisterPage()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RegisterPage()));
                               },
                             ),
                           ],
