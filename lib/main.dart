@@ -46,6 +46,7 @@ String notificationSqlCreateQuery = 'CREATE TABLE notifications(id INTEGER PRIMA
 String orderStatusSqlCreateQuery = 'CREATE TABLE orderStatuses(id INTEGER PRIMARY KEY, name TEXT)';
 String orderSqlCreateQuery = 'CREATE TABLE orders(id INTEGER PRIMARY KEY, userId INTEGER, addressId INTEGER, orderStatusId INTEGER)';
 String cartItemSqlCreateQuery = 'CREATE TABLE cartItems(id INTEGER PRIMARY KEY, userId INTEGER, productId INTEGER, orderId INTEGER)';
+String activeUserIdSqlCreateQuery = 'CREATE TABLE activeUserId(id INTEGER PRIMARY KEY, userId INTEGER)';
 
 void _createTables(db, version) {
   db.execute(userSqlCreateQuery);
@@ -56,6 +57,7 @@ void _createTables(db, version) {
   db.execute(orderStatusSqlCreateQuery);
   db.execute(orderSqlCreateQuery);
   db.execute(cartItemSqlCreateQuery);
+  db.execute(activeUserIdSqlCreateQuery);
 }
 
 void _prepareData(db) {}

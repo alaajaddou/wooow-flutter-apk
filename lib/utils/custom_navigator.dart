@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wooow_supermarket/main.dart';
 import 'package:wooow_supermarket/utils/global.dart';
 
 class CustomNavigator extends StatefulWidget {
@@ -12,9 +13,9 @@ class _CustomNavigatorState extends State<CustomNavigator> {
 
   int _selectedIndex = 0;
 
-  void _onItemTapped(int index) {
+  void _onItemTapped(int index) async {
     _selectedIndex = index;
-    String page = getPageFromIndex(index);
+    String page = await getPageFromIndex(index);
     Navigator.of(context).pushNamed(page);
   }
 
@@ -51,14 +52,19 @@ class _CustomNavigatorState extends State<CustomNavigator> {
         ));
   }
 
-  String getPageFromIndex(index) {
+  Future<String> getPageFromIndex(index) async {
     switch (index) {
       case 1:
         return 'categories';
       case 2:
         return 'orders';
       case 3:
-        return 'account';
+        var user = await auth.getUser();
+        if (user != null) {
+          return 'account';
+        } else {
+          return 'login';
+        }
       case 0:
       default:
         return '';

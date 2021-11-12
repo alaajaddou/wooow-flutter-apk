@@ -60,11 +60,11 @@ class _CategoriesState extends State<Categories> {
             name: item['name'],
             imagePath: item['image'],
             description: item['description'],
-            price: item['price'].toDouble(),
+            price: double.parse(item['price']),
             categoryId: categoryId,
             categoryName: categoryName,
             availableQuantity: item['quantity'],
-            discount: item['discount'] != null && item['discount'] != "null" ? item['discount'].toDouble() : 0,
+            discount: item['discount'] != null && item['discount'] != "null" ? double.parse(item['discount']) : 0,
             discountFrom: item['discount_from'],
             discountTo: item['discount_to']));
       }
@@ -132,7 +132,6 @@ class ItemWidget extends StatefulWidget {
 }
 
 class _ItemWidgetState extends State<ItemWidget> {
-  User? user = auth.user;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -144,9 +143,10 @@ class _ItemWidgetState extends State<ItemWidget> {
         Text(getFormattedCurrency(widget.item.price.toDouble())),
         MaterialButton(
             child: const Text("Add To Cart"),
-            onPressed: () {
+            onPressed: () async {
               int? itemIndex = cart.findItemIndexFromCart(widget.item.id);
               bool isAdded;
+              User? user = await auth.getUser();
               if (itemIndex == null) {
                 if (database!.isOpen) {
                   if (user != null) {

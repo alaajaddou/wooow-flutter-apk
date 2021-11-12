@@ -18,7 +18,6 @@ class Global {
 
 class ApiBaseHelper {
   Future<dynamic> get(String url) async {
-    debugPrint('Api GET, url $url');
     try {
       var api = Uri.http(Global.baseUrl, Global.apiPath + url);
       var headers = await getHeaders() as Map<String, String>;
@@ -30,8 +29,6 @@ class ApiBaseHelper {
   }
 
   Future<dynamic> post(String url, dynamic body) async {
-    debugPrint('Api Post, url $url');
-
     try {
       var api = Uri.http(Global.baseUrl, Global.apiPath + url);
       var headers = await getHeaders() as Map<String, String>;
@@ -43,8 +40,8 @@ class ApiBaseHelper {
   }
 
   dynamic _returnResponse(http.Response response) {
-    debugPrint(response.statusCode.toString());
-    debugPrint(response.body.toString());
+    // debugPrint(response.statusCode.toString());
+    // debugPrint(response.body.toString());
     switch (response.statusCode) {
       case 200:
       case 201:
@@ -65,7 +62,7 @@ class ApiBaseHelper {
 
     User? user = await auth.getUser();
     if (user != null) {
-      headers[HttpHeaders.authorizationHeader] = 'bearer ' + user.token;
+      headers[HttpHeaders.authorizationHeader] = 'Bearer ' + user.token;
     }
 
     return headers;

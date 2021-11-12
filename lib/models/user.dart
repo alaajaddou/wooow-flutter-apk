@@ -1,11 +1,11 @@
 class User {
   final int id;
-  final int? addressId;
   final String name;
   final String email;
   final String imagePath;
-  final String? loginProvider;
   final String token;
+  int? addressId;
+  String? loginProvider;
 
   User({
     required this.id,

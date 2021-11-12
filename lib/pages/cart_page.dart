@@ -134,7 +134,7 @@ class _CartPageState extends State<CartPage> {
                 margin: const EdgeInsets.only(right: 8, left: 8, top: 8, bottom: 8),
                 width: 80,
                 height: 80,
-                decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(40)), image: DecorationImage(image: NetworkImage("http://" + Global.baseUrl + "/storage/" + newItem.item.productDetails['imagePath']))),
+                decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(40)), image: DecorationImage(image: NetworkImage("http://" + Global.baseUrl + "/storage/" + newItem.item.productDetails.imagePath))),
               ),
               Expanded(
                 child: Container(
@@ -153,15 +153,15 @@ class _CartPageState extends State<CartPage> {
                         ),
                       ),
                       const Divider(height: 8, thickness: 1),
-                      const Text(
-                        "Green M",
-                        style: TextStyle(color: Colors.grey, fontSize: 14),
+                      Text(
+                        newItem.item.productName ?? '',
+                        style: const TextStyle(color: Colors.grey, fontSize: 14),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            getFormattedCurrency(newItem.item.productDetails['price'].toDouble()),
+                            getFormattedCurrency(newItem.item.productDetails.price.toDouble()),
                             style: TextStyle(color: getPrimaryColor()),
                           ),
                           Padding(
@@ -181,7 +181,7 @@ class _CartPageState extends State<CartPage> {
                                   color: Colors.grey.shade200,
                                   padding: const EdgeInsets.only(bottom: 2, right: 12, left: 12),
                                   child: Text(
-                                    newItem.item.quantity.toString(),
+                                    newItem.getQuantity().toString(),
                                     style: const TextStyle(fontWeight: FontWeight.w500),
                                   ),
                                 ),

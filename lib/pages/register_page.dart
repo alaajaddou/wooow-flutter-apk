@@ -142,7 +142,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                               /* Error handling */
                                               String errorKey = authResponse['data'].keys.toList()[0];
                                               error = authResponse['data'][errorKey][0].toString();
-                                              debugPrint(error);
                                             }
                                           }
                                         });

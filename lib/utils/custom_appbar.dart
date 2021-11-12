@@ -57,8 +57,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             color: Colors.white,
             size: 30,
           ),
-          onPressed: () {
-            if (auth.getUser() != null) {
+          onPressed: () async {
+            var user = await auth.getUser();
+            if (user != null) {
               if (RouteGenerator.currentRoute != 'account') {
                 Navigator.of(context).pushNamed('account');
               }
