@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:wooow_supermarket/models/order.dart';
 import 'package:wooow_supermarket/pages/cart_page.dart';
 import 'package:wooow_supermarket/pages/category_list.dart';
 import 'package:wooow_supermarket/pages/category_page.dart';
 import 'package:wooow_supermarket/pages/home_page.dart';
 import 'package:wooow_supermarket/pages/login_page.dart';
+import 'package:wooow_supermarket/pages/not_found.dart';
 import 'package:wooow_supermarket/pages/notification_page.dart';
+import 'package:wooow_supermarket/pages/order.dart';
 import 'package:wooow_supermarket/pages/order_list.dart';
 import 'package:wooow_supermarket/pages/product_detail_page.dart';
 import 'package:wooow_supermarket/pages/profile_page.dart';
@@ -16,7 +19,7 @@ import 'package:wooow_supermarket/utils/custom_navigator.dart';
 class RouteGenerator {
   static String? currentRoute;
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    // final arguments = settings.arguments;
+    final arguments = settings.arguments;
     currentRoute = settings.name;
     switch (settings.name) {
       case '':
@@ -41,6 +44,14 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case 'register':
         return MaterialPageRoute(builder: (_) => const RegisterPage());
+      case 'order':
+        Widget widget;
+        if (arguments is Order) {
+          widget = OrderPage(order: arguments);
+        } else {
+          widget = const NotFound();
+        }
+        return MaterialPageRoute(builder: (_) => widget);
       default:
         return MaterialPageRoute(builder: (_) => const ErrorPage());
     }

@@ -47,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
                           decoration: InputDecoration(
                               contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
                               border: CustomBorder.enabledBorder,
-                              labelText: "Mobile No. or Email",
+                              labelText: "البريد الالكتروني",
                               focusedBorder: CustomBorder.focusBorder,
                               errorBorder: CustomBorder.errorBorder,
                               enabledBorder: CustomBorder.enabledBorder,
@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                           decoration: InputDecoration(
                               contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
                               border: CustomBorder.enabledBorder,
-                              labelText: "Password",
+                              labelText: "كلمة المرور",
                               focusedBorder: CustomBorder.focusBorder,
                               errorBorder: CustomBorder.errorBorder,
                               enabledBorder: CustomBorder.enabledBorder,
@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                                 // If the form is valid, display a snackbar. In the real world,
                                 // you'd often call a server or save the information in a database.
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Processing Data')),
+                                  const SnackBar(content: Text('جاري تسجيل الدخول ...')),
                                 );
                                 auth.login(emailController.text, passwordController.text).then((user) {
                                   if (user != null) {
@@ -96,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             style: getButtonStyle(),
                             child: Text(
-                              "LOGIN",
+                              "تسجيل الدخول",
                               style: CustomTextStyle.textFormFieldRegular.copyWith(color: Colors.white, fontSize: 14),
                             ),
                           ),
@@ -111,10 +111,6 @@ class _LoginPageState extends State<LoginPage> {
                                 height: 1,
                               ),
                               flex: 40,
-                            ),
-                            Text(
-                              "Or",
-                              style: CustomTextStyle.textFormFieldMedium.copyWith(fontSize: 14),
                             ),
                             Expanded(
                               child: Container(
@@ -132,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: ElevatedButton(
                               onPressed: () {},
                               child: Text(
-                                "FACEBOOK LOGIN",
+                                "تسجيل باستخدام Facebook",
                                 style: CustomTextStyle.textFormFieldMedium.copyWith(color: Colors.white, fontSize: 14),
                               ),
                               style: getButtonStyle()),
@@ -143,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: ElevatedButton(
                               onPressed: () {},
                               child: Text(
-                                "GOOGLE LOGIN",
+                                "تسجيل باستخدام Google",
                                 style: CustomTextStyle.textFormFieldMedium.copyWith(color: Colors.white, fontSize: 14),
                               ),
                               style: getButtonStyle()),
@@ -153,13 +149,13 @@ class _LoginPageState extends State<LoginPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              "Don't have an account?",
+                              "انشئ حساب جديد",
                               style: CustomTextStyle.textFormFieldMedium.copyWith(fontSize: 14),
                             ),
                             Utils.getSizedBox(width: 4),
                             GestureDetector(
                               child: Text(
-                                "Sign Up",
+                                "تسجيل",
                                 style: CustomTextStyle.textFormFieldBold.copyWith(fontSize: 14, color: Colors.blue),
                               ),
                               onTap: () {

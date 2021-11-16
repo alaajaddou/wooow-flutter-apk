@@ -6,6 +6,7 @@ class Order {
   final int addressId;
   final List<CustomCartItem> items;
   final int orderStatusId;
+  final int? numberOfItems;
 
   Order({
     required this.id,
@@ -13,6 +14,7 @@ class Order {
     required this.addressId,
     required this.items,
     required this.orderStatusId,
+    this.numberOfItems,
   });
 
   Map<String, dynamic> toMap() {

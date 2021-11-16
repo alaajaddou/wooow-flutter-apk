@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cart/model/cart_model.dart';
+import 'package:wooow_supermarket/models/custom_cart_item.dart';
+import 'package:wooow_supermarket/models/order.dart';
+import 'package:wooow_supermarket/models/order_status.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
 import 'package:wooow_supermarket/utils/custom_navigator.dart';
 import 'package:wooow_supermarket/utils/global.dart';
+
+List<OrderStatus> statuses = [];
 
 class OrderList extends StatelessWidget {
   const OrderList({Key? key}) : super(key: key);
 
   Future<List<dynamic>> getOrders() async {
     dynamic orders = await ApiBaseHelper().get('orders');
-    print(orders);
+    prepareOrderStatuses(orders['statuses']);
     return orders['orders'];
   }
 
@@ -20,17 +26,34 @@ class OrderList extends StatelessWidget {
         future: getOrders(),
         initialData: const [],
         builder: (BuildContext context, snapshot) {
-          if (snapshot.hasData &&
-              snapshot.connectionState == ConnectionState.done) {
-            print('snapshot.data');
-            print(snapshot.data);
-            if ((snapshot.data! as List).isNotEmpty) {
-              print('text ' + (snapshot.hasData ? (snapshot.data! as List).length : 0).toString());
+          if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+            List list = (snapshot.data! as List);
+            if (list.isNotEmpty) {
               return ListView.builder(
-                  itemCount:
-                  snapshot.hasData ? (snapshot.data! as List).length : 0,
+                  itemCount: snapshot.hasData ? list.length : 0,
                   itemBuilder: (context, i) {
-                    return OrderWidget(order: (snapshot.data! as List)[0]);
+                    List<CustomCartItem> items = [];
+                    if(list[i]['items'] != null && (list[i]['items'] as List).isNotEmpty) {
+                      for (dynamic arg in (list[i]['items'] as List)) {
+                        CartItem item = CartItem(
+                          productDetails: arg,
+                          productId: arg['id'],
+                          productName: arg['name']
+                        );
+
+                        CustomCartItem orderItem = CustomCartItem(item);
+                        items.add(orderItem);
+                      }
+                    }
+                    Order order = Order(
+                        addressId: list[i]['address_id'],
+                        id: list[i]['id'],
+                        userId: 0,
+                        orderStatusId: list[i]['status'],
+                        items: items,
+                        numberOfItems: list[i]['numberOfItems']
+                    );
+                    return OrderWidget(order: order);
                   });
             } else {
               return Center(
@@ -50,8 +73,7 @@ class OrderList extends StatelessWidget {
               );
             }
           } else {
-            return const Center(
-                child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),
@@ -65,159 +87,76 @@ class OrderList extends StatelessWidget {
       bottomNavigationBar: const CustomNavigator(),
     );
   }
+
+  void prepareOrderStatuses(List orderStatuses) {
+    if (orderStatuses.isNotEmpty) {
+      statuses = [];
+      for (dynamic status in orderStatuses) {
+        statuses.add(
+          OrderStatus(id: status['id'], name: status['name'])
+        );
+      }
+    }
+  }
 }
 
-class OrderWidget extends StatelessWidget {
-  var order;
+class OrderWidget extends StatefulWidget {
+  Order order;
 
   OrderWidget({Key? key, required this.order}) : super(key: key);
 
   @override
+  State<OrderWidget> createState() => _OrderWidgetState();
+}
+
+class _OrderWidgetState extends State<OrderWidget> {
+
+  @override
   Widget build(BuildContext context) {
-    print(order);
     return Container(
       padding: const EdgeInsets.all(5.0),
       margin: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(
           border: Border(
-            top: BorderSide(width: 2.0, color: getPrimaryColor()),
-            bottom: BorderSide(width: 2.0, color: getPrimaryColor()),
-            left: BorderSide(width: 1.0, color: getPrimaryColor()),
-            right: BorderSide(width: 1.0, color: getPrimaryColor()),
-          )),
+        top: BorderSide(width: 2.0, color: getPrimaryColor()),
+        bottom: BorderSide(width: 2.0, color: getPrimaryColor()),
+        left: BorderSide(width: 1.0, color: getPrimaryColor()),
+        right: BorderSide(width: 1.0, color: getPrimaryColor()),
+      )),
       child: Column(
         children: [
           Row(
             children: [
               Expanded(
                   child: Column(
+                children: [
+                  Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                    ElevatedButton(onPressed: () => Navigator.of(context).pushNamed('order', arguments: widget.order),
+                        style: getViewButtonStyle(),
+                        child: const Icon(Icons.remove_red_eye_outlined, color: Colors.white),
+                    ),
+                    Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500)),
+                  ]),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(" طلبية المشتريات ",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color:
-                                    Colors.lightGreen.shade500))
-                          ]),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            children: const [
-                              Text("بتاريخ 21/10/2021")
-                            ],
-                          ),
-                          Column(
-                            children: const [
-                              Text("طلبية رقم 1125623335")
-                            ],
-                          )
-                        ],
+                      SizedBox(
+                        child: Column(
+                          children: [Text("عدد المنتجات " + (widget.order.numberOfItems).toString()), const Text("بتاريخ 21/10/2021")],
+                        ),
+                      ),
+                      Column(
+                        children: const [Text("طلبية رقم 1125623335"), Text("حالة الطلبية: جار المعالجة")],
                       )
                     ],
-                  )),
+                  )
+                ],
+              )),
             ],
-          ),
-          Row(children: [
-            Expanded(
-                child: Column(
-                  children: [
-                    Row(children: [
-                      Expanded(
-                        child: Row(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text("تتبع طلبيتك",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color:
-                                      Colors.lightGreen.shade500))
-                            ]),
-                      )
-                    ]),
-                    Row(children: [
-                      Expanded(
-                          child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                children: const [
-                                  Icon(
-                                    Icons.check,
-                                    color: Colors.green,
-                                    size: 24.0,
-                                    semanticLabel:
-                                    'Text to announce in accessibility modes',
-                                  ),
-                                  Text(
-                                    "طلبية",
-                                    style: TextStyle(color: Colors.green),
-                                  )
-                                ],
-                              ),
-                              Column(
-                                children: const [
-                                  Icon(
-                                    Icons.check,
-                                    color: Colors.green,
-                                    size: 24.0,
-                                    semanticLabel:
-                                    'Text to announce in accessibility modes',
-                                  ),
-                                  Text(
-                                    "طلبية",
-                                    style: TextStyle(color: Colors.green),
-                                  )
-                                ],
-                              ),
-                              Column(
-                                children: const [
-                                  Icon(
-                                    Icons.warning_amber_rounded,
-                                    color: Colors.amber,
-                                    size: 24.0,
-                                    semanticLabel:
-                                    'Text to announce in accessibility modes',
-                                  ),
-                                  Text(
-                                    "طلبية",
-                                    style: TextStyle(color: Colors.amber),
-                                  )
-                                ],
-                              ),
-                              Column(
-                                children: const [
-                                  Icon(
-                                    Icons.warning_amber_rounded,
-                                    color: Colors.amber,
-                                    size: 24.0,
-                                    semanticLabel:
-                                    'Text to announce in accessibility modes',
-                                  ),
-                                  Text(
-                                    "طلبية",
-                                    style: TextStyle(color: Colors.amber),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ))
-                    ])
-                  ],
-                ))
-          ])
+          )
         ],
       ),
     );
   }
 }
-

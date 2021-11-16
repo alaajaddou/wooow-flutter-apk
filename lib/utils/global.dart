@@ -111,6 +111,16 @@ ButtonStyle getButtonStyle() {
   );
 }
 
+ButtonStyle getViewButtonStyle() {
+  return ElevatedButton.styleFrom(
+    onPrimary: getPrimaryColor(),
+    primary: getPrimaryColor(),
+    textStyle: const TextStyle(fontSize: 12),
+    padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(24))),
+  );
+}
+
 ButtonStyle getTransparentButtonStyle() {
   return ElevatedButton.styleFrom(
     primary: getTransparentColor(),
