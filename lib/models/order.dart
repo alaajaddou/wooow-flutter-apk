@@ -7,6 +7,7 @@ class Order {
   final List<CustomCartItem> items;
   final int orderStatusId;
   final int? numberOfItems;
+  final String? orderDate;
 
   Order({
     required this.id,
@@ -14,6 +15,7 @@ class Order {
     required this.addressId,
     required this.items,
     required this.orderStatusId,
+    this.orderDate,
     this.numberOfItems,
   });
 

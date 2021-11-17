@@ -10,11 +10,10 @@ class CustomNavigator extends StatefulWidget {
 }
 
 class _CustomNavigatorState extends State<CustomNavigator> {
-
-  int _selectedIndex = 0;
-
   void _onItemTapped(int index) async {
-    _selectedIndex = index;
+    setState(() {
+      selectedIndex = index;
+    });
     String page = await getPageFromIndex(index);
     Navigator.of(context).pushNamed(page);
   }
@@ -22,8 +21,8 @@ class _CustomNavigatorState extends State<CustomNavigator> {
   @override
   Widget build(BuildContext context) {
     return Theme(
-        data: Theme.of(context).copyWith(
-            canvasColor: getPrimaryColor(), primaryColor: Colors.white, textTheme: Theme.of(context).textTheme.copyWith(caption: const TextStyle(color: Colors.grey))),
+        data: Theme.of(context)
+            .copyWith(canvasColor: getPrimaryColor(), primaryColor: Colors.white, textTheme: Theme.of(context).textTheme.copyWith(caption: const TextStyle(color: Colors.grey))),
         child: BottomNavigationBar(
           backgroundColor: getPrimaryColor(),
           selectedItemColor: Colors.black,
@@ -47,7 +46,7 @@ class _CustomNavigatorState extends State<CustomNavigator> {
               label: 'الحساب',
             ),
           ],
-          currentIndex: _selectedIndex,
+          currentIndex: selectedIndex,
           onTap: _onItemTapped,
         ));
   }

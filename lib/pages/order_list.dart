@@ -33,26 +33,28 @@ class OrderList extends StatelessWidget {
                   itemCount: snapshot.hasData ? list.length : 0,
                   itemBuilder: (context, i) {
                     List<CustomCartItem> items = [];
-                    if(list[i]['items'] != null && (list[i]['items'] as List).isNotEmpty) {
+                    if (list[i]['items'] != null && (list[i]['items'] as List).isNotEmpty) {
                       for (dynamic arg in (list[i]['items'] as List)) {
                         CartItem item = CartItem(
-                          productDetails: arg,
-                          productId: arg['id'],
-                          productName: arg['name']
-                        );
+                            productDetails: arg['item'],
+                            productId: arg['item_id'],
+                            productName: arg['item']['name'],
+                            subTotal: arg['total'] != null ? arg['total'].toDouble() : 0.0,
+                            unitPrice: arg['item']['price'] ?? 0,
+                            quantity: arg['quantity']);
 
                         CustomCartItem orderItem = CustomCartItem(item);
                         items.add(orderItem);
                       }
                     }
                     Order order = Order(
+                        orderDate: list[i]!['created_at'],
                         addressId: list[i]['address_id'],
                         id: list[i]['id'],
-                        userId: 0,
+                        userId: list[i]!['created_by'],
                         orderStatusId: list[i]['status'],
                         items: items,
-                        numberOfItems: list[i]['numberOfItems']
-                    );
+                        numberOfItems: list[i]['numberOfItems']);
                     return OrderWidget(order: order);
                   });
             } else {
@@ -92,9 +94,7 @@ class OrderList extends StatelessWidget {
     if (orderStatuses.isNotEmpty) {
       statuses = [];
       for (dynamic status in orderStatuses) {
-        statuses.add(
-          OrderStatus(id: status['id'], name: status['name'])
-        );
+        statuses.add(OrderStatus(id: status['id'], name: status['name']));
       }
     }
   }
@@ -110,7 +110,6 @@ class OrderWidget extends StatefulWidget {
 }
 
 class _OrderWidgetState extends State<OrderWidget> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -131,9 +130,10 @@ class _OrderWidgetState extends State<OrderWidget> {
                   child: Column(
                 children: [
                   Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                    ElevatedButton(onPressed: () => Navigator.of(context).pushNamed('order', arguments: widget.order),
-                        style: getViewButtonStyle(),
-                        child: const Icon(Icons.remove_red_eye_outlined, color: Colors.white),
+                    ElevatedButton(
+                      onPressed: () => Navigator.of(context).pushNamed('order', arguments: widget.order),
+                      style: getViewButtonStyle(),
+                      child: const Icon(Icons.remove_red_eye_outlined, color: Colors.white),
                     ),
                     Text(" طلبية المشتريات ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightGreen.shade500)),
                   ]),

@@ -5,7 +5,8 @@ import 'package:wooow_supermarket/models/user.dart';
 import 'package:wooow_supermarket/utils/global.dart';
 
 class Authentication {
-  late User? user;
+  User? user;
+
   Authentication() {
     //
   }
@@ -49,13 +50,17 @@ class Authentication {
   }
 
   Future<User?> getUser() async {
+    if (user is User) {
+      return user;
+    }
+
     if (database!.isOpen) {
       List<dynamic> activeUsers = await database!.query('activeUserId', where: 'id = 1');
       if (activeUsers.isNotEmpty) {
         dynamic activeUser = activeUsers[0];
         var usersFromDb = await database!.query('users', where: 'id = ?', whereArgs: [activeUser['userId']]);
         if (usersFromDb.isNotEmpty) {
-          User user = getUserInstance(usersFromDb[0]);
+          user = getUserInstance(usersFromDb[0]);
           return user;
         }
       }
@@ -83,9 +88,8 @@ class Authentication {
         addressId: tempUser['addressId'],
         token: tempUser['api_token'],
         email: tempUser['email'],
-        id: tempUser['id']
-    );
-    if (database!.isOpen && user != null) {
+        id: tempUser['id']);
+    if (database!.isOpen) {
       List<Map> activeUsers = await database!.rawQuery('SELECT * FROM activeUserId');
       if (activeUsers.isNotEmpty) {
         await database!.update('activeUserId', {'id': 1, 'userId': user!.id});
@@ -99,13 +103,7 @@ class Authentication {
   }
 
   User getUserInstance(userMap) {
-    User user = User(
-        name: userMap['name'],
-        imagePath: userMap['imagePath'],
-        id: userMap['id'],
-        token: userMap['token'],
-        email: userMap['email']
-    );
+    User user = User(name: userMap['name'], imagePath: userMap['imagePath'], id: userMap['id'], token: userMap['token'], email: userMap['email']);
 
     if (userMap['addressId'] != null) {
       user.addressId = userMap['addressId'];

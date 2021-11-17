@@ -4,10 +4,10 @@ class CategoryModel {
   final int id;
   final String name;
   final String imagePath;
-  final int parent;
+  final int? parent;
   final List<ItemModel> items;
 
-  CategoryModel({required this.id, required this.name, required this.imagePath, required this.parent, required this.items});
+  CategoryModel({required this.id, required this.name, required this.imagePath, this.parent, required this.items});
 
   Map<String, dynamic> toMap() {
     return {'id': id, 'name': name, 'imagePath': imagePath, 'parent': parent};

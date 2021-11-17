@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wooow_supermarket/models/address.dart';
+import 'package:wooow_supermarket/utils/custom_appbar.dart';
+import 'package:wooow_supermarket/utils/custom_navigator.dart';
 import 'package:wooow_supermarket/utils/global.dart';
 
 class CheckOutPage extends StatefulWidget {
@@ -9,12 +12,29 @@ class CheckOutPage extends StatefulWidget {
 }
 
 class _CheckOutPageState extends State<CheckOutPage> {
+  late Address addressObj;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
+    ApiBaseHelper().get('address').then((address) {
+      Address addressObj = Address(
+        id: address['id'],
+        city: address['city'],
+        village: address['village'],
+        phone: address['phone'],
+        mobile: address['mobile'],
+        address: address['address'],
+        building: address['building'],
+        userId: address['user_id'],
+      );
+      setState(() {
+        this.addressObj = addressObj;
+      });
+    });
     return Scaffold(
       key: _scaffoldKey,
+      appBar: const CustomAppBar(),
       body: Builder(builder: (context) {
         return Column(
           children: <Widget>[
@@ -50,6 +70,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
           ],
         );
       }),
+      bottomNavigationBar: const CustomNavigator(),
     );
   }
 
@@ -137,7 +158,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   const Text(
-                    "James Francois (Default)",
+                    '',
                     style: TextStyle(fontSize: 14),
                   ),
                   Container(
@@ -190,36 +211,20 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
   addressAction() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        const Spacer(
-          flex: 2,
-        ),
         ElevatedButton(
           onPressed: () {},
           child: Text(
-            "Edit / Change",
+            "تعديل",
             style: TextStyle(fontSize: 12, color: Colors.indigo.shade700),
           ),
-          style: getTransparentButtonStyle(),
-        ),
-        const Spacer(
-          flex: 3,
-        ),
-        Container(
-          height: 20,
-          width: 1,
-          color: Colors.grey,
-        ),
-        const Spacer(
-          flex: 3,
+          style: getButtonStyle(),
         ),
         ElevatedButton(
           onPressed: () {},
-          child: Text("Add New Address", style: TextStyle(fontSize: 12, color: Colors.indigo.shade700)),
-          style: getTransparentButtonStyle(),
-        ),
-        const Spacer(
-          flex: 2,
+          child: Text("اضف عنوان جديد", style: TextStyle(fontSize: 12, color: Colors.indigo.shade700)),
+          style: getButtonStyle(),
         ),
       ],
     );
@@ -228,7 +233,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
   standardDelivery() {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(4)), border: Border.all(color: Colors.tealAccent.withOpacity(0.4), width: 1), color: Colors.tealAccent.withOpacity(0.2)),
+          borderRadius: const BorderRadius.all(Radius.circular(4)),
+          border: Border.all(color: Colors.tealAccent.withOpacity(0.4), width: 1),
+          color: Colors.tealAccent.withOpacity(0.2)),
       margin: const EdgeInsets.all(8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -323,8 +330,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
   priceSection() {
     return Container(
       margin: const EdgeInsets.all(4),
-      decoration:
-      const BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(4)),
       ),
       child: Card(

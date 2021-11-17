@@ -1,22 +1,14 @@
 class Address {
   final int id;
   final int userId;
-  final String city;
-  final String village;
-  final String phone;
-  final String mobile;
-  final String address;
-  final String building;
+  final String? city;
+  final String? village;
+  final String? phone;
+  final String? mobile;
+  final String? address;
+  final String? building;
 
-  Address(
-      {required this.id,
-      required this.userId,
-      required this.city,
-      required this.village,
-      required this.phone,
-      required this.mobile,
-      required this.address,
-      required this.building});
+  Address({required this.id, required this.userId, this.city, this.village, this.phone, this.mobile, this.address, this.building});
 
   // Convert a Address into a Map. The keys must correspond to the names of the
   // columns in the database.

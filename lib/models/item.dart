@@ -1,28 +1,28 @@
 class ItemModel {
   final int id;
   final String name;
-  final String imagePath;
+  final String? imagePath;
   final String description;
   final double price;
   final int categoryId;
   final String categoryName;
   final int availableQuantity;
-  final double discount;
-  final String discountFrom;
-  final String discountTo;
+  final double? discount;
+  final String? discountFrom;
+  final String? discountTo;
 
   ItemModel({
     required this.id,
     required this.name,
-    required this.imagePath,
     required this.description,
     required this.price,
     required this.categoryId,
     required this.categoryName,
     required this.availableQuantity,
-    required this.discount,
-    required this.discountFrom,
-    required this.discountTo,
+    this.imagePath,
+    this.discount,
+    this.discountFrom,
+    this.discountTo,
   });
 
   Map<String, dynamic> toMap() {

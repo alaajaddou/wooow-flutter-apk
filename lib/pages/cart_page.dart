@@ -75,7 +75,9 @@ class _CartPageState extends State<CartPage> {
           const Divider(height: 8, thickness: 1),
           ElevatedButton(
             style: getButtonStyle(),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed('checkout');
+            },
             child: const Text(
               "الدفع",
               style: TextStyle(color: Colors.white),
@@ -134,7 +136,9 @@ class _CartPageState extends State<CartPage> {
                 margin: const EdgeInsets.only(right: 8, left: 8, top: 8, bottom: 8),
                 width: 80,
                 height: 80,
-                decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(40)), image: DecorationImage(image: NetworkImage("http://" + Global.baseUrl + "/storage/" + newItem.item.productDetails.imagePath))),
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(40)),
+                    image: DecorationImage(image: NetworkImage("http://" + Global.baseUrl + "/storage/" + newItem.item.productDetails.imagePath))),
               ),
               Expanded(
                 child: Container(

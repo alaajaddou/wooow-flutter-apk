@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:wooow_supermarket/main.dart';
+import 'package:wooow_supermarket/models/category.dart';
+import 'package:wooow_supermarket/models/item.dart';
+import 'package:wooow_supermarket/utils/custom_appbar.dart';
+import 'package:wooow_supermarket/utils/custom_navigator.dart';
 import 'package:wooow_supermarket/utils/global.dart';
 
 class CategoryPage extends StatefulWidget {
-  const CategoryPage({Key? key}) : super(key: key);
+  CategoryModel category;
+  CategoryPage({Key? key, required this.category}) : super(key: key);
 
   @override
   _CategoryPageState createState() => _CategoryPageState();
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  List<String> listImage = [];
   List<Color> listItemColor = [];
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -17,7 +22,6 @@ class _CategoryPageState extends State<CategoryPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    addImage();
     addItemColor();
   }
 
@@ -33,22 +37,28 @@ class _CategoryPageState extends State<CategoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+      appBar: const CustomAppBar(),
       body: Builder(
         builder: (context) {
           return Container(
             color: Colors.grey.shade100,
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, childAspectRatio: 0.68),
-              itemBuilder: (context, position) {
-                return gridItem(context, position);
-              },
-              itemCount: listImage.length,
-            ),
+            child: Column(children: [
+              filterSortListOption(),
+              Expanded(
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 0.68),
+                  itemBuilder: (context, position) {
+                    return gridItem(context, widget.category.items[position]);
+                  },
+                  itemCount: widget.category.items.length,
+                ),
+              )
+            ]),
             margin: const EdgeInsets.only(bottom: 8, left: 4, right: 4, top: 8),
           );
         },
       ),
+      bottomNavigationBar: const CustomNavigator(),
     );
   }
 
@@ -105,16 +115,13 @@ class _CategoryPageState extends State<CategoryPage> {
     );
   }
 
-  gridItem(BuildContext context, int position) {
+  gridItem(BuildContext context, ItemModel item) {
     return GestureDetector(
       onTap: () {
-        filterBottomSheet(context);
+        Navigator.of(context).pushNamed('product', arguments: item);
       },
       child: Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: const BorderRadius.all(Radius.circular(6)),
-            border: Border.all(color: Colors.grey.shade200)),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: const BorderRadius.all(Radius.circular(6)), border: Border.all(color: Colors.grey.shade200)),
         padding: const EdgeInsets.only(left: 10, top: 10),
         margin: const EdgeInsets.all(8),
         child: Column(
@@ -126,20 +133,15 @@ class _CategoryPageState extends State<CategoryPage> {
                 alignment: Alignment.center,
                 width: 24,
                 height: 24,
-                decoration:
-                const BoxDecoration(shape: BoxShape.circle, color: Colors.indigo),
-                child: const Text(
-                  "30%",
+                decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.indigo),
+                child: Text(
+                  item.discount.toString(),
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 10),
+                  style: const TextStyle(color: Colors.white, fontSize: 10),
                 ),
               ),
             ),
-            Image(
-              image: NetworkImage(listImage[position]),
-              height: 170,
-              fit: BoxFit.none,
-            ),
+            getImage(item.imagePath),
             gridBottomView()
           ],
         ),
@@ -169,10 +171,7 @@ class _CategoryPageState extends State<CategoryPage> {
             const SizedBox(width: 8),
             const Text(
               "\$80.00",
-              style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 14,
-                  decoration: TextDecoration.lineThrough),
+              style: TextStyle(color: Colors.grey, fontSize: 14, decoration: TextDecoration.lineThrough),
             ),
           ],
         ),
@@ -191,23 +190,12 @@ class _CategoryPageState extends State<CategoryPage> {
     );
   }
 
-  void addImage() {
-    listImage.add("https://png.pngtree.com/png-vector/20190130/ourmid/pngtree-chair-stools-are-commercially-available-elements-elementmaterial-png-image_608426.jpg");
-    listImage.add("https://png.pngtree.com/png-vector/20190130/ourmid/pngtree-chair-stools-are-commercially-available-elements-elementmaterial-png-image_608426.jpg");
-    listImage.add("https://png.pngtree.com/png-vector/20190130/ourmid/pngtree-chair-stools-are-commercially-available-elements-elementmaterial-png-image_608426.jpg");
-    listImage.add("https://png.pngtree.com/png-vector/20190130/ourmid/pngtree-chair-stools-are-commercially-available-elements-elementmaterial-png-image_608426.jpg");
-    listImage.add("https://png.pngtree.com/png-vector/20190130/ourmid/pngtree-chair-stools-are-commercially-available-elements-elementmaterial-png-image_608426.jpg");
-    listImage.add("https://png.pngtree.com/png-vector/20190130/ourmid/pngtree-chair-stools-are-commercially-available-elements-elementmaterial-png-image_608426.jpg");
-  }
-
   filterBottomSheet(BuildContext context) {
     _scaffoldKey.currentState!.showBottomSheet(
-          (context) {
+      (context) {
         return filterBottomSheetContent();
       },
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(16), topLeft: Radius.circular(16))),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(16), topLeft: Radius.circular(16))),
     );
   }
 
@@ -217,8 +205,7 @@ class _CategoryPageState extends State<CategoryPage> {
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(color: Colors.grey.shade200, width: 1),
-        borderRadius: const BorderRadius.only(
-            topRight: Radius.circular(16), topLeft: Radius.circular(16)),
+        borderRadius: const BorderRadius.only(topRight: Radius.circular(16), topLeft: Radius.circular(16)),
       ),
       width: double.infinity,
       child: Column(
@@ -234,8 +221,7 @@ class _CategoryPageState extends State<CategoryPage> {
               ),
               Text(
                 "Filter",
-                style: TextStyle(
-                    color: Colors.black.withOpacity(0.8), fontSize: 16),
+                style: TextStyle(color: Colors.black.withOpacity(0.8), fontSize: 16),
               ),
               const Text(
                 "Reset",
@@ -245,8 +231,7 @@ class _CategoryPageState extends State<CategoryPage> {
           ),
           const SizedBox(width: 28),
           Container(
-            child:
-            const Text("Price Range", style: TextStyle(fontWeight: FontWeight.normal)),
+            child: const Text("Price Range", style: TextStyle(fontWeight: FontWeight.normal)),
             margin: const EdgeInsets.only(left: 4),
           ),
           const SizedBox(width: 14),
@@ -259,8 +244,7 @@ class _CategoryPageState extends State<CategoryPage> {
                     hintText: "Minimum",
                     hintStyle: TextStyle(color: Colors.grey.shade800),
                     focusedBorder: border,
-                    contentPadding: const EdgeInsets.only(
-                        right: 8, left: 8, top: 12, bottom: 12),
+                    contentPadding: const EdgeInsets.only(right: 8, left: 8, top: 12, bottom: 12),
                     border: border,
                     enabledBorder: border,
                   ),
@@ -283,8 +267,7 @@ class _CategoryPageState extends State<CategoryPage> {
                       hintText: "Maximum",
                       hintStyle: TextStyle(color: Colors.grey.shade800),
                       focusedBorder: border,
-                      contentPadding: const EdgeInsets.only(
-                          right: 8, left: 8, top: 12, bottom: 12),
+                      contentPadding: const EdgeInsets.only(right: 8, left: 8, top: 12, bottom: 12),
                       border: border,
                       enabledBorder: border,
                     ),
@@ -296,9 +279,7 @@ class _CategoryPageState extends State<CategoryPage> {
           ),
           const SizedBox(width: 16),
           Container(
-            child: const Text("Item Filter",
-                style:
-                TextStyle(fontSize: 16)),
+            child: const Text("Item Filter", style: TextStyle(fontSize: 16)),
             margin: const EdgeInsets.only(left: 4),
           ),
           const SizedBox(width: 8),
@@ -337,8 +318,7 @@ class _CategoryPageState extends State<CategoryPage> {
           ),
           const SizedBox(width: 16),
           Container(
-            child:
-            const Text("Item Color", style: TextStyle(fontWeight: FontWeight.normal)),
+            child: const Text("Item Color", style: TextStyle(fontWeight: FontWeight.normal)),
             margin: const EdgeInsets.only(left: 4),
           ),
           const SizedBox(width: 8),
@@ -352,8 +332,7 @@ class _CategoryPageState extends State<CategoryPage> {
                   margin: const EdgeInsets.only(top: 4, bottom: 4, left: 4),
                   width: 24,
                   height: 24,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: listItemColor[position]),
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: listItemColor[position]),
                 );
               },
               itemCount: listItemColor.length,
@@ -364,20 +343,17 @@ class _CategoryPageState extends State<CategoryPage> {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
-              style: getButtonStyle(),
-              child: const Text(
-                "Apply Filter",
-                style: TextStyle(color: Colors.white),
-              )
-            ),
+                onPressed: () {},
+                style: getButtonStyle(),
+                child: const Text(
+                  "Apply Filter",
+                  style: TextStyle(color: Colors.white),
+                )),
           )
         ],
       ),
     );
   }
 
-  var border = OutlineInputBorder(
-      borderRadius: const BorderRadius.all(Radius.circular(8)),
-      borderSide: BorderSide(color: Colors.grey.shade300, width: 1));
+  var border = OutlineInputBorder(borderRadius: const BorderRadius.all(Radius.circular(8)), borderSide: BorderSide(color: Colors.grey.shade300, width: 1));
 }

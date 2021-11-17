@@ -3,10 +3,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cart/flutter_cart.dart';
+import 'package:flutter_cart/model/cart_response_wrapper.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart' show Database, getDatabasesPath, openDatabase;
+import 'package:sqflite/sqflite.dart';
+import 'package:wooow_supermarket/models/db_cart_item.dart';
+import 'package:wooow_supermarket/models/item.dart';
+import 'package:wooow_supermarket/models/user.dart';
+import 'package:wooow_supermarket/utils/alert.dart';
 import 'package:wooow_supermarket/utils/authentication.dart';
+import 'package:wooow_supermarket/utils/global.dart';
 import 'package:wooow_supermarket/utils/route_generator.dart';
 
 FlutterCart cart = FlutterCart();
@@ -40,7 +47,8 @@ Future<void> signInWithGoogle() async {
 
 String userSqlCreateQuery = 'CREATE TABLE users(id INTEGER PRIMARY KEY, addressId INTEGER, name TEXT, email TEXT, imagePath TEXT, loginProvider TEXT, token TEXT)';
 String categorySqlCreateQuery = 'CREATE TABLE categories(id INTEGER PRIMARY KEY, parent INTEGER, name TEXT, imagePath TEXT)';
-String itemSqlCreateQuery = 'CREATE TABLE items(id INTEGER PRIMARY KEY, categoryId INTEGER, availableQuantity INTEGER, price TEXT, discount TEXT, name TEXT, imagePath TEXT, description TEXT, discountFrom TEXT, discountTo TEXT)';
+String itemSqlCreateQuery =
+    'CREATE TABLE items(id INTEGER PRIMARY KEY, categoryId INTEGER, availableQuantity INTEGER, price TEXT, discount TEXT, name TEXT, imagePath TEXT, description TEXT, discountFrom TEXT, discountTo TEXT)';
 String addressSqlCreateQuery = 'CREATE TABLE addresses(id INTEGER PRIMARY KEY, userId INTEGER, city TEXT, village TEXT, phone TEXT, mobile TEXT, address TEXT, building TEXT)';
 String notificationSqlCreateQuery = 'CREATE TABLE notifications(id INTEGER PRIMARY KEY, title TEXT, body TEXT, isShown INTEGER)';
 String orderStatusSqlCreateQuery = 'CREATE TABLE orderStatuses(id INTEGER PRIMARY KEY, name TEXT)';
@@ -63,6 +71,7 @@ void _createTables(db, version) {
 void _prepareData(db) {}
 
 Database? database;
+int selectedIndex = 0;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -109,5 +118,36 @@ class _MyAppState extends State<MyApp> {
       initialRoute: '',
       onGenerateRoute: RouteGenerator.generateRoute,
     );
+  }
+}
+
+Widget getImage(String? imagePath) {
+  if (imagePath != null) {
+    return Image.network("http://" + Global.baseUrl + '/storage/' + imagePath);
+  } else {
+    return Image.asset('assets/images/no_result.png');
+  }
+}
+
+addToCart(context, ItemModel item) async {
+  int? itemIndex = cart.findItemIndexFromCart(item.id);
+  CartResponseWrapper cartResponseWrapper;
+  User? user = await auth.getUser();
+  if (itemIndex == null) {
+    if (database!.isOpen) {
+      if (user != null) {
+        DBCartItem dbItem = DBCartItem(id: item.id, productId: item.id);
+        database!.insert('cartItems', dbItem.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+      }
+    }
+    cartResponseWrapper = cart.addToCart(productId: item.id, unitPrice: item.price.toInt(), productName: item.name, productDetailsObject: item);
+  } else {
+    cartResponseWrapper = cart.incrementItemToCart(itemIndex);
+  }
+  cartCount = cart.getCartItemCount();
+  if (cartResponseWrapper.status) {
+    showSuccessDialog(context, "نجاح", "تمت الاضافة");
+  } else {
+    showErrorDialog(context, "خطأ", "حدث خطأ بالاضافة");
   }
 }

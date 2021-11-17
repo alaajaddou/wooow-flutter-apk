@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:wooow_supermarket/main.dart';
 import 'package:wooow_supermarket/models/category.dart';
-import 'package:wooow_supermarket/models/db_cart_item.dart';
 import 'package:wooow_supermarket/models/item.dart';
-import 'package:wooow_supermarket/models/user.dart';
 import 'package:wooow_supermarket/utils/global.dart';
 
-import 'alert.dart';
 import 'global.dart';
 
 class Categories extends StatefulWidget {
@@ -27,7 +23,12 @@ class _CategoriesState extends State<Categories> {
       var categoriesTemp = await database!.query('categories');
       for (dynamic category in categoriesTemp) {
         var categoryItems = await database!.query('items', where: 'categoryId = ?', whereArgs: [category['id']]);
-        CategoryModel(id: category['id'], name: category['name'], parent: category['parent'], imagePath: category['image'], items: _prepareItemsForCategory(categoryItems, category['id'], category['name']));
+        CategoryModel(
+            id: category['id'],
+            name: category['name'],
+            parent: category['parent'],
+            imagePath: category['imagePath'],
+            items: _prepareItemsForCategory(categoryItems, category['id'], category['name']));
       }
     }
 
@@ -63,7 +64,7 @@ class _CategoriesState extends State<Categories> {
             price: double.parse(item['price']),
             categoryId: categoryId,
             categoryName: categoryName,
-            availableQuantity: item['quantity'],
+            availableQuantity: item['availableQuantity'],
             discount: item['discount'] != null && item['discount'] != "null" ? double.parse(item['discount']) : 0,
             discountFrom: item['discount_from'],
             discountTo: item['discount_to']));
@@ -134,40 +135,28 @@ class ItemWidget extends StatefulWidget {
 class _ItemWidgetState extends State<ItemWidget> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Image.network("http://" + Global.baseUrl + '/storage/' + widget.item.imagePath, height: 150),
-        Text(widget.item.name, textAlign: TextAlign.center, style: const TextStyle(fontSize: 12)),
-        const Spacer(flex: 1),
-        Text(widget.item.categoryName),
-        Text(getFormattedCurrency(widget.item.price.toDouble())),
-        MaterialButton(
-            child: const Text("Add To Cart"),
-            onPressed: () async {
-              int? itemIndex = cart.findItemIndexFromCart(widget.item.id);
-              bool isAdded;
-              User? user = await auth.getUser();
-              if (itemIndex == null) {
-                if (database!.isOpen) {
-                  if (user != null) {
-                    DBCartItem dbItem = DBCartItem(id: widget.item.id, productId: widget.item.id);
-                    database!.insert('cartItems', dbItem.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
-                  }
-                }
-                isAdded = cart.addToCart(productId: widget.item.id, unitPrice: widget.item.price, productName: widget.item.name, productDetailsObject: widget.item);
-              } else {
-                isAdded = cart.incrementItemToCart(itemIndex);
-              }
-              cartCount = cart.getCartItemCount();
-              if (isAdded) {
-                showSuccessDialog(context, "نجاح", "تمت الاضافة");
-              } else {
-                showErrorDialog(context, "خطأ", "حدث خطأ بالاضافة");
-              }
-            },
-            color: getPrimaryColor()),
-      ],
-    );
+    Widget imageWidget = getImage(widget.item.imagePath);
+    return GestureDetector(
+        onTap: () => Navigator.of(context).pushNamed('product', arguments: widget.item),
+        child: Column(
+          children: [
+            Expanded(
+              child: imageWidget,
+              flex: 50,
+            ),
+            // Image.network(imagePath ?? ("http://" + Global.baseUrl + '/storage/' + widget.item.imagePath)?? imagePath, height: 150),
+            Text(widget.item.name, textAlign: TextAlign.center, style: const TextStyle(fontSize: 12)),
+            const Spacer(flex: 1),
+            Text(widget.item.categoryName),
+            Text(getFormattedCurrency(widget.item.price.toDouble())),
+            MaterialButton(
+                child: const Text("أضف الى السلة"),
+                onPressed: () async {
+                  addToCart(context, widget.item);
+                },
+                color: getPrimaryColor()),
+          ],
+        ));
   }
 }
 

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:wooow_supermarket/models/category.dart';
+import 'package:wooow_supermarket/models/item.dart';
 import 'package:wooow_supermarket/models/order.dart';
 import 'package:wooow_supermarket/pages/cart_page.dart';
 import 'package:wooow_supermarket/pages/category_list.dart';
 import 'package:wooow_supermarket/pages/category_page.dart';
+import 'package:wooow_supermarket/pages/checkout_page.dart';
 import 'package:wooow_supermarket/pages/home_page.dart';
 import 'package:wooow_supermarket/pages/login_page.dart';
 import 'package:wooow_supermarket/pages/not_found.dart';
@@ -33,9 +36,9 @@ class RouteGenerator {
       case 'categories':
         return MaterialPageRoute(builder: (_) => const CategoryList());
       case 'category':
-        return MaterialPageRoute(builder: (_) => const CategoryPage());
+        return MaterialPageRoute(builder: (_) => CategoryPage(category: arguments as CategoryModel));
       case 'product':
-        return MaterialPageRoute(builder: (_) => const ProductDetailsPage());
+        return MaterialPageRoute(builder: (_) => ProductDetailsPage(item: arguments as ItemModel));
       case 'orders':
         return MaterialPageRoute(builder: (_) => const OrderList());
       case 'account':
@@ -52,6 +55,8 @@ class RouteGenerator {
           widget = const NotFound();
         }
         return MaterialPageRoute(builder: (_) => widget);
+      case 'checkout':
+        return MaterialPageRoute(builder: (_) => CheckOutPage());
       default:
         return MaterialPageRoute(builder: (_) => const ErrorPage());
     }
