@@ -128,6 +128,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<Widget> buildHeader() async {
     var user = await auth.getUser();
+    if (user != null) {
+      auth.setAddress();
+
+    }
 
     return Container(
       margin: const EdgeInsets.all(0.0),

@@ -32,7 +32,8 @@ class _OrderPlacePageState extends State<ThankYouPage> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Image(
-                  image: NetworkImage("https://cdn1.iconfinder.com/data/icons/computer-techologies-outline-part-3/128/ic_thank_you-512.png"),
+
+                  image: NetworkImage("https://us.123rf.com/450wm/vitechek/vitechek1903/vitechek190300310/119777729-vector-folded-hands-icon-on-a-white-background-vector.jpg"),
                   width: 300,
                 ),
               ),
@@ -56,7 +57,9 @@ class _OrderPlacePageState extends State<ThankYouPage> {
                       height: 24,
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushReplacementNamed('orders');
+                      },
                       child: const Text(
                         "اعرض تفاصيل الطلب",
                         style: TextStyle(color: Colors.white),

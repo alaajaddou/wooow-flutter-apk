@@ -16,6 +16,7 @@ import 'package:wooow_supermarket/pages/product_detail_page.dart';
 import 'package:wooow_supermarket/pages/profile_page.dart';
 import 'package:wooow_supermarket/pages/register_page.dart';
 import 'package:wooow_supermarket/pages/search_page.dart';
+import 'package:wooow_supermarket/pages/thank_you_page.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
 import 'package:wooow_supermarket/utils/custom_navigator.dart';
 
@@ -57,6 +58,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => widget);
       case 'checkout':
         return MaterialPageRoute(builder: (_) => CheckOutPage());
+      case 'thanks':
+        return MaterialPageRoute(builder: (_) => const ThankYouPage());
       default:
         return MaterialPageRoute(builder: (_) => const ErrorPage());
     }

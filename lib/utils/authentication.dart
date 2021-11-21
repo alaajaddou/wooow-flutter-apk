@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:wooow_supermarket/main.dart';
+import 'package:wooow_supermarket/models/address.dart';
 import 'package:wooow_supermarket/models/user.dart';
 import 'package:wooow_supermarket/utils/global.dart';
 
 class Authentication {
   User? user;
+  Address address = Address(id: 0, userId: 0);
 
   Authentication() {
     //
@@ -114,5 +116,24 @@ class Authentication {
     }
 
     return user;
+  }
+
+  void setAddress() {
+    ApiBaseHelper().get('address').then((address) {
+      dynamic addressObj = address['address'];
+      print('---------------------------------------');
+      print(addressObj);
+      print('---------------------------------------');
+      this.address = Address(
+        id: addressObj['id'],
+        city: addressObj['city'],
+        village: addressObj['village'],
+        phone: addressObj['phone'],
+        mobile: addressObj['mobile'],
+        address: addressObj['address'],
+        building: addressObj['building'],
+        userId: addressObj['user_id'],
+      );
+    });
   }
 }
