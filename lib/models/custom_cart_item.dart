@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cart/model/cart_model.dart';
 import 'package:wooow_supermarket/main.dart';
 
-class CustomCartItem extends ChangeNotifier {
+class CustomCartItem extends ValueNotifier<CartItem?> {
   late CartItem item;
 
-  CustomCartItem(this.item);
+  CustomCartItem(this.item) : super(null);
 
   int getQuantity() {
     CartItem? tempItem = _getItem(item.productId);
@@ -33,6 +33,7 @@ class CustomCartItem extends ChangeNotifier {
       return;
     }
     cart.incrementItemToCart(index);
+    cartClass.updateCounter();
     notifyListeners();
   }
 
@@ -42,6 +43,7 @@ class CustomCartItem extends ChangeNotifier {
       return;
     }
     cart.decrementItemFromCart(index);
+    cartClass.updateCounter();
     notifyListeners();
   }
 
@@ -51,6 +53,8 @@ class CustomCartItem extends ChangeNotifier {
       return;
     }
     cart.deleteItemFromCart(index);
+    cartClass.updateCounter();
+    cartNotifier.updateItemList();
     notifyListeners();
   }
 }

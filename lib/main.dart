@@ -8,16 +8,20 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart' show Database, getDatabasesPath, openDatabase;
 import 'package:sqflite/sqflite.dart';
+import 'package:wooow_supermarket/models/cart_class.dart';
+import 'package:wooow_supermarket/models/cart_notifier.dart';
 import 'package:wooow_supermarket/models/db_cart_item.dart';
 import 'package:wooow_supermarket/models/item.dart';
 import 'package:wooow_supermarket/models/user.dart';
+import 'package:wooow_supermarket/pages/cart_page.dart';
 import 'package:wooow_supermarket/utils/alert.dart';
 import 'package:wooow_supermarket/utils/authentication.dart';
 import 'package:wooow_supermarket/utils/global.dart';
 import 'package:wooow_supermarket/utils/route_generator.dart';
 
 FlutterCart cart = FlutterCart();
-int cartCount = cart.getCartItemCount();
+CartCounterClass cartClass = CartCounterClass(cart.getCartItemCount(), cart.getTotalAmount());
+CartNotifier cartNotifier = CartNotifier(cart.cartItem);
 Authentication auth = Authentication();
 GoogleSignIn _googleSignIn = GoogleSignIn(
   // Optional clientId
@@ -140,11 +144,12 @@ addToCart(context, ItemModel item) async {
         database!.insert('cartItems', dbItem.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
       }
     }
-    cartResponseWrapper = cart.addToCart(productId: item.id, unitPrice: item.price.toInt(), productName: item.name, productDetailsObject: item);
+    cartResponseWrapper = cart.addToCart(productId: item.id, unitPrice: item.price.toDouble(), productName: item.name, productDetailsObject: item);
   } else {
     cartResponseWrapper = cart.incrementItemToCart(itemIndex);
   }
-  cartCount = cart.getCartItemCount();
+  // cartCount = cart.getCartItemCount();
+  cartClass.updateCounter();
   if (cartResponseWrapper.status) {
     showSuccessDialog(context, "نجاح", "تمت الاضافة");
   } else {

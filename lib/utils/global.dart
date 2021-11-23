@@ -98,8 +98,11 @@ class InvalidInputException extends AppException {
 }
 
 String getFormattedCurrency(double amount) {
-  final oCcy = NumberFormat("#,##0.00", "he-IL");
-  return oCcy.currencySymbol + ' ' + oCcy.format(amount).toString();
+  var formattedNumber = NumberFormat.simpleCurrency(locale: "en_US", name: ' ils ', decimalDigits: 2);
+  return formattedNumber.format(amount);
+  // final oCcy = NumberFormat("#,##.##", "he-IL");
+  // oCcy.decimalDigits(2);
+  // return oCcy.currencySymbol + ' ' + oCcy.format(amount).toString();
 }
 
 ButtonStyle getButtonStyle() {

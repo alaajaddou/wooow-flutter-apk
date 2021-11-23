@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cart/flutter_cart.dart';
 import 'package:flutter_cart/model/cart_model.dart';
 import 'package:wooow_supermarket/main.dart';
+import 'package:wooow_supermarket/models/cart_notifier.dart';
 import 'package:wooow_supermarket/models/custom_cart_item.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
 import 'package:wooow_supermarket/utils/custom_navigator.dart';
@@ -24,7 +26,10 @@ class _CartPageState extends State<CartPage> {
           ? Builder(
               builder: (context) {
                 return Column(
-                  children: <Widget>[createHeader(), createSubTitle(), Expanded(child: createCartList()), footer(context)],
+                  children: <Widget>[createHeader(), createSubTitle(), Expanded(child: ValueListenableBuilder(
+                    valueListenable: cartNotifier,
+                    builder: (context, value, child) => createCartList(cartNotifier.itemList),
+                  )), footer(context)],
                 );
               },
             )
@@ -65,9 +70,12 @@ class _CartPageState extends State<CartPage> {
               ),
               Container(
                 margin: const EdgeInsets.only(right: 30),
-                child: Text(
-                  getFormattedCurrency(cart.getTotalAmount()),
-                  style: TextStyle(color: getPrimaryColor(), fontSize: 14),
+                child: ValueListenableBuilder(
+                  builder: (context, value, child) => Text(
+                    getFormattedCurrency(cart.getTotalAmount()),
+                    style: TextStyle(color: getPrimaryColor(), fontSize: 14),
+                  ),
+                  valueListenable: cartClass,
                 ),
               ),
             ],
@@ -112,10 +120,10 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  createCartList() {
+  createCartList(List<CartItem> itemList) {
     ListView cartItemsList = ListView.builder(
       itemBuilder: (context, index) {
-        return createCartListItem(cart.cartItem[index]);
+        return createCartListItem(itemList[index]);
       },
       scrollDirection: Axis.vertical,
       itemCount: cart.cartItem.length,
@@ -165,7 +173,7 @@ class _CartPageState extends State<CartPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            getFormattedCurrency(newItem.item.productDetails.price.toDouble()),
+                            getFormattedCurrency(newItem.item.unitPrice.toDouble()),
                             style: TextStyle(color: getPrimaryColor()),
                           ),
                           Padding(
@@ -184,9 +192,12 @@ class _CartPageState extends State<CartPage> {
                                 Container(
                                   color: Colors.grey.shade200,
                                   padding: const EdgeInsets.only(bottom: 2, right: 12, left: 12),
-                                  child: Text(
-                                    newItem.getQuantity().toString(),
-                                    style: const TextStyle(fontWeight: FontWeight.w500),
+                                  child: ValueListenableBuilder(
+                                    valueListenable: newItem,
+                                    builder: (context, value, child) => Text(
+                                      newItem.getQuantity().toString(),
+                                      style: const TextStyle(fontWeight: FontWeight.w500),
+                                    ),
                                   ),
                                 ),
                                 GestureDetector(

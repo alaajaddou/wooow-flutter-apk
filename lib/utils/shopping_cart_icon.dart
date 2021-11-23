@@ -14,25 +14,28 @@ class _ShoppingCartIconState extends State<ShoppingCartIcon> {
   @override
   Widget build(BuildContext context) {
     Widget icon;
-    if (cart.getCartItemCount() > 0) {
-      icon = Badge(
-        badgeColor: Colors.red,
-        padding: const EdgeInsets.all(3.0),
-        badgeContent: Text(cartCount.toString(), style: const TextStyle(color: Colors.white)),
-        showBadge: true,
-        child: const Icon(
-          Icons.shopping_cart,
-          color: Colors.white,
-          size: 30,
+    // if (cart.getCartItemCount() > 0) {
+      icon = ValueListenableBuilder(
+        builder: (context, value, child) => Badge(
+          badgeColor: Colors.red,
+          padding: const EdgeInsets.all(3.0),
+          badgeContent: Text(cartClass.counter.toString(), style: const TextStyle(color: Colors.white)),
+          showBadge: cartClass.counter > 0,
+          child: const Icon(
+            Icons.shopping_cart,
+            color: Colors.white,
+            size: 30,
+          ),
         ),
+        valueListenable: cartClass,
       );
-    } else {
-      icon = const Icon(
-        Icons.shopping_cart_outlined,
-        color: Colors.white,
-        size: 30,
-      );
-    }
+    // } else {
+    //   icon = const Icon(
+    //     Icons.shopping_cart_outlined,
+    //     color: Colors.white,
+    //     size: 30,
+    //   );
+    // }
     return icon;
   }
 }

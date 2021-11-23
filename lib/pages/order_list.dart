@@ -40,7 +40,7 @@ class OrderList extends StatelessWidget {
                             productId: arg['item_id'],
                             productName: arg['item']['name'],
                             subTotal: arg['total'] != null ? arg['total'].toDouble() : 0.0,
-                            unitPrice: arg['item']['price'] ?? 0,
+                            unitPrice: arg['item']['price'].toDouble() ?? 0.0,
                             quantity: arg['quantity']);
 
                         CustomCartItem orderItem = CustomCartItem(item);
@@ -143,7 +143,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                     children: [
                       SizedBox(
                         child: Column(
-                          children: [Text("عدد المنتجات " + (widget.order.numberOfItems).toString()), const Text("بتاريخ 21/10/2021")],
+                          children: [Text("عدد المنتجات " + (widget.order.numberOfItems).toString()), Text("بتاريخ " + widget.order.orderDate.toString())],
                         ),
                       ),
                       Column(

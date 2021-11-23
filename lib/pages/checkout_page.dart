@@ -77,6 +77,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
     ApiBaseHelper().post('order', order).then((result) {
       if(result['message'] == "success") {
         cart.deleteAllCart();
+        cartClass.updateCounter();
+        cartNotifier.updateItemList();
         Navigator.of(context).pushReplacementNamed('thanks');
       }
     });
