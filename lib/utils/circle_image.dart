@@ -21,7 +21,7 @@ class CircleWidgets extends State<CircleImages> {
       for (var element in widget.categories) {
         widgets.add(GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed('category');
+              Navigator.of(context).pushNamed('category', arguments: element);
             },
             child: Column(
               children: [

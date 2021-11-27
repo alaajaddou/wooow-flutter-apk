@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:wooow_supermarket/main.dart';
 import 'package:wooow_supermarket/models/category.dart';
@@ -49,6 +52,34 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    InternetAddress.lookup(Global.baseUrl).then((result) {
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+      }
+    }).catchError((error) {
+      print('not connected');
+      Alert(
+          context: context,
+          title: 'خطأ',
+          desc: 'خطأ بالاتصال',
+          image: const Image(
+            height: 50,
+            image: AssetImage("assets/images/error.png"),
+          ),
+          buttons: [
+            DialogButton(
+              child: const Text(
+                "حسناً",
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              onPressed: () => exit(0),
+              color: getPrimaryColor(),
+            ),
+          ]).show();
+      // showErrorDialog(context, 'خطأ', 'لابد من الاتصال بالانترنت');
+    });
+
     return Scaffold(
       appBar: const CustomAppBar(),
       body: Column(children: [
@@ -74,6 +105,7 @@ class _HomePageState extends State<HomePage> {
       ]),
       bottomNavigationBar: const CustomNavigator(),
     );
+
   }
 
   List<ItemModel> _prepareItemsForCategory(List<dynamic> items, categoryId, categoryName) {

@@ -141,6 +141,10 @@ class _OrderPageState extends State<OrderPage> {
     if (widget.orderStatues.isNotEmpty) {
       for (OrderStatus status in widget.orderStatues) {
         if (status.id == 0) {
+          if (widget.order.orderStatusId == status.id) {
+            deliveryStatues.add(CanceledOrderStatus(status: status));
+            break;
+          }
           continue;
         }
 
@@ -154,6 +158,29 @@ class _OrderPageState extends State<OrderPage> {
     return deliveryStatues;
   }
 }
+
+class CanceledOrderStatus extends StatelessWidget {
+  OrderStatus status;
+  CanceledOrderStatus({Key? key, required this.status}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Icon(Icons.close, color: Colors.red, size: 24.0),
+          Text(
+            status.name,
+            style: const TextStyle(color: Colors.red),
+          )
+        ],
+      )
+    );
+  }
+}
+
 
 class CompleteStatusWidget extends StatelessWidget {
   OrderStatus status;

@@ -35,6 +35,9 @@ class _CategoryPageState extends State<CategoryPage> {
 
   @override
   Widget build(BuildContext context) {
+    print('WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW');
+    print(widget.category);
+    print('MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM');
     return Scaffold(
       key: _scaffoldKey,
       appBar: const CustomAppBar(),
@@ -43,10 +46,9 @@ class _CategoryPageState extends State<CategoryPage> {
           return Container(
             color: Colors.grey.shade100,
             child: Column(children: [
-              filterSortListOption(),
               Expanded(
                 child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 0.68),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 0.6),
                   itemBuilder: (context, position) {
                     return gridItem(context, widget.category.items[position]);
                   },
@@ -68,19 +70,15 @@ class _CategoryPageState extends State<CategoryPage> {
       color: Colors.white,
       child: Row(
         children: <Widget>[
-          Expanded(
-            child: filterRow(Icons.filter_list, "Filter"),
-            flex: 30,
-          ),
           divider(),
           Expanded(
             child: filterRow(Icons.sort, "Sort"),
-            flex: 30,
+            flex: 50,
           ),
           divider(),
           Expanded(
             child: filterRow(Icons.list, "List"),
-            flex: 30,
+            flex: 50,
           ),
         ],
       ),
@@ -116,76 +114,52 @@ class _CategoryPageState extends State<CategoryPage> {
   }
 
   gridItem(BuildContext context, ItemModel item) {
+    print(item);
     return GestureDetector(
       onTap: () {
         Navigator.of(context).pushNamed('product', arguments: item);
       },
       child: Container(
         decoration: BoxDecoration(color: Colors.white, borderRadius: const BorderRadius.all(Radius.circular(6)), border: Border.all(color: Colors.grey.shade200)),
-        padding: const EdgeInsets.only(left: 10, top: 10),
+        padding: const EdgeInsets.all(10),
         margin: const EdgeInsets.all(8),
         child: Column(
           children: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(right: 12),
-              alignment: Alignment.topRight,
-              child: Container(
-                alignment: Alignment.center,
-                width: 24,
-                height: 24,
-                decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.indigo),
-                child: Text(
-                  item.discount.toString(),
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white, fontSize: 10),
-                ),
-              ),
-            ),
-            getImage(item.imagePath),
-            gridBottomView()
+            Expanded(child: Stack(
+                children: [
+                  getImage(item.imagePath),
+                  getDiscountWidget(item)
+                ])),
+            gridBottomView(item),
+            MaterialButton(
+                child: const Text("أضف الى السلة"),
+                onPressed: () async {
+                  addToCart(context, item);
+                },
+                color: getPrimaryColor())
           ],
         ),
       ),
     );
   }
 
-  gridBottomView() {
+  gridBottomView(ItemModel item) {
     return Column(
       children: <Widget>[
         Container(
-          child: const Text(
-            "Chair Dacey li - Black",
+          child: Text(
+            item.name,
             style: TextStyle(fontSize: 12),
             textAlign: TextAlign.start,
           ),
-          alignment: Alignment.topLeft,
+          alignment: Alignment.topCenter,
         ),
         const SizedBox(width: 6),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              "\$50.00",
-              style: TextStyle(color: Colors.indigo.shade700, fontSize: 14),
-            ),
-            const SizedBox(width: 8),
-            const Text(
-              "\$80.00",
-              style: TextStyle(color: Colors.grey, fontSize: 14, decoration: TextDecoration.lineThrough),
-            ),
-          ],
+          children: getPriceWidgets(item),
         ),
-        const SizedBox(width: 6),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const <Widget>[
-            SizedBox(width: 4),
-            Text(
-              "4.5",
-              style: TextStyle(color: Colors.black, fontSize: 14),
-            ),
-          ],
-        )
       ],
     );
   }
@@ -356,4 +330,93 @@ class _CategoryPageState extends State<CategoryPage> {
   }
 
   var border = OutlineInputBorder(borderRadius: const BorderRadius.all(Radius.circular(8)), borderSide: BorderSide(color: Colors.grey.shade300, width: 1));
+
+  getPriceWidgets(ItemModel item) {
+    List<Widget> widgets = [];
+    if(item.discount != null && item.discount != 0.0) {
+      bool isDiscountNeeded = true;
+      final DateTime now = DateTime.now();
+      if (item.discountFrom != null && item.discountFrom != '') {
+        print(item.discountFrom);
+        final DateTime discountFrom = DateTime.parse(item.discountFrom ?? '');
+        if (now.isBefore(discountFrom)) {
+          isDiscountNeeded = false;
+        }
+      }
+      if (item.discountTo != null && item.discountTo != '') {
+        final DateTime discountTo = DateTime.parse(item.discountTo ?? '');
+        if (now.isBefore(discountTo)) {
+          isDiscountNeeded = false;
+        }
+      }
+      if (isDiscountNeeded) {
+        widgets.add(getPriceWithoutDiscount(getDiscountedPrice(item.price, item.discount)));
+        widgets.add(const SizedBox(width: 8));
+        widgets.add(getPriceWithDiscount(item.price));
+      }else {
+          widgets.add(getPriceWithoutDiscount(item.price));
+        }
+    } else {
+      widgets.add(getPriceWithoutDiscount(item.price));
+    }
+    return widgets;
+  }
+
+  Widget getPriceWithoutDiscount(double price) {
+    return Text(
+      getFormattedCurrency(price),
+      style: TextStyle(color: Colors.indigo.shade700, fontSize: 14),
+    );
+  }
+
+  Widget getPriceWithDiscount(double price) {
+    return Text(
+      getFormattedCurrency(price),
+      style: const TextStyle(color: Colors.grey, fontSize: 14, decoration: TextDecoration.lineThrough),
+    );
+  }
+
+  double getDiscountedPrice(double price, double? discount) {
+    return price - (price * discount! / 100);
+  }
+
+  getDiscountWidget(ItemModel item) {
+    if(item.discount != null && item.discount != 0.0) {
+      return Align(
+        child: Container(
+          margin: const EdgeInsets.only(right: 12),
+          alignment: Alignment.topRight,
+          child: Container(
+            alignment: Alignment.center,
+            width: 24,
+            height: 24,
+            decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.indigo),
+            child: Text(
+              item.discount.toString(),
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.white, fontSize: 10),
+            ),
+          ),
+        ),
+        alignment: Alignment.topRight,
+      );
+    } else {
+      return Container();
+    }
+  }
 }
+
+
+/**
+
+TODO:
+    - in category page item image not found.
+    - route if back wont get in again.
+    - notifications.
+    - cancel order.
+    - edit address.
+    - add address.
+    - edit user info.
+    - about us.
+
+ */

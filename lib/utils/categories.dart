@@ -23,12 +23,12 @@ class _CategoriesState extends State<Categories> {
       var categoriesTemp = await database!.query('categories');
       for (dynamic category in categoriesTemp) {
         var categoryItems = await database!.query('items', where: 'categoryId = ?', whereArgs: [category['id']]);
-        CategoryModel(
+        categories.add(CategoryModel(
             id: category['id'],
             name: category['name'],
             parent: category['parent'],
             imagePath: category['imagePath'],
-            items: _prepareItemsForCategory(categoryItems, category['id'], category['name']));
+            items: _prepareItemsForCategory(categoryItems, category['id'], category['name'])));
       }
     }
 
@@ -59,7 +59,7 @@ class _CategoriesState extends State<Categories> {
         itemsList.add(ItemModel(
             id: item['id'],
             name: item['name'],
-            imagePath: item['image'],
+            imagePath:  item['imagePath'] ?? item['image'],
             description: item['description'],
             price: double.parse(item['price']),
             categoryId: categoryId,

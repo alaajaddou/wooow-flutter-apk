@@ -147,7 +147,10 @@ class _OrderWidgetState extends State<OrderWidget> {
                         ),
                       ),
                       Column(
-                        children: const [Text("طلبية رقم 1125623335"), Text("حالة الطلبية: جار المعالجة")],
+                        children: [
+                          Text("طلبية رقم " + widget.order.id.toString()),
+                          Text("حالة الطلبية: " + getStatusNameFromId(widget.order.orderStatusId))
+                        ],
                       )
                     ],
                   )
@@ -158,5 +161,13 @@ class _OrderWidgetState extends State<OrderWidget> {
         ],
       ),
     );
+  }
+
+  String getStatusNameFromId(int orderStatusId) {
+    if (statuses.isNotEmpty) {
+      OrderStatus status = statuses.firstWhere((element) => element.id == orderStatusId);
+      return status.name;
+    }
+    return '';
   }
 }

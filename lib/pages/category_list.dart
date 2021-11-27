@@ -31,7 +31,8 @@ class CategoryList extends StatelessWidget {
                       // var category = projectSnap.data['categories'][index];
                       return GestureDetector(
                           onTap: () {
-                            print(projectSnap.data['categories']);
+                            print('category=');
+                            print(category.items);
                             Navigator.of(context).pushNamed('category', arguments: category);
                           },
                           child: Container(
@@ -74,7 +75,7 @@ class CategoryList extends StatelessWidget {
         ItemModel tempItem = ItemModel(
           id: item['id'],
           name: item['name'],
-          imagePath: item['imagePath'],
+          imagePath: item['imagePath'] ?? item['image'] ?? null,
           description: item['description'],
           price: item['price'].toDouble(),
           categoryId: category['id'],
