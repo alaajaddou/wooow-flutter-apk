@@ -15,7 +15,7 @@ class CustomCartItem extends ValueNotifier<CartItem?> {
     return 0;
   }
 
-  int getPrice() {
+  double getPrice() {
     CartItem? tempItem = _getItem(item.productId);
     if (tempItem != null) {
       return tempItem.unitPrice;
@@ -24,7 +24,7 @@ class CustomCartItem extends ValueNotifier<CartItem?> {
   }
 
   CartItem? _getItem(id) {
-     return cart.getSpecificItemFromCart(id);
+    return cart.getSpecificItemFromCart(id);
   }
 
   void increment() {

@@ -147,10 +147,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                         ),
                       ),
                       Column(
-                        children: [
-                          Text("طلبية رقم " + widget.order.id.toString()),
-                          Text("حالة الطلبية: " + getStatusNameFromId(widget.order.orderStatusId))
-                        ],
+                        children: [Text("طلبية رقم " + widget.order.id.toString()), Text("حالة الطلبية: " + getStatusNameFromId(widget.order.orderStatusId))],
                       )
                     ],
                   )

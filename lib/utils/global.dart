@@ -62,6 +62,7 @@ class ApiBaseHelper {
 
     User? user = await auth.getUser();
     if (user != null) {
+      print(user.token);
       headers[HttpHeaders.authorizationHeader] = 'Bearer ' + user.token;
     }
 

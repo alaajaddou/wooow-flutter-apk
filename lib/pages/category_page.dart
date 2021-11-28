@@ -35,9 +35,6 @@ class _CategoryPageState extends State<CategoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW');
-    print(widget.category);
-    print('MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM');
     return Scaffold(
       key: _scaffoldKey,
       appBar: const CustomAppBar(),
@@ -125,11 +122,7 @@ class _CategoryPageState extends State<CategoryPage> {
         margin: const EdgeInsets.all(8),
         child: Column(
           children: <Widget>[
-            Expanded(child: Stack(
-                children: [
-                  getImage(item.imagePath),
-                  getDiscountWidget(item)
-                ])),
+            Expanded(child: Stack(children: [getImage(item.imagePath), getDiscountWidget(item)])),
             gridBottomView(item),
             MaterialButton(
                 child: const Text("أضف الى السلة"),
@@ -333,7 +326,7 @@ class _CategoryPageState extends State<CategoryPage> {
 
   getPriceWidgets(ItemModel item) {
     List<Widget> widgets = [];
-    if(item.discount != null && item.discount != 0.0) {
+    if (item.discount != null && item.discount != 0.0) {
       bool isDiscountNeeded = true;
       final DateTime now = DateTime.now();
       if (item.discountFrom != null && item.discountFrom != '') {
@@ -353,9 +346,9 @@ class _CategoryPageState extends State<CategoryPage> {
         widgets.add(getPriceWithoutDiscount(getDiscountedPrice(item.price, item.discount)));
         widgets.add(const SizedBox(width: 8));
         widgets.add(getPriceWithDiscount(item.price));
-      }else {
-          widgets.add(getPriceWithoutDiscount(item.price));
-        }
+      } else {
+        widgets.add(getPriceWithoutDiscount(item.price));
+      }
     } else {
       widgets.add(getPriceWithoutDiscount(item.price));
     }
@@ -381,7 +374,7 @@ class _CategoryPageState extends State<CategoryPage> {
   }
 
   getDiscountWidget(ItemModel item) {
-    if(item.discount != null && item.discount != 0.0) {
+    if (item.discount != null && item.discount != 0.0) {
       return Align(
         child: Container(
           margin: const EdgeInsets.only(right: 12),
@@ -406,7 +399,6 @@ class _CategoryPageState extends State<CategoryPage> {
   }
 }
 
-
 /**
 
 TODO:
@@ -418,5 +410,5 @@ TODO:
     - add address.
     - edit user info.
     - about us.
-
+    - search page.
  */

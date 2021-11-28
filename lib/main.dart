@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,7 +13,6 @@ import 'package:wooow_supermarket/models/cart_notifier.dart';
 import 'package:wooow_supermarket/models/db_cart_item.dart';
 import 'package:wooow_supermarket/models/item.dart';
 import 'package:wooow_supermarket/models/user.dart';
-import 'package:wooow_supermarket/pages/cart_page.dart';
 import 'package:wooow_supermarket/utils/alert.dart';
 import 'package:wooow_supermarket/utils/authentication.dart';
 import 'package:wooow_supermarket/utils/global.dart';
@@ -124,7 +122,6 @@ class _MyAppState extends State<MyApp> {
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
-
 }
 
 Widget getImage(String? imagePath) {

@@ -26,17 +26,10 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void createListItem() {
-    listSection.add(createSection("الإعدادات", const Icon(Icons.settings, color: Colors.white),
-        Colors.red.shade800, const EditProfilePage()));
-    listSection.add(createSection(
-        "الإشعارات",
-        const Icon(Icons.notifications_active, color: Colors.white),
-        Colors.blue.shade800,
-        const NotificationPage()));
-    listSection.add(createSection(
-        "الطلبيات", const Icon(Icons.file_copy_rounded, color: Colors.white), Colors.teal.shade800, const OrderList()));
-    listSection.add(createSection("معلومات", const Icon(Icons.info, color: Colors.white),
-        Colors.lightBlue, const AboutPage()));
+    listSection.add(createSection("الإعدادات", const Icon(Icons.settings, color: Colors.white), Colors.red.shade800, const EditProfilePage()));
+    listSection.add(createSection("الإشعارات", const Icon(Icons.notifications_active, color: Colors.white), Colors.blue.shade800, NotificationPage()));
+    listSection.add(createSection("الطلبيات", const Icon(Icons.file_copy_rounded, color: Colors.white), Colors.teal.shade800, const OrderList()));
+    listSection.add(createSection("معلومات", const Icon(Icons.info, color: Colors.white), Colors.lightBlue, const AboutPage()));
   }
 
   createSection(String title, Widget icon, Color color, Widget widget) {
@@ -53,8 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
           FutureBuilder<Widget>(
               initialData: headerPlaceHolder(),
               builder: (BuildContext context, snapshot) {
-                if (snapshot.hasData &&
-                    snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
                   return snapshot.data as Widget;
                 }
                 return headerPlaceHolder();
@@ -70,10 +62,10 @@ class _ProfilePageState extends State<ProfilePage> {
           Navigator.of(context).pushNamed('');
         },
         child: const Icon(
-        Icons.logout,
-        color: Colors.white,
-        size: 35.0,
-      ),
+          Icons.logout,
+          color: Colors.white,
+          size: 35.0,
+        ),
       ),
       bottomNavigationBar: const CustomNavigator(),
     );
@@ -91,9 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
             margin: const EdgeInsets.only(top: 8, bottom: 8),
             height: 60,
             decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: NetworkImage(
-                        "https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_1280.png")),
+                image: DecorationImage(image: NetworkImage("https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_1280.png")),
                 borderRadius: BorderRadius.all(Radius.circular(24))),
           ),
           const SizedBox(width: 10),
@@ -107,8 +97,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Text(
                       '',
                       textAlign: TextAlign.start,
-                      style:
-                          TextStyle(color: Colors.blue.shade900, fontSize: 14),
+                      style: TextStyle(color: Colors.blue.shade900, fontSize: 14),
                     ),
                     const SizedBox(height: 2),
                     const Text(
@@ -130,7 +119,6 @@ class _ProfilePageState extends State<ProfilePage> {
     var user = await auth.getUser();
     if (user != null) {
       auth.setAddress();
-
     }
 
     return Container(
@@ -144,12 +132,7 @@ class _ProfilePageState extends State<ProfilePage> {
             margin: const EdgeInsets.only(top: 8, bottom: 8),
             height: 60,
             decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: NetworkImage('http://' +
-                        Global.baseUrl +
-                        '/storage/' +
-                        user!.imagePath)),
-                borderRadius: const BorderRadius.all(Radius.circular(24))),
+                image: DecorationImage(image: NetworkImage('http://' + Global.baseUrl + '/storage/' + user!.imagePath)), borderRadius: const BorderRadius.all(Radius.circular(24))),
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -162,8 +145,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Text(
                       user.name,
                       textAlign: TextAlign.start,
-                      style:
-                          TextStyle(color: Colors.blue.shade900, fontSize: 14),
+                      style: TextStyle(color: Colors.blue.shade900, fontSize: 14),
                     ),
                     const SizedBox(height: 2),
                     Text(
@@ -197,20 +179,16 @@ class _ProfilePageState extends State<ProfilePage> {
       return InkWell(
         splashColor: Colors.teal.shade200,
         onTap: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => listSection.widget));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => listSection.widget));
         },
         child: Container(
-          padding:
-              const EdgeInsets.only(top: 14, left: 24, right: 8, bottom: 14),
+          padding: const EdgeInsets.only(top: 14, left: 24, right: 8, bottom: 14),
           child: Row(
             children: <Widget>[
               Expanded(
                 child: Container(
                   height: 30,
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(24)),
-                      color: listSection.color),
+                  decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(24)), color: listSection.color),
                   child: listSection.icon,
                 ),
                 flex: 8,

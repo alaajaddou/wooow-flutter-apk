@@ -33,7 +33,7 @@ class RouteGenerator {
       case 'cart':
         return MaterialPageRoute(builder: (_) => const CartPage());
       case 'notification':
-        return MaterialPageRoute(builder: (_) => const NotificationPage());
+        return MaterialPageRoute(builder: (_) => NotificationPage());
       case 'categories':
         return MaterialPageRoute(builder: (_) => const CategoryList());
       case 'category':
