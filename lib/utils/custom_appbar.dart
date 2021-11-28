@@ -22,19 +22,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       actions: <Widget>[
-        IconButton(
-          splashRadius: Material.defaultSplashRadius,
-          icon: const Icon(
-            Icons.search,
-            color: Colors.white,
-            size: 30,
-          ),
-          onPressed: () {
-            if (RouteGenerator.currentRoute != 'search') {
-              Navigator.of(context).pushNamed('search');
-            }
-          },
-        ),
+        // IconButton(
+        //   splashRadius: Material.defaultSplashRadius,
+        //   icon: const Icon(
+        //     Icons.search,
+        //     color: Colors.white,
+        //     size: 30,
+        //   ),
+        //   onPressed: () {
+        //     if (RouteGenerator.currentRoute != 'search') {
+        //       Navigator.of(context).pushNamed('search');
+        //     }
+        //   },
+        // ),
         IconButton(
           icon: const ShoppingCartIcon(),
           onPressed: () {

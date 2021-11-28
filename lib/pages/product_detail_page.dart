@@ -198,8 +198,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   getImage(imagePath) {
     var halfOfScreen = MediaQuery.of(context).size.height / 1.2;
 
-    print(imagePath);
-
     ImageProvider image;
     if (imagePath != null) {
       image = NetworkImage('http://' + Global.baseUrl + '/storage/' + imagePath);

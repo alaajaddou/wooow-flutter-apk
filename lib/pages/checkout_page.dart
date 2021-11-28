@@ -18,8 +18,6 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    print(auth.user!.token);
     setState(() {
       addressObj = auth.address;
     });
@@ -70,9 +68,6 @@ class _CheckOutPageState extends State<CheckOutPage> {
       'address_id': addressObj.id,
       'items': getItems()
     };
-
-    print('================ order =================');
-    print(order);
 
     ApiBaseHelper().post('order', order).then((result) {
       if(result['message'] == "success") {

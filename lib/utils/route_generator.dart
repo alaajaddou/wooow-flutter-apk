@@ -28,8 +28,8 @@ class RouteGenerator {
     switch (settings.name) {
       case '':
         return MaterialPageRoute(builder: (_) => const HomePage());
-      case 'search':
-        return MaterialPageRoute(builder: (_) => const SearchPage());
+      // case 'search':
+      //   return MaterialPageRoute(builder: (_) => const SearchPage());
       case 'cart':
         return MaterialPageRoute(builder: (_) => const CartPage());
       case 'notification':
@@ -57,7 +57,7 @@ class RouteGenerator {
         }
         return MaterialPageRoute(builder: (_) => widget);
       case 'checkout':
-        return MaterialPageRoute(builder: (_) => CheckOutPage());
+        return MaterialPageRoute(builder: (_) => const CheckOutPage());
       case 'thanks':
         return MaterialPageRoute(builder: (_) => const ThankYouPage());
       default:

@@ -39,6 +39,17 @@ class ApiBaseHelper {
     }
   }
 
+  Future<dynamic> put(String url, dynamic body) async {
+    try {
+      var api = Uri.http(Global.baseUrl, Global.apiPath + url);
+      var headers = await getHeaders() as Map<String, String>;
+      Response response = await http.put(api, body: jsonEncode(body), headers: headers);
+      return _returnResponse(response);
+    } catch (exception) {
+      rethrow;
+    }
+  }
+
   dynamic _returnResponse(http.Response response) {
     // debugPrint(response.statusCode.toString());
     // debugPrint(response.body.toString());
@@ -46,11 +57,9 @@ class ApiBaseHelper {
       case 200:
       case 201:
       case 400:
-        var responseJson = json.decode(response.body.toString());
-        return responseJson;
       case 401:
       case 403:
-        throw UnauthorisedException(response.body.toString());
+        return json.decode(response.body.toString());
       case 500:
       default:
         throw FetchDataException('Error occurred while Communication with Server with StatusCode : ${response.statusCode}');

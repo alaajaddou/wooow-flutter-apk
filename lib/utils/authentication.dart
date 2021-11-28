@@ -121,9 +121,6 @@ class Authentication {
   void setAddress() {
     ApiBaseHelper().get('address').then((address) {
       dynamic addressObj = address['address'];
-      print('---------------------------------------');
-      print(addressObj);
-      print('---------------------------------------');
       this.address = Address(
         id: addressObj['id'],
         city: addressObj['city'],

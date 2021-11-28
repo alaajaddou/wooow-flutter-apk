@@ -3,6 +3,7 @@ import 'package:wooow_supermarket/models/custom_cart_item.dart';
 import 'package:wooow_supermarket/models/order.dart';
 import 'package:wooow_supermarket/models/order_status.dart';
 import 'package:wooow_supermarket/pages/order_list.dart';
+import 'package:wooow_supermarket/utils/alert.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
 import 'package:wooow_supermarket/utils/custom_navigator.dart';
 import 'package:wooow_supermarket/utils/global.dart';
@@ -56,6 +57,15 @@ class _OrderPageState extends State<OrderPage> {
             ))
           ])
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => cancelOrder(widget.order.id),
+        backgroundColor: Colors.red,
+        child: const Icon(
+          Icons.close,
+          color: Colors.white,
+          size: 35.0,
+        ),
       ),
       bottomNavigationBar: const CustomNavigator(),
     );
@@ -156,6 +166,16 @@ class _OrderPageState extends State<OrderPage> {
       }
     }
     return deliveryStatues;
+  }
+
+  cancelOrder(int orderId) {
+    ApiBaseHelper().put('cancel-order', {'id': orderId}).then((result) {
+      if (result['status_code'] == 400) {
+        showErrorDialog(context, 'خطأ', result['message']);
+      } else if (result['status_code'] == 200) {
+        showErrorDialog(context, 'نجاح', result['message']);
+      }
+    });
   }
 }
 

@@ -20,9 +20,9 @@ class _NotificationPageState extends State<NotificationPage> {
         future: getNotifications(),
         initialData: [],
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.hasData && (snapshot.data as List).isNotEmpty) {
             return Column(
-              children: notificationList(snapshot.data),
+              children: notificationList(snapshot.data as List<dynamic>),
             );
           } else {
             return const Center(
@@ -87,14 +87,20 @@ class _NotificationPageState extends State<NotificationPage> {
   }
 
   getNotifications() {
-    ApiBaseHelper().get('notifications').then((notifications) {
-      widget.notifications = notifications;
+    return ApiBaseHelper().get('notifications').then((response) {
+      if (response is List<dynamic>) {
+        return response;
+      }
+
+      if (response['message'] == 'Unauthenticated.') {
+        Navigator.of(context).pushNamed('login');
+      }
     });
   }
 
-  List<Widget> notificationList(Object? data) {
+  List<Widget> notificationList(List<dynamic> data) {
     List<Widget> notificationItems = [];
-    for (dynamic notification in notificationItems) {
+    for (dynamic notification in data) {
       notificationItems.add(createNotificationListItem(notification));
     }
     return notificationItems;

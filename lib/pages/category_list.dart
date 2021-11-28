@@ -31,8 +31,6 @@ class CategoryList extends StatelessWidget {
                       // var category = projectSnap.data['categories'][index];
                       return GestureDetector(
                           onTap: () {
-                            print('category=');
-                            print(category.items);
                             Navigator.of(context).pushNamed('category', arguments: category);
                           },
                           child: Container(

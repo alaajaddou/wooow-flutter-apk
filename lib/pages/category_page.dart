@@ -111,7 +111,6 @@ class _CategoryPageState extends State<CategoryPage> {
   }
 
   gridItem(BuildContext context, ItemModel item) {
-    print(item);
     return GestureDetector(
       onTap: () {
         Navigator.of(context).pushNamed('product', arguments: item);
@@ -330,7 +329,6 @@ class _CategoryPageState extends State<CategoryPage> {
       bool isDiscountNeeded = true;
       final DateTime now = DateTime.now();
       if (item.discountFrom != null && item.discountFrom != '') {
-        print(item.discountFrom);
         final DateTime discountFrom = DateTime.parse(item.discountFrom ?? '');
         if (now.isBefore(discountFrom)) {
           isDiscountNeeded = false;
@@ -402,13 +400,13 @@ class _CategoryPageState extends State<CategoryPage> {
 /**
 
 TODO:
-    - in category page item image not found.
     - route if back wont get in again.
-    - notifications.
-    - cancel order.
+    - notifications. -- done --
+    - cancel order. -- done --
     - edit address.
     - add address.
     - edit user info.
-    - about us.
-    - search page.
+    - about us. -- done --
+    - in category page item image not found. -- later --
+    - search page. -- later --
  */

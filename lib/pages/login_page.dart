@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                                 );
                                 auth.login(emailController.text, passwordController.text).then((user) {
                                   if (user != null) {
-                                    Navigator.of(context).pushNamed('account');
+                                    Navigator.of(context).pushReplacementNamed('account');
                                   } else {
                                     error = 'حصل خطأ في تسجيل الدخول تاكد من البريد الالكتروني وكلمة المرور';
                                   }
