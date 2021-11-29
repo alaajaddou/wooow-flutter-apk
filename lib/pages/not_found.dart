@@ -8,7 +8,7 @@ class NotFound extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(isHome: false),
       body: Column(
         children: const [
           Icon(Icons.manage_search),

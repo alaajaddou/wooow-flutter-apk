@@ -21,7 +21,7 @@ class _CartPageState extends State<CartPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey.shade100,
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(isHome: false),
       body: cart.cartItem.isNotEmpty
           ? Builder(
               builder: (context) {
@@ -146,7 +146,7 @@ class _CartPageState extends State<CartPage> {
                 height: 80,
                 decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(40)),
-                    image: DecorationImage(image: NetworkImage("http://" + Global.baseUrl + "/storage/" + newItem.item.productDetails.imagePath))),
+                    image: DecorationImage(image: NetworkImage(Global.storagePath + newItem.item.productDetails.imagePath))),
               ),
               Expanded(
                 child: Container(

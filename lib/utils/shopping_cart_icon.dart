@@ -23,7 +23,6 @@ class _ShoppingCartIconState extends State<ShoppingCartIcon> {
           showBadge: cartClass.counter > 0,
           child: const Icon(
             Icons.shopping_cart,
-            color: Colors.white,
             size: 30,
           ),
         ),

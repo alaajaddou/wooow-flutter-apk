@@ -37,7 +37,7 @@ class _CategoryPageState extends State<CategoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(isHome: false),
       body: Builder(
         builder: (context) {
           return Container(
@@ -405,7 +405,8 @@ TODO:
     - cancel order. -- done --
     - edit address.
     - add address.
-    - edit user info.
+    - edit user info. -- done for form --
+    - save edit user info.
     - about us. -- done --
     - in category page item image not found. -- later --
     - search page. -- later --

@@ -43,7 +43,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(isHome: false),
       body: Builder(builder: (context) {
         return SizedBox(
           height: double.infinity,
@@ -200,7 +200,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
     ImageProvider image;
     if (imagePath != null) {
-      image = NetworkImage('http://' + Global.baseUrl + '/storage/' + imagePath);
+      image = NetworkImage(Global.storagePath + imagePath);
     } else {
       image = const AssetImage('assets/images/no_result.png');
     }

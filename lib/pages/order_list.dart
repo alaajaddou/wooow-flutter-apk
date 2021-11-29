@@ -21,7 +21,7 @@ class OrderList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(isHome: false),
       body: FutureBuilder(
         future: getOrders(),
         initialData: const [],

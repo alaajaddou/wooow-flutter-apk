@@ -12,6 +12,7 @@ import 'package:wooow_supermarket/models/user.dart';
 class Global {
   static const baseUrl = "vmi561267.contaboserver.net";
   static const apiPath = "api/";
+  static const storagePath = 'http://' + Global.baseUrl + '/storage/';
 
   static int cartCount = 0;
 }

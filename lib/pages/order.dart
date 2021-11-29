@@ -22,7 +22,7 @@ class _OrderPageState extends State<OrderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(isHome: false),
       body: Column(
         children: [
           Row(
@@ -94,7 +94,7 @@ class _OrderPageState extends State<OrderPage> {
                 margin: const EdgeInsets.only(right: 8, left: 8, top: 8, bottom: 8),
                 width: 80,
                 height: 80,
-                decoration: BoxDecoration(image: DecorationImage(image: NetworkImage("http://" + Global.baseUrl + "/storage/" + newItem.item.productDetails['image']))),
+                decoration: BoxDecoration(image: DecorationImage(image: NetworkImage(Global.storagePath + newItem.item.productDetails['image']))),
               ),
               Expanded(
                 child: Container(

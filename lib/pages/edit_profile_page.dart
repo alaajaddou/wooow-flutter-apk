@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:wooow_supermarket/main.dart';
+import 'package:wooow_supermarket/utils/custom_appbar.dart';
+import 'package:wooow_supermarket/utils/custom_border.dart';
 import 'package:wooow_supermarket/utils/custom_colors.dart';
+import 'package:wooow_supermarket/utils/custom_navigator.dart';
+import 'package:wooow_supermarket/utils/custom_text_style.dart';
+import 'package:wooow_supermarket/utils/custom_utils.dart';
 import 'package:wooow_supermarket/utils/global.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -10,112 +16,101 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
+  final _formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+
+  // late PickedFile imageFile;
+
+  // void _onImageButtonPressed(BuildContext context) async {
+  //   final pickedFile = await ImagePicker().getImage(
+  //     source: ImageSource.gallery ,
+  //   );
+  //   setState(() {
+  //     print(pickedFile!.path);
+  //     imageFile = pickedFile;
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
-        title: const Text(
-          "Edit Profile",
-          style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-      ),
-      body: Column(
-        children: <Widget>[
-          const SizedBox(
-            height: 24,
-          ),
-          Stack(
+      appBar: CustomAppBar(isHome: false),
+      body: Form(
+          key: _formKey,
+          child: Column(
             children: <Widget>[
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, gradient: LinearGradient(colors: [CustomColors.editProfilePicFirstGradient, CustomColors.editProfilePicSecondGradient])),
-                ),
+              const SizedBox(
+                height: 24,
               ),
-              Align(
-                alignment: Alignment.center,
-                child: SizedBox(
-                  width: 120,
-                  height: 120,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      IconButton(
-                          icon: const Icon(
-                            Icons.image,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {}),
-                      const Text(
-                        "Choose Image",
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      )
-                    ],
+              Stack(
+                children: <Widget>[
+                  Center(
+                    child: Container(
+                      width: 120,
+                      height: 120,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(image: NetworkImage(Global.storagePath + (auth.user!.imagePath != null ? auth.user!.imagePath : 'users/default.png'))),
+                          gradient: LinearGradient(colors: [CustomColors.editProfilePicFirstGradient, CustomColors.editProfilePicSecondGradient])),
+                    ),
+                  ),
+                ],
+              ),
+              Utils.getSizedBox(height: 20),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                child: Container(
+                    child: TextFormField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+                      border: CustomBorder.enabledBorder,
+                      labelText: "الاسم",
+                      focusedBorder: CustomBorder.focusBorder,
+                      errorBorder: CustomBorder.errorBorder,
+                      enabledBorder: CustomBorder.enabledBorder,
+                      labelStyle: CustomTextStyle.textFormFieldMedium.copyWith(fontSize: MediaQuery.of(context).textScaleFactor * 16, color: Colors.black),
+                      floatingLabelBehavior: FloatingLabelBehavior.auto),
+                )),
+              ),
+              Utils.getSizedBox(height: 20),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                child: Container(
+                    child: TextFormField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+                      border: CustomBorder.enabledBorder,
+                      labelText: "البريد الالكتروني",
+                      focusedBorder: CustomBorder.focusBorder,
+                      errorBorder: CustomBorder.errorBorder,
+                      enabledBorder: CustomBorder.enabledBorder,
+                      labelStyle: CustomTextStyle.textFormFieldMedium.copyWith(fontSize: MediaQuery.of(context).textScaleFactor * 16, color: Colors.black),
+                      floatingLabelBehavior: FloatingLabelBehavior.auto),
+                )),
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              Container(
+                width: double.infinity,
+                margin: const EdgeInsets.only(left: 48, right: 48),
+                child: ElevatedButton(
+                  style: getButtonStyle(),
+                  onPressed: () {
+                    // _saveAction();
+                  },
+                  child: const Text(
+                    "تعديل",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ),
               )
             ],
-          ),
-          Container(
-            child: TextFormField(
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.all(12),
-                border: border,
-                hintText: "Name",
-                focusedBorder: border.copyWith(borderSide: const BorderSide(color: Colors.blue)),
-              ),
-            ),
-            margin: const EdgeInsets.only(left: 12, right: 12, top: 24),
-          ),
-          Container(
-            child: TextFormField(
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(12), border: border, hintText: "Email", focusedBorder: border.copyWith(borderSide: const BorderSide(color: Colors.blue))),
-            ),
-            margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
-          ),
-          Container(
-            child: TextFormField(
-              keyboardType: TextInputType.phone,
-              decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(12),
-                  border: border,
-                  hintText: "Mobile Number",
-                  focusedBorder: border.copyWith(borderSide: const BorderSide(color: Colors.blue))),
-            ),
-            margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
-          ),
-          const SizedBox(
-            height: 24,
-          ),
-          Container(
-            width: double.infinity,
-            margin: const EdgeInsets.only(left: 48, right: 48),
-            child: ElevatedButton(
-              style: getButtonStyle(),
-              onPressed: () {},
-              child: const Text(
-                "Save",
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              ),
-            ),
-          )
-        ],
-      ),
+          )),
+      bottomNavigationBar: const CustomNavigator(),
     );
   }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wooow_supermarket/main.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
 import 'package:wooow_supermarket/utils/custom_navigator.dart';
-import 'package:wooow_supermarket/utils/global.dart';
 
 class NotificationPage extends StatefulWidget {
   late List<dynamic> notifications = [];
@@ -15,7 +15,7 @@ class _NotificationPageState extends State<NotificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(isHome: false),
       body: FutureBuilder(
         future: getNotifications(),
         initialData: [],
@@ -84,18 +84,6 @@ class _NotificationPageState extends State<NotificationPage> {
         ],
       ),
     );
-  }
-
-  getNotifications() {
-    return ApiBaseHelper().get('notifications').then((response) {
-      if (response is List<dynamic>) {
-        return response;
-      }
-
-      if (response['message'] == 'Unauthenticated.') {
-        Navigator.of(context).pushNamed('login');
-      }
-    });
   }
 
   List<Widget> notificationList(List<dynamic> data) {

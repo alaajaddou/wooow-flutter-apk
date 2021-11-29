@@ -55,6 +55,7 @@ class _HomePageState extends State<HomePage> {
 
     InternetAddress.lookup(Global.baseUrl).then((result) {
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        getNotifications();
         print('connected');
       }
     }).catchError((error) {
@@ -81,7 +82,7 @@ class _HomePageState extends State<HomePage> {
     });
 
     return Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(isHome: true),
       body: Column(children: [
         Image.asset(
           'assets/images/banner.jpg',

@@ -16,10 +16,12 @@ import 'package:wooow_supermarket/models/user.dart';
 import 'package:wooow_supermarket/utils/alert.dart';
 import 'package:wooow_supermarket/utils/authentication.dart';
 import 'package:wooow_supermarket/utils/global.dart';
+import 'package:wooow_supermarket/utils/notification_icon.dart';
 import 'package:wooow_supermarket/utils/route_generator.dart';
 
 FlutterCart cart = FlutterCart();
 CartCounterClass cartClass = CartCounterClass(cart.getCartItemCount(), cart.getTotalAmount());
+NotificationCounter notificationCounter = NotificationCounter(0);
 CartNotifier cartNotifier = CartNotifier(cart.cartItem);
 Authentication auth = Authentication();
 GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -126,7 +128,7 @@ class _MyAppState extends State<MyApp> {
 
 Widget getImage(String? imagePath) {
   if (imagePath != null) {
-    return Image.network("http://" + Global.baseUrl + '/storage/' + imagePath);
+    return Image.network(Global.storagePath + imagePath);
   } else {
     return Image.asset('assets/images/no_result.png');
   }
@@ -154,4 +156,13 @@ addToCart(context, ItemModel item) async {
   } else {
     showErrorDialog(context, "خطأ", "حدث خطأ بالاضافة");
   }
+}
+
+getNotifications() {
+  return ApiBaseHelper().get('notifications').then((response) {
+    if (response is List<dynamic>) {
+      notificationCounter.updateNotificationCounter(response.length);
+      return response;
+    }
+  });
 }

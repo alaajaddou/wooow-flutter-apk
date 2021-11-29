@@ -15,7 +15,7 @@ class CategoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(isHome: false),
       body: FutureBuilder<dynamic>(
           future: getAllData(),
           initialData: const {},
@@ -40,7 +40,7 @@ class CategoryList extends StatelessWidget {
                                       fit: BoxFit.fill,
                                       image: NetworkImage(category.imagePath == ''
                                           ? "https://i.pinimg.com/originals/87/21/98/872198c2f62aa608f6d657b61c5e65b6.jpg"
-                                          : 'http://' + Global.baseUrl + '/storage/' + category.imagePath))),
+                                          : Global.storagePath + category.imagePath))),
                               width: MediaQuery.of(context).size.width,
                               height: 110,
                               child: Center(

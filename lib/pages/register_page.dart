@@ -37,7 +37,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(isHome: false),
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       body: SizedBox(

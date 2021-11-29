@@ -26,7 +26,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void createListItem() {
-    listSection.add(createSection("الإعدادات", const Icon(Icons.settings, color: Colors.white), Colors.red.shade800, const EditProfilePage()));
+    listSection.add(createSection("الإعدادات", const Icon(Icons.settings, color: Colors.white), Colors.red.shade800, EditProfilePage()));
     listSection.add(createSection("الإشعارات", const Icon(Icons.notifications_active, color: Colors.white), Colors.blue.shade800, NotificationPage()));
     listSection.add(createSection("الطلبيات", const Icon(Icons.file_copy_rounded, color: Colors.white), Colors.teal.shade800, const OrderList()));
     listSection.add(createSection("معلومات", const Icon(Icons.info, color: Colors.white), Colors.lightBlue, const AboutPage()));
@@ -39,7 +39,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(isHome: false),
       body: ListView(
         children: <Widget>[
           const SizedBox(height: 24),
@@ -132,7 +132,7 @@ class _ProfilePageState extends State<ProfilePage> {
             margin: const EdgeInsets.only(top: 8, bottom: 8),
             height: 60,
             decoration: BoxDecoration(
-                image: DecorationImage(image: NetworkImage('http://' + Global.baseUrl + '/storage/' + user!.imagePath)), borderRadius: const BorderRadius.all(Radius.circular(24))),
+                image: DecorationImage(image: NetworkImage(Global.storagePath + user!.imagePath)), borderRadius: const BorderRadius.all(Radius.circular(24))),
           ),
           const SizedBox(width: 10),
           Expanded(

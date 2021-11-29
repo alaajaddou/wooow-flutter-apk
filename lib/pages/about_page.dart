@@ -13,7 +13,7 @@ class _AboutPageState extends State<AboutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(isHome: false),
       bottomNavigationBar: const CustomNavigator(),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(

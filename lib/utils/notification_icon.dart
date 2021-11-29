@@ -7,30 +7,46 @@ class NotificationIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget icon;
-    if (cart.getCartItemCount() > 0) {
-      icon = Badge(
-        badgeColor: Colors.red,
-        padding: const EdgeInsets.all(3.0),
-        badgeContent: Text(cart.getCartItemCount().toString(), style: const TextStyle(color: Colors.white)),
-        showBadge: true,
-        child: const Icon(
-          Icons.notifications_active,
-          color: Colors.white,
-          size: 30,
-        ),
-      );
-    } else {
-      icon = Stack(
-          children: const <Widget>[
-            Icon(
-              Icons.notifications_off_outlined,
-              color: Colors.white,
-              size: 30,
-            ),
-          ]
-      );
-    }
-    return icon;
+    // Widget icon;
+    // if (cart.getCartItemCount() > 0) {
+      return ValueListenableBuilder(
+          builder: (context, value, child) => Badge(
+                badgeColor: Colors.red,
+                padding: const EdgeInsets.all(3.0),
+                badgeContent: Text(notificationCounter.notificationCounter.toString(), style: const TextStyle(color: Colors.white)),
+                showBadge: notificationCounter.notificationCounter > 0,
+                child: const Icon(
+                  Icons.notifications_active,
+                  size: 30,
+                ),
+              ),
+          valueListenable: notificationCounter);
+    // } else {
+    //   icon = Stack(children: const <Widget>[
+    //     Icon(
+    //       Icons.notifications_off_outlined,
+    //       size: 30,
+    //     ),
+    //   ]);
+    // }
+    // return icon;
+  }
+}
+
+class NotificationCounter extends ValueNotifier<int> {
+  int _notificationCounter = 0;
+
+  int get notificationCounter => _notificationCounter;
+
+  set notificationCounter(notificationCounter) {
+    _notificationCounter = notificationCounter;
+  }
+
+  NotificationCounter(int value) : super(value);
+
+  updateNotificationCounter(value) {
+    print(value);
+    notificationCounter = value;
+    notifyListeners();
   }
 }

@@ -71,10 +71,10 @@ class ErrorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: CustomAppBar(),
-      body: Center(child: Text('Error')),
-      bottomNavigationBar: CustomNavigator(),
+    return Scaffold(
+      appBar: CustomAppBar(isHome: false),
+      body: const Center(child: Text('Error')),
+      bottomNavigationBar: const CustomNavigator(),
     );
   }
 }

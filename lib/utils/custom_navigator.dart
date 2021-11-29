@@ -11,6 +11,9 @@ class CustomNavigator extends StatefulWidget {
 
 class _CustomNavigatorState extends State<CustomNavigator> {
   void _onItemTapped(int index) async {
+    if (index == selectedIndex) {
+      return;
+    }
     setState(() {
       selectedIndex = index;
     });

@@ -33,7 +33,7 @@ class CircleWidgets extends State<CircleImages> {
                         borderRadius: BorderRadius.circular(100.0),
                         boxShadow: const [BoxShadow(color: Color.fromARGB(100, 0, 0, 0), blurRadius: 5.0, offset: Offset(5.0, 5.0))],
                         border: Border.all(width: 2.0, style: BorderStyle.solid, color: getPrimaryColor()),
-                        image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(element.imagePath == '' ? "https://i.pinimg.com/originals/87/21/98/872198c2f62aa608f6d657b61c5e65b6.jpg" :'http://' + Global.baseUrl + '/storage/' + element.imagePath)))),
+                        image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(element.imagePath == '' ? "https://i.pinimg.com/originals/87/21/98/872198c2f62aa608f6d657b61c5e65b6.jpg" :Global.storagePath + element.imagePath)))),
                 Text(
                   element.name,
                   textAlign: TextAlign.center,

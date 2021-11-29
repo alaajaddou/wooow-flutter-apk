@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(isHome: false),
       backgroundColor: Colors.white,
       body: Builder(builder: (context) {
         return SizedBox(

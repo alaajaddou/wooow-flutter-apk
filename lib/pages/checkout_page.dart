@@ -23,7 +23,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
     });
     return Scaffold(
       key: _scaffoldKey,
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(isHome: false),
       body: Builder(builder: (context) {
         return Column(
           children: <Widget>[
