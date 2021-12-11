@@ -4,7 +4,7 @@ class User {
   final String email;
   final String imagePath;
   final String token;
-  int? addressId;
+  int addressId;
   String? loginProvider;
 
   User({
@@ -13,7 +13,7 @@ class User {
     required this.email,
     required this.imagePath,
     required this.token,
-    this.addressId,
+    required this.addressId,
     this.loginProvider,
   });
 

@@ -34,12 +34,7 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
 );
 
 void initializeDataBase() async {
-  database = await openDatabase(
-    join(await getDatabasesPath(), 'wooow_supermarket.db'),
-    onCreate: (db, version) => _createTables(db, version),
-    onOpen: (db) => _prepareData(db),
-    version: 1,
-  );
+  print(database);
 }
 
 Future<void> signInWithGoogle() async {
@@ -59,7 +54,7 @@ String notificationSqlCreateQuery = 'CREATE TABLE notifications(id INTEGER PRIMA
 String orderStatusSqlCreateQuery = 'CREATE TABLE orderStatuses(id INTEGER PRIMARY KEY, name TEXT)';
 String orderSqlCreateQuery = 'CREATE TABLE orders(id INTEGER PRIMARY KEY, userId INTEGER, addressId INTEGER, orderStatusId INTEGER)';
 String cartItemSqlCreateQuery = 'CREATE TABLE cartItems(id INTEGER PRIMARY KEY, userId INTEGER, productId INTEGER, orderId INTEGER)';
-String activeUserIdSqlCreateQuery = 'CREATE TABLE activeUserId(id INTEGER PRIMARY KEY, userId INTEGER)';
+String activeUserIdSqlCreateQuery = 'CREATE TABLE activeUserId(id INTEGER PRIMARY KEY, email TEXT, password TEXT)';
 
 void _createTables(db, version) {
   db.execute(userSqlCreateQuery);
@@ -75,7 +70,7 @@ void _createTables(db, version) {
 
 void _prepareData(db) {}
 
-Database? database;
+var database;
 int selectedIndex = 0;
 
 Future<void> main() async {
@@ -114,7 +109,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    initializeDataBase();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -134,35 +128,58 @@ Widget getImage(String? imagePath) {
   }
 }
 
-addToCart(context, ItemModel item) async {
+addToCart(context, ItemModel item, {bool fromInit = false}) async {
   int? itemIndex = cart.findItemIndexFromCart(item.id);
   CartResponseWrapper cartResponseWrapper;
-  User? user = await auth.getUser();
+  User user = auth.user;
+  Map<String, int> itemToServer = {};
   if (itemIndex == null) {
-    if (database!.isOpen) {
-      if (user != null) {
-        DBCartItem dbItem = DBCartItem(id: item.id, productId: item.id);
-        database!.insert('cartItems', dbItem.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
-      }
-    }
+    Database db = await openDataBase();
+      DBCartItem dbItem = DBCartItem(id: item.id, productId: item.id, userId: user.id);
+      db.insert('cartItems', dbItem.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+
     cartResponseWrapper = cart.addToCart(productId: item.id, unitPrice: item.price.toDouble(), productName: item.name, productDetailsObject: item);
+    itemToServer['user_id'] = auth.user.id;
+    itemToServer['product_id'] = item.id;
+    if (auth.user.id != 0) {
+      ApiBaseHelper().post('new-cart-item', itemToServer);
+    }
   } else {
     cartResponseWrapper = cart.incrementItemToCart(itemIndex);
+    int? quantity =  cart.getSpecificItemFromCart(item.id)!.quantity;
+    itemToServer['user_id'] = auth.user.id;
+    itemToServer['product_id'] = item.id;
+    itemToServer['quantity'] = quantity;
+    if (auth.user.id != 0) {
+      ApiBaseHelper().put('update-cart-item', itemToServer);
+    }
   }
+
   // cartCount = cart.getCartItemCount();
   cartClass.updateCounter();
-  if (cartResponseWrapper.status) {
-    showSuccessDialog(context, "نجاح", "تمت الاضافة");
-  } else {
-    showErrorDialog(context, "خطأ", "حدث خطأ بالاضافة");
+  if (!fromInit) {
+    if (cartResponseWrapper.status) {
+      showSuccessDialog(context, "نجاح", "تمت الاضافة");
+    } else {
+      showErrorDialog(context, "خطأ", "حدث خطأ بالاضافة");
+    }
   }
 }
 
-getNotifications() {
-  return ApiBaseHelper().get('notifications').then((response) {
-    if (response is List<dynamic>) {
-      notificationCounter.updateNotificationCounter(response.length);
-      return response;
-    }
-  });
+Future<List<dynamic>> getNotifications() async {
+  return await ApiBaseHelper().get('notifications') as List<dynamic>;
+}
+
+Future<Database> openDataBase() async {
+  if (database is Database && database.isOpen) {
+    return database;
+  } else {
+    database = await openDatabase(
+        join(await getDatabasesPath(), 'wooow_supermarket.db'),
+        onCreate: (db, version) => _createTables(db, version),
+        onOpen: (db) => _prepareData(db),
+        version: 1,
+    );
+    return database;
+  }
 }

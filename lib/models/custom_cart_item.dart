@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cart/model/cart_model.dart';
 import 'package:wooow_supermarket/main.dart';
+import 'package:wooow_supermarket/utils/global.dart';
 
 class CustomCartItem extends ValueNotifier<CartItem?> {
   late CartItem item;
@@ -33,6 +34,10 @@ class CustomCartItem extends ValueNotifier<CartItem?> {
       return;
     }
     cart.incrementItemToCart(index);
+    if (auth.user.id != 0) {
+      var cartItem = cart.getSpecificItemFromCart(item.productId);
+      ApiBaseHelper().post('remove-cart-item', {'user_id': auth.user.id, 'product_id': item.productId, 'quantity': cartItem!.quantity});
+    }
     cartClass.updateCounter();
     notifyListeners();
   }
@@ -43,6 +48,10 @@ class CustomCartItem extends ValueNotifier<CartItem?> {
       return;
     }
     cart.decrementItemFromCart(index);
+    if (auth.user.id != 0) {
+      var cartItem = cart.getSpecificItemFromCart(item.productId);
+      ApiBaseHelper().post('remove-cart-item', {'user_id': auth.user.id, 'product_id': item.productId, 'quantity': cartItem!.quantity});
+    }
     cartClass.updateCounter();
     notifyListeners();
   }
@@ -53,6 +62,9 @@ class CustomCartItem extends ValueNotifier<CartItem?> {
       return;
     }
     cart.deleteItemFromCart(index);
+    if (auth.user.id != 0) {
+      ApiBaseHelper().post('remove-cart-item', {'user_id': auth.user.id, 'product_id': item.productId});
+    }
     cartClass.updateCounter();
     cartNotifier.updateItemList();
     notifyListeners();

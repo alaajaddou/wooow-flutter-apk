@@ -22,6 +22,8 @@ class ApiBaseHelper {
     try {
       var api = Uri.http(Global.baseUrl, Global.apiPath + url);
       var headers = await getHeaders() as Map<String, String>;
+      print('api link');
+      print(api);
       final response = await http.get(api, headers: headers);
       return _returnResponse(response);
     } on SocketException catch (exception) {
@@ -33,6 +35,7 @@ class ApiBaseHelper {
     try {
       var api = Uri.http(Global.baseUrl, Global.apiPath + url);
       var headers = await getHeaders() as Map<String, String>;
+      print(body);
       Response response = await http.post(api, body: jsonEncode(body), headers: headers);
       return _returnResponse(response);
     } catch (exception) {
@@ -61,6 +64,9 @@ class ApiBaseHelper {
       case 401:
       case 403:
         return json.decode(response.body.toString());
+      case 404:
+        debugPrint(response.body.toString());
+        return json.decode(response.body.toString());
       case 500:
       default:
         throw FetchDataException('Error occurred while Communication with Server with StatusCode : ${response.statusCode}');
@@ -70,8 +76,9 @@ class ApiBaseHelper {
   getHeaders() async {
     var headers = {HttpHeaders.contentTypeHeader: 'application/json', HttpHeaders.acceptHeader: 'application/json'};
 
-    User? user = await auth.getUser();
-    if (user != null) {
+    User user = auth.user;
+    print(user.id);
+    if (user.id != 0) {
       print(user.token);
       headers[HttpHeaders.authorizationHeader] = 'Bearer ' + user.token;
     }
@@ -125,6 +132,15 @@ ButtonStyle getButtonStyle() {
   );
 }
 
+ButtonStyle getInvertButtonStyle() {
+  return ElevatedButton.styleFrom(
+    primary: getSecondaryColor(),
+    textStyle: const TextStyle(fontSize: 16),
+    padding: const EdgeInsets.only(top: 12, left: 60, right: 60, bottom: 12),
+    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(24))),
+  );
+}
+
 ButtonStyle getViewButtonStyle() {
   return ElevatedButton.styleFrom(
     onPrimary: getPrimaryColor(),
@@ -146,6 +162,10 @@ ButtonStyle getTransparentButtonStyle() {
 
 Color getPrimaryColor() {
   return Colors.lightGreen.shade300;
+}
+
+Color getSecondaryColor() {
+  return Colors.amber;
 }
 
 Color getTransparentColor() {

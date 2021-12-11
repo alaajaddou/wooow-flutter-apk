@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:wooow_supermarket/main.dart';
 import 'package:wooow_supermarket/models/category.dart';
 import 'package:wooow_supermarket/models/item.dart';
@@ -19,10 +20,10 @@ class _CategoriesState extends State<Categories> {
   Future<List<CategoryModel>> getCategories() async {
     List<CategoryModel> categories = [];
 
-    if (database!.isOpen) {
-      var categoriesTemp = await database!.query('categories');
+    Database db = await openDataBase();
+      var categoriesTemp = await db.query('categories');
       for (dynamic category in categoriesTemp) {
-        var categoryItems = await database!.query('items', where: 'categoryId = ?', whereArgs: [category['id']]);
+        var categoryItems = await db.query('items', where: 'categoryId = ?', whereArgs: [category['id']]);
         categories.add(CategoryModel(
             id: category['id'],
             name: category['name'],
@@ -30,8 +31,6 @@ class _CategoriesState extends State<Categories> {
             imagePath: category['imagePath'],
             items: _prepareItemsForCategory(categoryItems, category['id'], category['name'])));
       }
-    }
-
     return categories;
   }
 

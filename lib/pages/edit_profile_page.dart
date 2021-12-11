@@ -51,7 +51,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       height: 120,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          image: DecorationImage(image: NetworkImage(Global.storagePath + (auth.user!.imagePath != null ? auth.user!.imagePath : 'users/default.png'))),
+                          image: DecorationImage(image: NetworkImage(Global.storagePath + (auth.user.imagePath != null ? auth.user.imagePath : 'users/default.png'))),
                           gradient: LinearGradient(colors: [CustomColors.editProfilePicFirstGradient, CustomColors.editProfilePicSecondGradient])),
                     ),
                   ),
@@ -76,20 +76,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ),
               Utils.getSizedBox(height: 20),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.0),
-                child: Container(
-                    child: TextFormField(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: TextFormField(
                   controller: emailController,
                   decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-                      border: CustomBorder.enabledBorder,
-                      labelText: "البريد الالكتروني",
-                      focusedBorder: CustomBorder.focusBorder,
-                      errorBorder: CustomBorder.errorBorder,
-                      enabledBorder: CustomBorder.enabledBorder,
-                      labelStyle: CustomTextStyle.textFormFieldMedium.copyWith(fontSize: MediaQuery.of(context).textScaleFactor * 16, color: Colors.black),
-                      floatingLabelBehavior: FloatingLabelBehavior.auto),
-                )),
+                  contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+                  border: CustomBorder.enabledBorder,
+                  labelText: "البريد الالكتروني",
+                  focusedBorder: CustomBorder.focusBorder,
+                  errorBorder: CustomBorder.errorBorder,
+                  enabledBorder: CustomBorder.enabledBorder,
+                  labelStyle: CustomTextStyle.textFormFieldMedium.copyWith(fontSize: MediaQuery.of(context).textScaleFactor * 16, color: Colors.black),
+                  floatingLabelBehavior: FloatingLabelBehavior.auto),
+                ),
               ),
               const SizedBox(
                 height: 24,

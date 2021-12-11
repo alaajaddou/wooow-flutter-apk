@@ -61,8 +61,9 @@ class _CustomNavigatorState extends State<CustomNavigator> {
       case 2:
         return 'orders';
       case 3:
-        var user = await auth.getUser();
-        if (user != null) {
+        print('auth.isAuthenticated');
+        print(auth.isAuthenticated);
+        if (auth.isAuthenticated) {
           return 'account';
         } else {
           return 'login';

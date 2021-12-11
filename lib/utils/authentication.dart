@@ -1,16 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:wooow_supermarket/main.dart';
 import 'package:wooow_supermarket/models/address.dart';
 import 'package:wooow_supermarket/models/user.dart';
 import 'package:wooow_supermarket/utils/global.dart';
 
 class Authentication {
-  User? user;
-  Address address = Address(id: 0, userId: 0);
+  late User _user;
+
+  User get user => _user;
+
+  set user(User user) {
+    _user = user;
+  }
+  late Address _address;
+
+  Address get address => _address;
+
+  set address(Address address) {
+    _address = address;
+  }
+  bool _isAuthenticated = false;
+
+  bool get isAuthenticated => _isAuthenticated;
+
+  set isAuthenticated(bool isAuthenticated) {
+    print('isAuthenticated');
+    print(isAuthenticated);
+    _isAuthenticated = isAuthenticated;
+  }
 
   Authentication() {
     //
+  }
+
+  setGuestUser() {
+    user = User(
+      id: 0,
+      addressId: 0,
+      email: 'example@example.com',
+      imagePath: 'users/default.png',
+      name: 'Guest',
+      token: '',
+      loginProvider: ''
+    );
+    isAuthenticated = false;
   }
 
   static Future<User?> signInWithGoogle({required BuildContext context}) async {
@@ -48,42 +83,48 @@ class Authentication {
 
   dynamic createWithCredentials(dynamic data) async {
     dynamic registeredUser = await ApiBaseHelper().post('create-user', data);
-    return prepareUser(registeredUser, 'email');
-  }
-
-  Future<User?> getUser() async {
-    if (user is User) {
-      return user;
-    }
-
-    if (database!.isOpen) {
-      List<dynamic> activeUsers = await database!.query('activeUserId', where: 'id = 1');
-      if (activeUsers.isNotEmpty) {
-        dynamic activeUser = activeUsers[0];
-        var usersFromDb = await database!.query('users', where: 'id = ?', whereArgs: [activeUser['userId']]);
-        if (usersFromDb.isNotEmpty) {
-          user = getUserInstance(usersFromDb[0]);
-          return user;
-        }
-      }
-    }
-    return null;
+    user = prepareUser(registeredUser, 'email');
+    isAuthenticated = true;
+    return user;
   }
 
   Future<User?> login(String? email, String? password) async {
-    dynamic tempUser = await ApiBaseHelper().post('login', {'email': email, 'password': password});
-    return prepareUser(tempUser, 'email');
+    try {
+      dynamic tempUser = await ApiBaseHelper().post('login', {'email': email, 'password': password});
+      User user = prepareUser(tempUser, 'email');
+      Database db = await openDataBase();
+        List<Map> activeUsers = await db.rawQuery('SELECT * FROM activeUserId');
+        print('activeUsers =>');
+        print(activeUsers);
+        if (activeUsers.isNotEmpty) {
+          var update1 = await db.update('activeUserId', {'id': 1, 'email': email, 'password': password});
+          var update2 = await db.update('users', user.toMap(), where: 'id = ?', whereArgs: [user.id]);
+          print('update');
+          print(update1);
+          print(update2);
+        } else {
+          var insert1 = await db.insert('activeUserId', {'id': 1, 'email': email, 'password': password});
+          var insert2 = await db.insert('users', user.toMap());
+          print('insert');
+          print(insert1);
+          print(insert2);
+        }
+      isAuthenticated = true;
+      this.user = user;
+      return user;
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   Future logout() async {
-    if (database!.isOpen) {
-      await database!.delete('activeUserId', where: 'id = 1');
-    }
+    Database db = await openDataBase();
+    await db.delete('activeUserId', where: 'id = 1');
     await ApiBaseHelper().post('logout', {});
   }
 
-  Future<User?> prepareUser(dynamic tempUser, String provider) async {
-    user = User(
+  User prepareUser(dynamic tempUser, String provider) {
+    User user = User(
         name: tempUser['name'],
         imagePath: tempUser['avatar'],
         loginProvider: provider,
@@ -91,46 +132,28 @@ class Authentication {
         token: tempUser['api_token'],
         email: tempUser['email'],
         id: tempUser['id']);
-    if (database!.isOpen) {
-      List<Map> activeUsers = await database!.rawQuery('SELECT * FROM activeUserId');
-      if (activeUsers.isNotEmpty) {
-        await database!.update('activeUserId', {'id': 1, 'userId': user!.id});
-        await database!.update('users', user!.toMap(), where: 'id = ?', whereArgs: [user!.id]);
-      } else {
-        await database!.insert('activeUserId', {'id': 1, 'userId': user!.id});
-        await database!.insert('users', user!.toMap());
-      }
-    }
+    isAuthenticated = true;
+    this.user = user;
     return user;
   }
 
   User getUserInstance(userMap) {
-    User user = User(name: userMap['name'], imagePath: userMap['imagePath'], id: userMap['id'], token: userMap['token'], email: userMap['email']);
+    User user = User(
+        name: userMap['name'],
+        imagePath: userMap['imagePath'],
+        id: userMap['id'],
+        token: userMap['token'],
+        email: userMap['email'],
+        addressId: userMap['addressId']
+    );
 
-    if (userMap['addressId'] != null) {
-      user.addressId = userMap['addressId'];
-    }
+    // if (userMap['addressId'] != null) {
+    //   user.addressId = userMap['addressId'];
+    // }
 
     if (userMap['loginProvider'] != null) {
       user.loginProvider = userMap['loginProvider'];
     }
-
     return user;
-  }
-
-  void setAddress() {
-    ApiBaseHelper().get('address').then((address) {
-      dynamic addressObj = address['address'];
-      this.address = Address(
-        id: addressObj['id'],
-        city: addressObj['city'],
-        village: addressObj['village'],
-        phone: addressObj['phone'],
-        mobile: addressObj['mobile'],
-        address: addressObj['address'],
-        building: addressObj['building'],
-        userId: addressObj['user_id'],
-      );
-    });
   }
 }

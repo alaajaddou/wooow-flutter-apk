@@ -82,6 +82,8 @@ class _LoginPageState extends State<LoginPage> {
                                   const SnackBar(content: Text('جاري تسجيل الدخول ...')),
                                 );
                                 auth.login(emailController.text, passwordController.text).then((user) {
+                                  print('user in login');
+                                  print(user);
                                   if (user != null) {
                                     Navigator.of(context).pushReplacementNamed('account');
                                   } else {
@@ -146,24 +148,38 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         Utils.getSizedBox(height: 10),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text(
-                              "انشئ حساب جديد",
-                              style: CustomTextStyle.textFormFieldMedium.copyWith(fontSize: 14),
-                            ),
-                            Utils.getSizedBox(width: 4),
-                            GestureDetector(
-                              child: Text(
-                                "تسجيل",
-                                style: CustomTextStyle.textFormFieldBold.copyWith(fontSize: 14, color: Colors.blue),
+                            Expanded(
+                              child: Container(
+                                color: Colors.grey.shade200,
+                                margin: const EdgeInsets.only(right: 16),
+                                height: 1,
                               ),
-                              onTap: () {
+                              flex: 40,
+                            ),
+                            Expanded(
+                              child: Container(
+                                color: Colors.grey.shade200,
+                                margin: const EdgeInsets.only(left: 16),
+                                height: 1,
+                              ),
+                              flex: 40,
+                            )
+                          ],
+                        ),
+                        Utils.getSizedBox(height: 14),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                              onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RegisterPage()));
                               },
-                            ),
-                          ],
-                        )
+                              child: Text(
+                                "انشئ حساب جديد",
+                                style: CustomTextStyle.textFormFieldMedium.copyWith(color: Colors.black, fontSize: 14),
+                              ),
+                              style: getInvertButtonStyle()),
+                        ),
                       ],
                     ),
                   ),

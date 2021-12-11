@@ -101,7 +101,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      auth.user!.name,
+                      auth.user.name,
                       style: const TextStyle(fontSize: 14),
                     ),
                     Container(
@@ -147,23 +147,27 @@ class _CheckOutPageState extends State<CheckOutPage> {
   }
 
   addressAction() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        ElevatedButton(
-          onPressed: () {},
-          child: Text(
-            "تعديل",
-            style: TextStyle(fontSize: 12, color: Colors.indigo.shade700),
-          ),
-          style: getButtonStyle(),
+    List<Widget> widgets = [];
+    if(addressObj.id != 0) {
+      widgets.add(ElevatedButton(
+        onPressed: () {},
+        child: Text(
+          "تعديل",
+          style: TextStyle(fontSize: 12, color: Colors.indigo.shade700),
         ),
+        style: getButtonStyle(),
+      ));
+    }
+    widgets.add(
         ElevatedButton(
           onPressed: () {},
           child: Text("اضف عنوان جديد", style: TextStyle(fontSize: 12, color: Colors.indigo.shade700)),
           style: getButtonStyle(),
-        ),
-      ],
+        ));
+    return Row(
+      mainAxisAlignment: widgets.length > 1 ? MainAxisAlignment.spaceBetween : MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: widgets
     );
   }
 

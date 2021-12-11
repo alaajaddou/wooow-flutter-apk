@@ -8,6 +8,7 @@ import 'package:wooow_supermarket/pages/category_page.dart';
 import 'package:wooow_supermarket/pages/checkout_page.dart';
 import 'package:wooow_supermarket/pages/home_page.dart';
 import 'package:wooow_supermarket/pages/login_page.dart';
+import 'package:wooow_supermarket/pages/new_address_page.dart';
 import 'package:wooow_supermarket/pages/not_found.dart';
 import 'package:wooow_supermarket/pages/notification_page.dart';
 import 'package:wooow_supermarket/pages/order.dart';
@@ -44,6 +45,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const OrderList());
       case 'account':
         return MaterialPageRoute(builder: (_) => const ProfilePage());
+      case 'new-address':
+        return MaterialPageRoute(builder: (_) => NewAddressPage());
       case 'login':
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case 'register':
@@ -71,7 +74,7 @@ class ErrorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Scaffold(
       appBar: CustomAppBar(isHome: false),
       body: const Center(child: Text('Error')),
       bottomNavigationBar: const CustomNavigator(),

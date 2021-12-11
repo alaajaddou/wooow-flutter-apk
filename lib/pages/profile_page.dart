@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wooow_supermarket/main.dart';
 import 'package:wooow_supermarket/pages/about_page.dart';
+import 'package:wooow_supermarket/pages/addresses_page.dart';
 import 'package:wooow_supermarket/pages/edit_profile_page.dart';
 import 'package:wooow_supermarket/pages/notification_page.dart';
 import 'package:wooow_supermarket/pages/order_list.dart';
@@ -27,6 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void createListItem() {
     listSection.add(createSection("الإعدادات", const Icon(Icons.settings, color: Colors.white), Colors.red.shade800, EditProfilePage()));
+    listSection.add(createSection("العناوين", const Icon(Icons.location_pin, color: Colors.white), Colors.amber.shade400, AddressesPage()));
     listSection.add(createSection("الإشعارات", const Icon(Icons.notifications_active, color: Colors.white), Colors.blue.shade800, NotificationPage()));
     listSection.add(createSection("الطلبيات", const Icon(Icons.file_copy_rounded, color: Colors.white), Colors.teal.shade800, const OrderList()));
     listSection.add(createSection("معلومات", const Icon(Icons.info, color: Colors.white), Colors.lightBlue, const AboutPage()));
@@ -116,11 +118,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<Widget> buildHeader() async {
-    var user = await auth.getUser();
-    if (user != null) {
-      auth.setAddress();
-    }
-
     return Container(
       margin: const EdgeInsets.all(0.0),
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -132,7 +129,7 @@ class _ProfilePageState extends State<ProfilePage> {
             margin: const EdgeInsets.only(top: 8, bottom: 8),
             height: 60,
             decoration: BoxDecoration(
-                image: DecorationImage(image: NetworkImage(Global.storagePath + user!.imagePath)), borderRadius: const BorderRadius.all(Radius.circular(24))),
+                image: DecorationImage(image: NetworkImage(Global.storagePath + auth.user.imagePath)), borderRadius: const BorderRadius.all(Radius.circular(24))),
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -143,13 +140,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      user.name,
+                      auth.user.name,
                       textAlign: TextAlign.start,
                       style: TextStyle(color: Colors.blue.shade900, fontSize: 14),
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      user.email,
+                      auth.user.email,
                       style: const TextStyle(color: Colors.white, fontSize: 12),
                     ),
                   ],
