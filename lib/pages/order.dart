@@ -58,7 +58,16 @@ class _OrderPageState extends State<OrderPage> {
           ])
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: _getFAB(),
+      bottomNavigationBar: const CustomNavigator(),
+    );
+  }
+
+  Widget _getFAB() {
+    if (widget.order.orderStatusId > 3) {
+      return Container();
+    } else {
+      return FloatingActionButton(
         onPressed: () => cancelOrder(widget.order.id),
         backgroundColor: Colors.red,
         child: const Icon(
@@ -66,10 +75,10 @@ class _OrderPageState extends State<OrderPage> {
           color: Colors.white,
           size: 35.0,
         ),
-      ),
-      bottomNavigationBar: const CustomNavigator(),
-    );
+      );
+    }
   }
+
 
   createCartList(List items) {
     ListView cartItemsList = ListView.builder(

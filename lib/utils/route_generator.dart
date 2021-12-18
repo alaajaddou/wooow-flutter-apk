@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:wooow_supermarket/main.dart';
+import 'package:wooow_supermarket/models/address.dart';
 import 'package:wooow_supermarket/models/category.dart';
 import 'package:wooow_supermarket/models/item.dart';
 import 'package:wooow_supermarket/models/order.dart';
+import 'package:wooow_supermarket/pages/addresses_page.dart';
 import 'package:wooow_supermarket/pages/cart_page.dart';
 import 'package:wooow_supermarket/pages/category_list.dart';
 import 'package:wooow_supermarket/pages/category_page.dart';
@@ -16,7 +19,6 @@ import 'package:wooow_supermarket/pages/order_list.dart';
 import 'package:wooow_supermarket/pages/product_detail_page.dart';
 import 'package:wooow_supermarket/pages/profile_page.dart';
 import 'package:wooow_supermarket/pages/register_page.dart';
-import 'package:wooow_supermarket/pages/search_page.dart';
 import 'package:wooow_supermarket/pages/thank_you_page.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
 import 'package:wooow_supermarket/utils/custom_navigator.dart';
@@ -45,8 +47,12 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const OrderList());
       case 'account':
         return MaterialPageRoute(builder: (_) => const ProfilePage());
+      case 'addresses':
+        return MaterialPageRoute(builder: (_) => AddressesPage(fromCheckout: arguments as bool));
       case 'new-address':
-        return MaterialPageRoute(builder: (_) => NewAddressPage());
+        return MaterialPageRoute(builder: (_) {
+          return NewAddressPage(args: arguments as NewAddressArguments);
+        });
       case 'login':
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case 'register':

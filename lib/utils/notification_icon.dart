@@ -45,7 +45,6 @@ class NotificationCounter extends ValueNotifier<int> {
   NotificationCounter(int value) : super(value);
 
   updateNotificationCounter(value) {
-    print(value);
     notificationCounter = value;
     notifyListeners();
   }

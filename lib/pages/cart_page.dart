@@ -19,7 +19,6 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey.shade100,
       appBar: CustomAppBar(isHome: false),
       body: cart.cartItem.isNotEmpty

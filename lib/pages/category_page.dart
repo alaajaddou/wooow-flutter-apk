@@ -20,7 +20,6 @@ class _CategoryPageState extends State<CategoryPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     addItemColor();
   }
@@ -403,11 +402,14 @@ TODO:
     - route if back wont get in again.
     - notifications. -- done --
     - cancel order. -- done --
-    - edit address.
-    - add address.
-    - edit user info. -- done for form --
+    - edit address. -- done --
+    - add address. -- done --
+    - edit user info. -- later --
     - save edit user info.
     - about us. -- done --
     - in category page item image not found. -- later --
     - search page. -- later --
+    - if the user is not defined ot guest no need for notifications.
+    - check registration
+    - login & register with facebook and google.
  */

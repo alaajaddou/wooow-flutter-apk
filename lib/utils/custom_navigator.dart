@@ -61,8 +61,6 @@ class _CustomNavigatorState extends State<CustomNavigator> {
       case 2:
         return 'orders';
       case 3:
-        print('auth.isAuthenticated');
-        print(auth.isAuthenticated);
         if (auth.isAuthenticated) {
           return 'account';
         } else {

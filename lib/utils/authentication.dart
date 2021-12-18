@@ -21,13 +21,14 @@ class Authentication {
   set address(Address address) {
     _address = address;
   }
+
+  List<Address> addresses = [];
+
   bool _isAuthenticated = false;
 
   bool get isAuthenticated => _isAuthenticated;
 
   set isAuthenticated(bool isAuthenticated) {
-    print('isAuthenticated');
-    print(isAuthenticated);
     _isAuthenticated = isAuthenticated;
   }
 
@@ -94,20 +95,12 @@ class Authentication {
       User user = prepareUser(tempUser, 'email');
       Database db = await openDataBase();
         List<Map> activeUsers = await db.rawQuery('SELECT * FROM activeUserId');
-        print('activeUsers =>');
-        print(activeUsers);
         if (activeUsers.isNotEmpty) {
-          var update1 = await db.update('activeUserId', {'id': 1, 'email': email, 'password': password});
-          var update2 = await db.update('users', user.toMap(), where: 'id = ?', whereArgs: [user.id]);
-          print('update');
-          print(update1);
-          print(update2);
+          await db.update('activeUserId', {'id': 1, 'email': email, 'password': password});
+          await db.update('users', user.toMap(), where: 'id = ?', whereArgs: [user.id]);
         } else {
-          var insert1 = await db.insert('activeUserId', {'id': 1, 'email': email, 'password': password});
-          var insert2 = await db.insert('users', user.toMap());
-          print('insert');
-          print(insert1);
-          print(insert2);
+          await db.insert('activeUserId', {'id': 1, 'email': email, 'password': password});
+          await db.insert('users', user.toMap());
         }
       isAuthenticated = true;
       this.user = user;

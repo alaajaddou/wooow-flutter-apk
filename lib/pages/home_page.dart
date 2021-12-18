@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_cart/model/cart_model.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:wooow_supermarket/main.dart';
@@ -60,10 +61,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     InternetAddress.lookup(Global.baseUrl).then((result) {
-      print(result);
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         getUser();
         print('connected');
+
       }
     }).catchError((error) {
       print('not connected');
@@ -85,6 +86,7 @@ class _HomePageState extends State<HomePage> {
               color: getPrimaryColor(),
             ),
           ]).show();
+
       // showErrorDialog(context, 'خطأ', 'لابد من الاتصال بالانترنت');
     });
 
@@ -156,22 +158,22 @@ class _HomePageState extends State<HomePage> {
       List<dynamic> activeUsers = await db.query('activeUserId');
       print('activeUsers');
       print(activeUsers);
+      print(activeUsers.isNotEmpty);
       if (activeUsers.isNotEmpty) {
         dynamic activeUser = activeUsers[0];
+        print(activeUser);
         email = activeUser['email'];
         password = activeUser['password'];
       }
+
       print('email');
       print(email);
-      print(email == null);
       print('password');
       print(password);
-      print(password == null);
-      print(email == null || password == null);
+
       if (email == null || password == null) {
         auth.setGuestUser();
       } else {
-        print('not null');
         dynamic user = await ApiBaseHelper().post('login', {'email': email, 'password': password});
         print('user');
         print(user);
@@ -179,17 +181,14 @@ class _HomePageState extends State<HomePage> {
           auth.setGuestUser();
         } else {
           auth.prepareUser(user, 'email');
-          print('auth.isAuthenticated =>');
-          print(auth.isAuthenticated);
         }
       }
-      print(auth.user);
       if (auth.user.id == 0) {
         getNotifications().then((value) => handleResponses(0, value));
         getCartItems(DataSource.db).then((value) => handleResponses(1, value));
       } else {
         getNotifications().then((value) => handleResponses(0, value));
-        getCartItems(DataSource.db).then((value) => handleResponses(1, value));
+        getCartItems(DataSource.server).then((value) => handleResponses(1, value));
         getOrders();
         getAddress().then((response) => handleResponses(3, response));
       }
@@ -224,6 +223,17 @@ class _HomePageState extends State<HomePage> {
     }
     if (index == 1) {
       // getCartItems
+      for(int index = 0; index < response['items'].length; index++) {
+        ItemModel _item = ItemModel(
+            id: response['items'][index]['id'],
+            name: response['items'][index]['name'],
+            description: response['items'][index]['description'],
+            price: response['items'][index]['price'],
+            categoryId: response['items'][index]['categoryId'],
+            categoryName: response['items'][index]['categoryName'],
+            availableQuantity: response['items'][index]['availableQuantity'],
+        );
+      }
       return;
     }
     if (index == 2) {
@@ -234,19 +244,20 @@ class _HomePageState extends State<HomePage> {
       List<dynamic> addresses = response['addresses'];
       for(int index = 0; index < addresses.length; index++) {
         dynamic addressObj = addresses[index];
-        if (addressObj['id'] != auth.user.addressId) {
-          continue;
-        } else {
-          auth.address = Address(
-            id: addressObj['id'],
-            city: addressObj['city'],
-            village: addressObj['village'],
-            phone: addressObj['phone'],
-            mobile: addressObj['mobile'],
-            address: addressObj['address'],
-            building: addressObj['building'],
-            userId: addressObj['user_id'],
-          );
+        Address address = Address(
+          id: addressObj['id'],
+          city: addressObj['city'],
+          village: addressObj['village'],
+          phone: addressObj['phone'],
+          mobile: addressObj['mobile'],
+          address: addressObj['address'],
+          building: addressObj['building'],
+          userId: addressObj['user_id'],
+          isDefault: addressObj['is_default'] == 1,
+        );
+        auth.addresses.add(address);
+        if (address.isDefault) {
+          auth.address = address;
         }
       }
       return;
@@ -259,10 +270,8 @@ class _HomePageState extends State<HomePage> {
     List<Map<String, Object?>> databaseCartItems = await db.query('cartItems', where: 'userId = ?', whereArgs: [auth.user.id]);
     if (databaseCartItems.isNotEmpty) {
       for (Map<String, Object?> cartItem in databaseCartItems) {
-        print('cartItem');
         List<Map<String, Object?>> item = await db.query('items', where: 'id = ?', whereArgs: [cartItem['productId']]);
         if (item.isNotEmpty) {
-          print(item[0]['price']);
           ItemModel itemModel = ItemModel(
               id: item[0]['id'] as int,
               name: item[0]['name'] as String,
@@ -273,7 +282,6 @@ class _HomePageState extends State<HomePage> {
               availableQuantity: item[0]['availableQuantity'] as int);
           addToCart(context, itemModel, fromInit: true);
         }
-        print(item);
       }
     }
     return cartItems;

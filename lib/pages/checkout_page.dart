@@ -13,7 +13,8 @@ class CheckOutPage extends StatefulWidget {
 }
 
 class _CheckOutPageState extends State<CheckOutPage> {
-  late Address addressObj = Address(id: 0, userId: 0);
+
+  Address addressObj = auth.address;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
@@ -100,17 +101,29 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
+                    Expanded(child: Text(
                       auth.user.name,
                       style: const TextStyle(fontSize: 14),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
-                      decoration: BoxDecoration(shape: BoxShape.rectangle, color: Colors.grey.shade300, borderRadius: const BorderRadius.all(Radius.circular(16))),
-                      child: Text(
-                        "الرئيسي",
-                        style: TextStyle(color: Colors.indigoAccent.shade200, fontSize: 8),
-                      ),
+                    )),
+                    Row(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed('addresses', arguments: true);
+                          },
+                          style: getDefaultAddressButtonStyle(),
+                          child: const Text("الرئيسي")
+                        ),
+                        const Padding(padding: EdgeInsets.all(5)),
+                        ElevatedButton(
+                            onPressed: () => Navigator.of(context).pushNamed('new-address', arguments: {'fromCheckout': true}),
+                          style: getDefaultAddressButtonStyle(),
+                          child: const Icon(
+                            Icons.add,
+                            color: Colors.black,
+                          )
+                        )
+                      ]
                     )
                   ],
                 ),
@@ -127,7 +140,6 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   height: 1,
                   width: double.infinity,
                 ),
-                addressAction()
               ],
             ),
           ),
@@ -160,7 +172,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
     }
     widgets.add(
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () => Navigator.of(context).pushNamed('new-address', arguments:  {'fromCheckout': true}),
           child: Text("اضف عنوان جديد", style: TextStyle(fontSize: 12, color: Colors.indigo.shade700)),
           style: getButtonStyle(),
         ));

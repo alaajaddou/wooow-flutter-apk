@@ -21,14 +21,13 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     createListItem();
   }
 
   void createListItem() {
-    listSection.add(createSection("الإعدادات", const Icon(Icons.settings, color: Colors.white), Colors.red.shade800, EditProfilePage()));
-    listSection.add(createSection("العناوين", const Icon(Icons.location_pin, color: Colors.white), Colors.amber.shade400, AddressesPage()));
+    // listSection.add(createSection("الإعدادات", const Icon(Icons.settings, color: Colors.white), Colors.red.shade800, EditProfilePage()));
+    listSection.add(createSection("العناوين", const Icon(Icons.location_pin, color: Colors.white), Colors.amber.shade400, AddressesPage(fromCheckout: false,)));
     listSection.add(createSection("الإشعارات", const Icon(Icons.notifications_active, color: Colors.white), Colors.blue.shade800, NotificationPage()));
     listSection.add(createSection("الطلبيات", const Icon(Icons.file_copy_rounded, color: Colors.white), Colors.teal.shade800, const OrderList()));
     listSection.add(createSection("معلومات", const Icon(Icons.info, color: Colors.white), Colors.lightBlue, const AboutPage()));

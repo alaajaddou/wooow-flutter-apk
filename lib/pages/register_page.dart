@@ -39,7 +39,6 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       appBar: CustomAppBar(isHome: false),
       backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: false,
       body: SizedBox(
         width: double.infinity,
         child: Column(
@@ -51,7 +50,7 @@ class _RegisterPageState extends State<RegisterPage> {
             Expanded(
               child: Container(
                 margin: const EdgeInsets.all(16),
-                child: Column(
+                child: ListView(
                   children: <Widget>[
                     Form(
                         key: _formKey,

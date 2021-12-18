@@ -34,7 +34,6 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
 );
 
 void initializeDataBase() async {
-  print(database);
 }
 
 Future<void> signInWithGoogle() async {

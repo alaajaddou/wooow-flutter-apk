@@ -24,7 +24,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     addColor();
     addSize();

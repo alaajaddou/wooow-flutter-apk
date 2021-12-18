@@ -22,8 +22,6 @@ class ApiBaseHelper {
     try {
       var api = Uri.http(Global.baseUrl, Global.apiPath + url);
       var headers = await getHeaders() as Map<String, String>;
-      print('api link');
-      print(api);
       final response = await http.get(api, headers: headers);
       return _returnResponse(response);
     } on SocketException catch (exception) {
@@ -35,7 +33,6 @@ class ApiBaseHelper {
     try {
       var api = Uri.http(Global.baseUrl, Global.apiPath + url);
       var headers = await getHeaders() as Map<String, String>;
-      print(body);
       Response response = await http.post(api, body: jsonEncode(body), headers: headers);
       return _returnResponse(response);
     } catch (exception) {
@@ -65,7 +62,7 @@ class ApiBaseHelper {
       case 403:
         return json.decode(response.body.toString());
       case 404:
-        debugPrint(response.body.toString());
+        // debugPrint(response.body.toString());
         return json.decode(response.body.toString());
       case 500:
       default:
@@ -75,15 +72,25 @@ class ApiBaseHelper {
 
   getHeaders() async {
     var headers = {HttpHeaders.contentTypeHeader: 'application/json', HttpHeaders.acceptHeader: 'application/json'};
-
-    User user = auth.user;
-    print(user.id);
-    if (user.id != 0) {
+    if (auth.isAuthenticated) {
+      User user = auth.user;
       print(user.token);
       headers[HttpHeaders.authorizationHeader] = 'Bearer ' + user.token;
     }
-
     return headers;
+  }
+
+
+
+  Future<dynamic> delete(String url, dynamic body) async {
+    try {
+      var api = Uri.http(Global.baseUrl, Global.apiPath + url);
+      var headers = await getHeaders() as Map<String, String>;
+      Response response = await http.delete(api, body: jsonEncode(body), headers: headers);
+      return _returnResponse(response);
+    } catch (exception) {
+      rethrow;
+    }
   }
 }
 
@@ -128,6 +135,33 @@ ButtonStyle getButtonStyle() {
     primary: getPrimaryColor(),
     textStyle: const TextStyle(fontSize: 16),
     padding: const EdgeInsets.only(top: 12, left: 60, right: 60, bottom: 12),
+    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(24))),
+  );
+}
+
+ButtonStyle getDefaultAddressButtonStyle() {
+  return ElevatedButton.styleFrom(
+    primary: Colors.grey.shade200,
+    textStyle: const TextStyle( color: Colors.black38, fontSize: 12),
+    padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(24))),
+  );
+}
+
+ButtonStyle getDangerButtonStyle() {
+  return ElevatedButton.styleFrom(
+    primary: Colors.red,
+    textStyle: const TextStyle( color: Colors.white, fontSize: 12),
+    padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(24))),
+  );
+}
+
+ButtonStyle getAddressActionButtonStyle() {
+  return ElevatedButton.styleFrom(
+    primary: Colors.grey.shade200,
+    textStyle: const TextStyle( color: Colors.black38, fontSize: 12),
+    padding: const EdgeInsets.all(5),
     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(24))),
   );
 }
