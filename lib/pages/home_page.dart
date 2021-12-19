@@ -64,7 +64,6 @@ class _HomePageState extends State<HomePage> {
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         getUser();
         print('connected');
-
       }
     }).catchError((error) {
       print('not connected');
@@ -223,15 +222,15 @@ class _HomePageState extends State<HomePage> {
     }
     if (index == 1) {
       // getCartItems
-      for(int index = 0; index < response['items'].length; index++) {
+      for (int index = 0; index < response['items'].length; index++) {
         ItemModel _item = ItemModel(
-            id: response['items'][index]['id'],
-            name: response['items'][index]['name'],
-            description: response['items'][index]['description'],
-            price: response['items'][index]['price'],
-            categoryId: response['items'][index]['categoryId'],
-            categoryName: response['items'][index]['categoryName'],
-            availableQuantity: response['items'][index]['availableQuantity'],
+          id: response['items'][index]['id'],
+          name: response['items'][index]['name'],
+          description: response['items'][index]['description'],
+          price: response['items'][index]['price'],
+          categoryId: response['items'][index]['categoryId'],
+          categoryName: response['items'][index]['categoryName'],
+          availableQuantity: response['items'][index]['availableQuantity'],
         );
       }
       return;
@@ -242,19 +241,19 @@ class _HomePageState extends State<HomePage> {
     }
     if (index == 3) {
       List<dynamic> addresses = response['addresses'];
-      for(int index = 0; index < addresses.length; index++) {
+      for (int index = 0; index < addresses.length; index++) {
         dynamic addressObj = addresses[index];
         Address address = Address(
-          id: addressObj['id'],
-          city: addressObj['city'],
-          village: addressObj['village'],
-          phone: addressObj['phone'],
-          mobile: addressObj['mobile'],
-          address: addressObj['address'],
-          building: addressObj['building'],
-          userId: addressObj['user_id'],
-          isDefault: addressObj['is_default'] == 1,
-        );
+            id: addressObj['id'],
+            city: addressObj['city'],
+            village: addressObj['village'],
+            phone: addressObj['phone'],
+            mobile: addressObj['mobile'],
+            address: addressObj['address'],
+            building: addressObj['building'],
+            userId: addressObj['user_id'],
+            isDefault: addressObj['is_default'] == 1,
+            deletable: addressObj['deletable']);
         auth.addresses.add(address);
         if (address.isDefault) {
           auth.address = address;

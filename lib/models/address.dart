@@ -8,8 +8,9 @@ class Address {
   final String? address;
   final String? building;
   bool isDefault;
+  bool deletable = false;
 
-  Address({required this.id, required this.userId, this.city, this.village, this.phone, this.mobile, this.address, this.building, required this.isDefault});
+  Address({required this.id, required this.userId, this.city, this.village, this.phone, this.mobile, this.address, this.building, required this.isDefault, required this.deletable});
 
   // Convert a Address into a Map. The keys must correspond to the names of the
   // columns in the database.

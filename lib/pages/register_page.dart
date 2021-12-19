@@ -176,15 +176,15 @@ class _RegisterPageState extends State<RegisterPage> {
                       ],
                     ),
                     Utils.getSizedBox(height: 10),
-                    SizedBox(
-                      width: double.infinity,
-                      child: SignInButton(
-                        Buttons.Facebook,
-                        text: "تسجيل باستخدام Facebook",
-                        onPressed: () {},
-                      ),
-                    ),
-                    Utils.getSizedBox(height: 10),
+                    // SizedBox(
+                    //   width: double.infinity,
+                    //   child: SignInButton(
+                    //     Buttons.Facebook,
+                    //     text: "تسجيل باستخدام Facebook",
+                    //     onPressed: () {},
+                    //   ),
+                    // ),
+                    // Utils.getSizedBox(height: 10),
                     SizedBox(
                         width: double.infinity,
                         child: SignInButton(

@@ -124,17 +124,17 @@ class _LoginPageState extends State<LoginPage> {
                                 )
                               ],
                             ),
-                            Utils.getSizedBox(height: 14),
-                            SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                  onPressed: () {},
-                                  child: Text(
-                                    "تسجيل باستخدام Facebook",
-                                    style: CustomTextStyle.textFormFieldMedium.copyWith(color: Colors.white, fontSize: 14),
-                                  ),
-                                  style: getButtonStyle()),
-                            ),
+                            // Utils.getSizedBox(height: 14),
+                            // SizedBox(
+                            //   width: double.infinity,
+                            //   child: ElevatedButton(
+                            //       onPressed: () {},
+                            //       child: Text(
+                            //         "تسجيل باستخدام Facebook",
+                            //         style: CustomTextStyle.textFormFieldMedium.copyWith(color: Colors.white, fontSize: 14),
+                            //       ),
+                            //       style: getButtonStyle()),
+                            // ),
                             Utils.getSizedBox(height: 14),
                             SizedBox(
                               width: double.infinity,

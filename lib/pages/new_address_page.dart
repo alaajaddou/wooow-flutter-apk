@@ -43,7 +43,7 @@ class _NewAddressPageState extends State<NewAddressPage> {
 
   @override
   void initState() {
-    isSelected =  widget.args.addressObj?.isDefault == true;
+    isSelected = widget.args.addressObj?.isDefault == true;
     super.initState();
   }
 
@@ -51,29 +51,25 @@ class _NewAddressPageState extends State<NewAddressPage> {
   Widget build(BuildContext context) {
     _context = context;
     return Scaffold(
-
       appBar: CustomAppBar(isHome: false),
-      body: ListView(
-          padding: const EdgeInsets.all(24),
-          children: [
-            Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  _buildHeader(),
-                  _buildCityElement(),
-                  _buildVillageElement(),
-                  _buildPhoneElement(),
-                  _buildMobileElement(),
-                  _buildAddressElement(),
-                  _buildBuildingElement(),
-                  _buildIsDefaultElement(),
-                ],
-              ),
-            )
-          ]
-      ),
+      body: ListView(padding: const EdgeInsets.all(24), children: [
+        Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              _buildHeader(),
+              _buildCityElement(),
+              _buildVillageElement(),
+              _buildPhoneElement(),
+              _buildMobileElement(),
+              _buildAddressElement(),
+              _buildBuildingElement(),
+              _buildIsDefaultElement(),
+            ],
+          ),
+        )
+      ]),
       bottomNavigationBar: const CustomNavigator(),
       floatingActionButton: FloatingActionButton(
           onPressed: () => {_saveAddress()},
@@ -116,16 +112,16 @@ class _NewAddressPageState extends State<NewAddressPage> {
                 onPressed: () {
                   if (widget.args.fromCheckout) {
                     Address address = Address(
-                      id: addressObj['id'],
-                      userId: auth.user.id,
-                      isDefault: true,
-                      address: addressObj['address'],
-                      building: addressObj['building'],
-                      city: addressObj['city'],
-                      mobile: addressObj['mobile'],
-                      phone: addressObj['phone'],
-                      village: addressObj['village'],
-                    );
+                        id: addressObj['id'],
+                        userId: auth.user.id,
+                        isDefault: true,
+                        address: addressObj['address'],
+                        building: addressObj['building'],
+                        city: addressObj['city'],
+                        mobile: addressObj['mobile'],
+                        phone: addressObj['phone'],
+                        village: addressObj['village'],
+                        deletable: addressObj['deletable']);
                     setDefaultAddress(_context!, address);
                     Navigator.of(_context!).pushReplacementNamed('checkout');
                   } else {

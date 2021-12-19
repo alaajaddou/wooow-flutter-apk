@@ -65,7 +65,9 @@ class _AddressesPageState extends State<AddressesPage> {
               phone: data[index]['phone'],
               village: data[index]['village'],
               userId: data[index]['user_id'],
-              isDefault: data[index]['is_default'] == 1);
+              isDefault: data[index]['is_default'] == 1,
+              deletable: data[index]['deletable']
+          );
           if (address.isDefault) {
             auth.address = address;
           }
@@ -75,10 +77,7 @@ class _AddressesPageState extends State<AddressesPage> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 ListTile(
-                  trailing: GestureDetector(
-                    onTap: () => deleteAddress(address.id),
-                    child: const Icon(Icons.remove_circle, size: 18, color: Colors.red),
-                  ),
+                  trailing: getDeleteIcon(address),
                   title: Text((address.city ?? '') + ' - ' + (address.village ?? '')),
                   subtitle: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -165,6 +164,15 @@ class _AddressesPageState extends State<AddressesPage> {
           );
         },
         context: context);
+  }
+
+  Widget? getDeleteIcon(address) {
+    if (address.deletable) {
+      return GestureDetector(
+        onTap: () => deleteAddress(address.id),
+        child: const Icon(Icons.remove_circle, size: 18, color: Colors.red),
+      );
+    }
   }
 }
 
