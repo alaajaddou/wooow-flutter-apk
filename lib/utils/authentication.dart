@@ -92,19 +92,15 @@ class Authentication {
   Future<User?> login(String? email, String? password) async {
     try {
       dynamic tempUser = await ApiBaseHelper().post('login', {'email': email, 'password': password});
-      User user = prepareUser(tempUser, 'email');
-      Database db = await openDataBase();
-        List<Map> activeUsers = await db.rawQuery('SELECT * FROM activeUserId');
-        if (activeUsers.isNotEmpty) {
-          await db.update('activeUserId', {'id': 1, 'email': email, 'password': password});
-          await db.update('users', user.toMap(), where: 'id = ?', whereArgs: [user.id]);
-        } else {
-          await db.insert('activeUserId', {'id': 1, 'email': email, 'password': password});
-          await db.insert('users', user.toMap());
-        }
-      isAuthenticated = true;
-      this.user = user;
-      return user;
+      return handleUserAfterLogin(tempUser, 'email', {'email': email, 'password': password});
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<User?> loginByGoogle(dynamic tempUser, data) async {
+    try {
+      return handleUserAfterLogin(tempUser, 'google', data);
     } catch (e) {
       print(e.toString());
     }
@@ -147,6 +143,22 @@ class Authentication {
     if (userMap['loginProvider'] != null) {
       user.loginProvider = userMap['loginProvider'];
     }
+    return user;
+  }
+
+  Future<User?> handleUserAfterLogin(tempUser, String provider, data) async {
+    User user = prepareUser(tempUser, provider);
+    Database db = await openDataBase();
+    List<Map> activeUsers = await db.rawQuery('SELECT * FROM activeUserId');
+    if (activeUsers.isNotEmpty) {
+      await db.update('activeUserId', {'id': 1, 'email': data['email'], 'password': data['password'], 'provider': provider, 'google_id': data['google_id'], 'facebook_id': data['facebook_id']});
+      await db.update('users', user.toMap(), where: 'id = ?', whereArgs: [user.id]);
+    } else {
+      await db.insert('activeUserId', {'id': 1, 'email': data['email'], 'password': data['password'], 'provider': provider, 'google_id': data['google_id'], 'facebook_id': data['facebook_id']});
+      await db.insert('users', user.toMap());
+    }
+    isAuthenticated = true;
+    this.user = user;
     return user;
   }
 }

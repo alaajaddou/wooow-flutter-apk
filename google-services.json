@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "155108325545",
-    "project_id": "wooow-supermarket-4ec63",
-    "storage_bucket": "wooow-supermarket-4ec63.appspot.com"
+    "project_number": "616786469896",
+    "project_id": "wooow-supermarket-caeb2",
+    "storage_bucket": "wooow-supermarket-caeb2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:155108325545:android:84915395b1c4ec3b1a91b8",
+        "mobilesdk_app_id": "1:616786469896:android:eaac194744eead18a7ddbd",
         "android_client_info": {
           "package_name": "com.woooow.wooowSupermarket"
         }
       },
       "oauth_client": [
         {
-          "client_id": "155108325545-1g1q94f874658hhuvtlfbrh7f7h2s87f.apps.googleusercontent.com",
+          "client_id": "616786469896-lpls9qppsn2m8ne6ddjsbhnv63beumio.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.woooow.wooowSupermarket",
-            "certificate_hash": "31e44c0a5b85d0c0222b1b2027696de4b871bf35"
+            "certificate_hash": "d6c45d7d4d7335393f2107ed0ff3c02cdd49d704"
           }
         },
         {
-          "client_id": "155108325545-splqage09tknvgdld0oaa940l1u1q7e5.apps.googleusercontent.com",
+          "client_id": "616786469896-f98ilcbm0dd5639tgmqet6v5bi2pujo0.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAsNnw250y4uXnBIlD0rayoV3I8YMek0pk"
+          "current_key": "AIzaSyCgRCML98P09c1Hu0Nin5otaI0HIPPG_jY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "155108325545-splqage09tknvgdld0oaa940l1u1q7e5.apps.googleusercontent.com",
+              "client_id": "616786469896-f98ilcbm0dd5639tgmqet6v5bi2pujo0.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

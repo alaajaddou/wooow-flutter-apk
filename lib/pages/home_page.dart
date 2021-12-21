@@ -152,17 +152,21 @@ class _HomePageState extends State<HomePage> {
     try {
       String? email;
       String? password;
+      String? provider;
+      dynamic data;
 
       Database db = await openDataBase();
       List<dynamic> activeUsers = await db.query('activeUserId');
-      print('activeUsers');
-      print(activeUsers);
+
       print(activeUsers.isNotEmpty);
       if (activeUsers.isNotEmpty) {
         dynamic activeUser = activeUsers[0];
+        print('activeUser');
         print(activeUser);
+        data = activeUser;
         email = activeUser['email'];
         password = activeUser['password'];
+        provider = activeUser['provider'];
       }
 
       print('email');
@@ -170,16 +174,22 @@ class _HomePageState extends State<HomePage> {
       print('password');
       print(password);
 
-      if (email == null || password == null) {
+      if (data == null) {
         auth.setGuestUser();
       } else {
-        dynamic user = await ApiBaseHelper().post('login', {'email': email, 'password': password});
-        print('user');
-        print(user);
-        if (user['message'] == "Invalid Credentials") {
-          auth.setGuestUser();
+        if (provider == 'email') {
+          String url ='login';
+          dynamic user = await ApiBaseHelper().post(url, data);
+          if (user['message'] == "Invalid Credentials") {
+            auth.setGuestUser();
+          } else {
+            auth.prepareUser(user, 'email');
+          }
         } else {
-          auth.prepareUser(user, 'email');
+          String url = 'login-by-google';
+          dynamic response = await ApiBaseHelper().post(url, data);
+          print(response['user']);
+          auth.prepareUser( response['user'], 'google' );
         }
       }
       if (auth.user.id == 0) {

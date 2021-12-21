@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:provider/provider.dart';
 import 'package:wooow_supermarket/main.dart';
+import 'package:wooow_supermarket/models/GoogleSignInController.dart';
 import 'package:wooow_supermarket/pages/register_page.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
 import 'package:wooow_supermarket/utils/custom_border.dart';
@@ -137,15 +140,14 @@ class _LoginPageState extends State<LoginPage> {
                             // ),
                             Utils.getSizedBox(height: 14),
                             SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                  onPressed: () {},
-                                  child: Text(
-                                    "تسجيل باستخدام Google",
-                                    style: CustomTextStyle.textFormFieldMedium.copyWith(color: Colors.white, fontSize: 14),
-                                  ),
-                                  style: getButtonStyle()),
-                            ),
+                                width: double.infinity,
+                                child: SignInButton(
+                                  Buttons.Google,
+                                  text: "تسجيل باستخدام GOOGLE",
+                                  onPressed: () {
+                                    Provider.of<GoogleSignInController>(context, listen: false).login().then((Object? obj) => Navigator.of(context).pushReplacementNamed(''));
+                                  },
+                                )),
                             Utils.getSizedBox(height: 10),
                             Row(
                               children: <Widget>[

@@ -4,15 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cart/flutter_cart.dart';
 import 'package:flutter_cart/model/cart_response_wrapper.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:path/path.dart';
+import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart' show Database, getDatabasesPath, openDatabase;
 import 'package:sqflite/sqflite.dart';
+import 'package:wooow_supermarket/models/GoogleSignInController.dart';
 import 'package:wooow_supermarket/models/cart_class.dart';
 import 'package:wooow_supermarket/models/cart_notifier.dart';
 import 'package:wooow_supermarket/models/db_cart_item.dart';
 import 'package:wooow_supermarket/models/item.dart';
 import 'package:wooow_supermarket/models/user.dart';
+import 'package:wooow_supermarket/pages/register_page.dart';
 import 'package:wooow_supermarket/utils/alert.dart';
 import 'package:wooow_supermarket/utils/authentication.dart';
 import 'package:wooow_supermarket/utils/global.dart';
@@ -24,36 +26,19 @@ CartCounterClass cartClass = CartCounterClass(cart.getCartItemCount(), cart.getT
 NotificationCounter notificationCounter = NotificationCounter(0);
 CartNotifier cartNotifier = CartNotifier(cart.cartItem);
 Authentication auth = Authentication();
-GoogleSignIn _googleSignIn = GoogleSignIn(
-  // Optional clientId
-  clientId: '479882132969-9i9aqik3jfjd7qhci1nqf0bm2g71rm1u.apps.googleusercontent.com',
-  scopes: <String>[
-    'https://www.googleapis.com/auth/userinfo.email',
-    'https://www.googleapis.com/auth/userinfo.profile',
-  ],
-);
 
 void initializeDataBase() async {
 }
 
-Future<void> signInWithGoogle() async {
-  try {
-    await _googleSignIn.signIn();
-  } catch (error) {
-    //
-  }
-}
-
 String userSqlCreateQuery = 'CREATE TABLE users(id INTEGER PRIMARY KEY, addressId INTEGER, name TEXT, email TEXT, imagePath TEXT, loginProvider TEXT, token TEXT)';
 String categorySqlCreateQuery = 'CREATE TABLE categories(id INTEGER PRIMARY KEY, parent INTEGER, name TEXT, imagePath TEXT)';
-String itemSqlCreateQuery =
-    'CREATE TABLE items(id INTEGER PRIMARY KEY, categoryId INTEGER, availableQuantity INTEGER, price TEXT, discount TEXT, name TEXT, imagePath TEXT, description TEXT, discountFrom TEXT, discountTo TEXT)';
+String itemSqlCreateQuery = 'CREATE TABLE items(id INTEGER PRIMARY KEY, categoryId INTEGER, availableQuantity INTEGER, price TEXT, discount TEXT, name TEXT, imagePath TEXT, description TEXT, discountFrom TEXT, discountTo TEXT)';
 String addressSqlCreateQuery = 'CREATE TABLE addresses(id INTEGER PRIMARY KEY, userId INTEGER, city TEXT, village TEXT, phone TEXT, mobile TEXT, address TEXT, building TEXT)';
 String notificationSqlCreateQuery = 'CREATE TABLE notifications(id INTEGER PRIMARY KEY, title TEXT, body TEXT, isShown INTEGER)';
 String orderStatusSqlCreateQuery = 'CREATE TABLE orderStatuses(id INTEGER PRIMARY KEY, name TEXT)';
 String orderSqlCreateQuery = 'CREATE TABLE orders(id INTEGER PRIMARY KEY, userId INTEGER, addressId INTEGER, orderStatusId INTEGER)';
 String cartItemSqlCreateQuery = 'CREATE TABLE cartItems(id INTEGER PRIMARY KEY, userId INTEGER, productId INTEGER, orderId INTEGER)';
-String activeUserIdSqlCreateQuery = 'CREATE TABLE activeUserId(id INTEGER PRIMARY KEY, email TEXT, password TEXT)';
+String activeUserIdSqlCreateQuery = 'CREATE TABLE activeUserId(id INTEGER PRIMARY KEY, email TEXT, password TEXT, provider TEXT, google_id TEXT, facebook_id TEXT)';
 
 void _createTables(db, version) {
   db.execute(userSqlCreateQuery);
@@ -86,19 +71,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  GoogleSignInAccount? _currentUser;
-
-  @override
-  void initState() {
-    super.initState();
-    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
-      setState(() {
-        _currentUser = account;
-      });
-      if (_currentUser != null) {}
-    });
-    _googleSignIn.signInSilently();
-  }
 
   @override
   void dispose() {
@@ -108,14 +80,16 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    return MaterialApp(
+    return MultiProvider(providers: [
+      ChangeNotifierProvider(create: (context) => GoogleSignInController(), child: const RegisterPage())
+    ], child: MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.lightGreen,
       ),
       initialRoute: '',
       onGenerateRoute: RouteGenerator.generateRoute,
-    );
+    ));
   }
 }
 
