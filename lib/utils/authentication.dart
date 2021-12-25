@@ -14,7 +14,12 @@ class Authentication {
   set user(User user) {
     _user = user;
   }
-  late Address _address;
+  Address _address = Address(
+    isDefault: false,
+    userId: 0,
+    deletable: false,
+    id: 0
+  );
 
   Address get address => _address;
 
@@ -83,10 +88,7 @@ class Authentication {
   }
 
   dynamic createWithCredentials(dynamic data) async {
-    dynamic registeredUser = await ApiBaseHelper().post('create-user', data);
-    user = prepareUser(registeredUser, 'email');
-    isAuthenticated = true;
-    return user;
+    return await ApiBaseHelper().post('create-user', data);
   }
 
   Future<User?> login(String? email, String? password) async {
@@ -109,6 +111,8 @@ class Authentication {
   Future logout() async {
     Database db = await openDataBase();
     await db.delete('activeUserId', where: 'id = 1');
+    isAuthenticated = false;
+    setGuestUser();
     await ApiBaseHelper().post('logout', {});
   }
 

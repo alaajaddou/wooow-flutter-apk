@@ -158,21 +158,13 @@ class _HomePageState extends State<HomePage> {
       Database db = await openDataBase();
       List<dynamic> activeUsers = await db.query('activeUserId');
 
-      print(activeUsers.isNotEmpty);
       if (activeUsers.isNotEmpty) {
         dynamic activeUser = activeUsers[0];
-        print('activeUser');
-        print(activeUser);
         data = activeUser;
         email = activeUser['email'];
         password = activeUser['password'];
         provider = activeUser['provider'];
       }
-
-      print('email');
-      print(email);
-      print('password');
-      print(password);
 
       if (data == null) {
         auth.setGuestUser();
@@ -188,7 +180,6 @@ class _HomePageState extends State<HomePage> {
         } else {
           String url = 'login-by-google';
           dynamic response = await ApiBaseHelper().post(url, data);
-          print(response['user']);
           auth.prepareUser( response['user'], 'google' );
         }
       }
@@ -231,17 +222,19 @@ class _HomePageState extends State<HomePage> {
       }
     }
     if (index == 1) {
-      // getCartItems
-      for (int index = 0; index < response['items'].length; index++) {
-        ItemModel _item = ItemModel(
-          id: response['items'][index]['id'],
-          name: response['items'][index]['name'],
-          description: response['items'][index]['description'],
-          price: response['items'][index]['price'],
-          categoryId: response['items'][index]['categoryId'],
-          categoryName: response['items'][index]['categoryName'],
-          availableQuantity: response['items'][index]['availableQuantity'],
-        );
+      if (response.isNotEmpty) {
+        // getCartItems
+        for (int index = 0; index < response['items'].length; index++) {
+          ItemModel _item = ItemModel(
+            id: response['items'][index]['id'],
+            name: response['items'][index]['name'],
+            description: response['items'][index]['description'],
+            price: response['items'][index]['price'],
+            categoryId: response['items'][index]['categoryId'],
+            categoryName: response['items'][index]['categoryName'],
+            availableQuantity: response['items'][index]['availableQuantity'],
+          );
+        }
       }
       return;
     }

@@ -24,12 +24,14 @@ class _CategoriesState extends State<Categories> {
       var categoriesTemp = await db.query('categories');
       for (dynamic category in categoriesTemp) {
         var categoryItems = await db.query('items', where: 'categoryId = ?', whereArgs: [category['id']]);
-        categories.add(CategoryModel(
-            id: category['id'],
-            name: category['name'],
-            parent: category['parent'],
-            imagePath: category['imagePath'],
-            items: _prepareItemsForCategory(categoryItems, category['id'], category['name'])));
+        if (categoryItems.isNotEmpty) {
+          categories.add(CategoryModel(
+              id: category['id'],
+              name: category['name'],
+              parent: category['parent'],
+              imagePath: category['imagePath'],
+              items: _prepareItemsForCategory(categoryItems, category['id'], category['name'])));
+        }
       }
     return categories;
   }
@@ -53,21 +55,19 @@ class _CategoriesState extends State<Categories> {
 
   List<ItemModel> _prepareItemsForCategory(List<dynamic> items, categoryId, categoryName) {
     List<ItemModel> itemsList = [];
-    if (items.isNotEmpty) {
-      for (var item in items) {
-        itemsList.add(ItemModel(
-            id: item['id'],
-            name: item['name'],
-            imagePath:  item['imagePath'] ?? item['image'],
-            description: item['description'],
-            price: double.parse(item['price']),
-            categoryId: categoryId,
-            categoryName: categoryName,
-            availableQuantity: item['availableQuantity'],
-            discount: item['discount'] != null && item['discount'] != "null" ? double.parse(item['discount']) : 0,
-            discountFrom: item['discount_from'],
-            discountTo: item['discount_to']));
-      }
+    for (var item in items) {
+      itemsList.add(ItemModel(
+          id: item['id'],
+          name: item['name'],
+          imagePath:  item['imagePath'] ?? item['image'],
+          description: item['description'],
+          price: double.parse(item['price']),
+          categoryId: categoryId,
+          categoryName: categoryName,
+          availableQuantity: item['availableQuantity'],
+          discount: item['discount'] != null && item['discount'] != "null" ? double.parse(item['discount']) : 0,
+          discountFrom: item['discount_from'],
+          discountTo: item['discount_to']));
     }
     return itemsList;
   }

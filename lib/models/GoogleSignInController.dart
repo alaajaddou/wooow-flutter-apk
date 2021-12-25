@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:wooow_supermarket/main.dart';
-import 'package:wooow_supermarket/models/user.dart';
 import 'package:wooow_supermarket/utils/global.dart';
 
 class GoogleSignInController extends ChangeNotifier {

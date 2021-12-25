@@ -79,6 +79,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MultiProvider(providers: [
       ChangeNotifierProvider(create: (context) => GoogleSignInController(), child: const RegisterPage())
@@ -95,7 +96,16 @@ class _MyAppState extends State<MyApp> {
 
 Widget getImage(String? imagePath) {
   if (imagePath != null) {
-    return Image.network(Global.storagePath + imagePath);
+    return FadeInImage(
+      imageErrorBuilder: (context, error, stackTrace) {
+        return const Image(
+          image: AssetImage('assets/images/no_result.png'),
+        );
+      },
+      placeholder: const AssetImage('assets/images/loading.gif'),
+      image: NetworkImage(Global.storagePath + imagePath),
+      fit: BoxFit.cover,
+    );
   } else {
     return Image.asset('assets/images/no_result.png');
   }

@@ -7,6 +7,7 @@ import 'package:wooow_supermarket/utils/alert.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
 import 'package:wooow_supermarket/utils/custom_navigator.dart';
 import 'package:wooow_supermarket/utils/global.dart';
+import 'package:wooow_supermarket/utils/route_generator.dart';
 
 class OrderPage extends StatefulWidget {
   Order order;
@@ -64,7 +65,7 @@ class _OrderPageState extends State<OrderPage> {
   }
 
   Widget _getFAB() {
-    if (widget.order.orderStatusId > 3) {
+    if (widget.order.orderStatusId > 3 || widget.order.orderStatusId == 0) {
       return Container();
     } else {
       return FloatingActionButton(
@@ -182,7 +183,9 @@ class _OrderPageState extends State<OrderPage> {
       if (result['status_code'] == 400) {
         showErrorDialog(context, 'خطأ', result['message']);
       } else if (result['status_code'] == 200) {
-        showErrorDialog(context, 'نجاح', result['message']);
+        if (!RouteGenerator.checkIfSameRoute(context, 'orders')) {
+          Navigator.of(context).pushReplacementNamed('orders');
+        }
       }
     });
   }

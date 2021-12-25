@@ -5,6 +5,7 @@ import 'package:wooow_supermarket/models/item.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
 import 'package:wooow_supermarket/utils/custom_navigator.dart';
 import 'package:wooow_supermarket/utils/global.dart';
+import 'package:wooow_supermarket/utils/route_generator.dart';
 
 class CategoryPage extends StatefulWidget {
   CategoryModel category;
@@ -112,7 +113,9 @@ class _CategoryPageState extends State<CategoryPage> {
   gridItem(BuildContext context, ItemModel item) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed('product', arguments: item);
+        if (!RouteGenerator.checkIfSameRoute(context, 'product')) {
+          Navigator.of(context).pushNamed('product', arguments: item);
+        }
       },
       child: Container(
         decoration: BoxDecoration(color: Colors.white, borderRadius: const BorderRadius.all(Radius.circular(6)), border: Border.all(color: Colors.grey.shade200)),
@@ -393,6 +396,13 @@ class _CategoryPageState extends State<CategoryPage> {
     } else {
       return Container();
     }
+  }
+
+  Future<bool> onWillPop() {
+    RouteGenerator.currentRoute = '';
+
+    //we need to return a future
+    return Future.value(true);
   }
 }
 

@@ -6,6 +6,7 @@ import 'package:wooow_supermarket/pages/addresses_page.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
 import 'package:wooow_supermarket/utils/custom_navigator.dart';
 import 'package:wooow_supermarket/utils/global.dart';
+import 'package:wooow_supermarket/utils/route_generator.dart';
 
 class NewAddressPage extends StatefulWidget {
   late NewAddressArguments args;
@@ -123,9 +124,16 @@ class _NewAddressPageState extends State<NewAddressPage> {
                         village: addressObj['village'],
                         deletable: addressObj['deletable']);
                     setDefaultAddress(_context!, address);
-                    Navigator.of(_context!).pushReplacementNamed('checkout');
+                    setDefaultAddress(_context!, address);
+                    if (!RouteGenerator.checkIfSameRoute(_context!, 'checkout')) {
+                      Navigator.of(_context!).pushReplacementNamed('checkout');
+                    }
+                    // Navigator.of(_context!).pushReplacementNamed('checkout');
                   } else {
-                    Navigator.of(_context!).pushReplacementNamed('account');
+                    if (!RouteGenerator.checkIfSameRoute(_context!, 'account')) {
+                      Navigator.of(_context!).pushReplacementNamed('account');
+                    }
+                    // Navigator.of(_context!).pushReplacementNamed('account');
                   }
                 },
                 color: getPrimaryColor(),
@@ -195,6 +203,10 @@ class _NewAddressPageState extends State<NewAddressPage> {
         if (value!.isEmpty) {
           return 'هذا الحقل مطلوب!';
         }
+
+        if (double.tryParse(value) == null || value.length != 9) {
+          return 'هذا الحقل لابد من ان يكون 9 ارقام';
+        }
         return null;
       },
       onSaved: (String? value) {
@@ -211,6 +223,11 @@ class _NewAddressPageState extends State<NewAddressPage> {
         if (value!.isEmpty) {
           return 'هذا الحقل مطلوب!';
         }
+
+        if (double.tryParse(value) == null || value.length != 10) {
+          return 'هذا الحقل لابد من ان يكون 10 ارقام';
+        }
+
         return null;
       },
       onSaved: (String? value) {

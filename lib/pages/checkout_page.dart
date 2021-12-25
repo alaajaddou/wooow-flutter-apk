@@ -4,6 +4,7 @@ import 'package:wooow_supermarket/models/address.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
 import 'package:wooow_supermarket/utils/custom_navigator.dart';
 import 'package:wooow_supermarket/utils/global.dart';
+import 'package:wooow_supermarket/utils/route_generator.dart';
 
 class CheckOutPage extends StatefulWidget {
   const CheckOutPage({Key? key}) : super(key: key);
@@ -13,15 +14,10 @@ class CheckOutPage extends StatefulWidget {
 }
 
 class _CheckOutPageState extends State<CheckOutPage> {
-
-  Address addressObj = auth.address;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      addressObj = auth.address;
-    });
     return Scaffold(
       key: _scaffoldKey,
       appBar: CustomAppBar(isHome: false),
@@ -65,102 +61,128 @@ class _CheckOutPageState extends State<CheckOutPage> {
   }
 
   showThankYouBottomSheet(BuildContext context) async {
-    dynamic order = {
-      'address_id': addressObj.id,
-      'items': getItems()
-    };
+    dynamic order = {'address_id': auth.address.id, 'items': getItems()};
 
     ApiBaseHelper().post('order', order).then((result) {
-      if(result['message'] == "success") {
+      if (result['message'] == "success") {
         cart.deleteAllCart();
         cartClass.updateCounter();
-        cartNotifier.updateItemList();
-        Navigator.of(context).pushReplacementNamed('thanks');
+        if (!RouteGenerator.checkIfSameRoute(context, 'thanks')) {
+          Navigator.of(context).pushReplacementNamed('thanks');
+        }
       }
     });
   }
 
-  selectedAddressSection() {
-    return Container(
-      margin: const EdgeInsets.all(4),
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(4)),
-      ),
-        child: Card(
-          elevation: 0,
-          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-          child: Container(
-            decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(4)), border: Border.all(color: Colors.grey.shade200)),
-            padding: const EdgeInsets.only(left: 12, top: 8, right: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const SizedBox(
-                  height: 6,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Expanded(child: Text(
-                      auth.user.name,
-                      style: const TextStyle(fontSize: 14),
-                    )),
-                    Row(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed('addresses', arguments: true);
-                          },
-                          style: getDefaultAddressButtonStyle(),
-                          child: const Text("الرئيسي")
-                        ),
-                        const Padding(padding: EdgeInsets.all(5)),
-                        ElevatedButton(
-                            onPressed: () => Navigator.of(context).pushNamed('new-address', arguments: {'fromCheckout': true}),
-                          style: getDefaultAddressButtonStyle(),
-                          child: const Icon(
-                            Icons.add,
-                            color: Colors.black,
-                          )
-                        )
-                      ]
-                    )
-                  ],
-                ),
-                createAddressText('العنوان: ' + (addressObj.address ?? ''), 16),
-                createAddressText('المدينة: ' + ( addressObj.city ?? ''), 6),
-                createAddressText('القرية: ' + (addressObj.village ?? ''), 6),
-                createAddressText("رقم الهاتف: " + (addressObj.phone ?? ''), 6),
-                createAddressText('رقم المحمول: ' + (addressObj.mobile ?? ''), 6),
-                const SizedBox(
-                  height: 16,
-                ),
-                Container(
-                  color: Colors.grey.shade300,
-                  height: 1,
-                  width: double.infinity,
-                ),
-              ],
-            ),
-          ),
-        )
+  getEmptyAddressSection() {
+    return ElevatedButton(
+        onPressed: () {
+          if (!RouteGenerator.checkIfSameRoute(context, 'addresses')) {
+            Navigator.of(context).pushNamed('addresses', arguments: true);
+          }
+        },
+        style: getDefaultAddressButtonStyle(),
+        child: const Text("اختر العنوان")
     );
   }
 
+  selectedAddressSection() {
+    return Container(
+        margin: const EdgeInsets.all(4),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+        ),
+        child: getAddress()
+    );
+  }
+
+  getAddress() {
+    if (auth.address.id == 0) {
+      return getEmptyAddressSection();
+    } else {
+      return Card(
+        elevation: 0,
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+        child: Container(
+          decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(4)), border: Border.all(color: Colors.grey.shade200)),
+          padding: const EdgeInsets.only(left: 12, top: 8, right: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const SizedBox(
+                height: 6,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Expanded(
+                      child: Text(
+                        auth.user.name,
+                        style: const TextStyle(fontSize: 14),
+                      )),
+                  Row(children: [
+                    ElevatedButton(
+                        onPressed: () {
+                          // Navigator.of(context).pushNamed('addresses', arguments: true);
+                          if (!RouteGenerator.checkIfSameRoute(context, 'addresses')) {
+                            Navigator.of(context).pushNamed('addresses', arguments: true);
+                          }
+                        },
+                        style: getDefaultAddressButtonStyle(),
+                        child: const Text("الرئيسي")),
+                    const Padding(padding: EdgeInsets.all(5)),
+                    ElevatedButton(
+                        onPressed: () =>
+                        {
+                          if (!RouteGenerator.checkIfSameRoute(context, 'new-address')) {
+                            Navigator.of(context).pushNamed('new-address', arguments: {'fromCheckout': true})
+                          }
+                        },
+                        style: getDefaultAddressButtonStyle(),
+                        child: const Icon(
+                          Icons.add,
+                          color: Colors.black,
+                        ))
+                  ])
+                ],
+              ),
+              createAddressText('العنوان: ' + (auth.address.address ?? ''), 16),
+              createAddressText('المدينة: ' + (auth.address.city ?? ''), 6),
+              createAddressText('القرية: ' + (auth.address.village ?? ''), 6),
+              createAddressText("رقم الهاتف: " + (auth.address.phone ?? ''), 6),
+              createAddressText('رقم المحمول: ' + (auth.address.mobile ?? ''), 6),
+              const SizedBox(
+                height: 16,
+              ),
+              Container(
+                color: Colors.grey.shade300,
+                height: 1,
+                width: double.infinity,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+
   createAddressText(String strAddress, double topMargin) {
-    return Row(children: [Expanded(child: Container(
-      margin: EdgeInsets.only(top: topMargin),
-      child: Text(
-        strAddress,
-        textDirection: TextDirection.rtl,
-        style: TextStyle(fontSize: 12, color: Colors.grey.shade800),
-      ),
-    ))]);
+    return Row(children: [
+      Expanded(
+          child: Container(
+            margin: EdgeInsets.only(top: topMargin),
+            child: Text(
+              strAddress,
+              textDirection: TextDirection.rtl,
+              style: TextStyle(fontSize: 12, color: Colors.grey.shade800),
+            ),
+          ))
+    ]);
   }
 
   addressAction() {
     List<Widget> widgets = [];
-    if(addressObj.id != 0) {
+    if (auth.address.id != 0) {
       widgets.add(ElevatedButton(
         onPressed: () {},
         child: Text(
@@ -170,17 +192,16 @@ class _CheckOutPageState extends State<CheckOutPage> {
         style: getButtonStyle(),
       ));
     }
-    widgets.add(
-        ElevatedButton(
-          onPressed: () => Navigator.of(context).pushNamed('new-address', arguments:  {'fromCheckout': true}),
-          child: Text("اضف عنوان جديد", style: TextStyle(fontSize: 12, color: Colors.indigo.shade700)),
-          style: getButtonStyle(),
-        ));
-    return Row(
-      mainAxisAlignment: widgets.length > 1 ? MainAxisAlignment.spaceBetween : MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: widgets
-    );
+    widgets.add(ElevatedButton(
+      onPressed: () {
+        if (!RouteGenerator.checkIfSameRoute(context, 'new-address')) {
+          Navigator.of(context).pushNamed('new-address', arguments: {'fromCheckout': true});
+        }
+      },
+      child: Text("اضف عنوان جديد", style: TextStyle(fontSize: 12, color: Colors.indigo.shade700)),
+      style: getButtonStyle(),
+    ));
+    return Row(mainAxisAlignment: widgets.length > 1 ? MainAxisAlignment.spaceBetween : MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: widgets);
   }
 
   standardDelivery() {
@@ -241,11 +262,14 @@ class _CheckOutPageState extends State<CheckOutPage> {
               const SizedBox(
                 height: 4,
               ),
-              Row(children:const [Expanded(child: Text(
-                "تفاصيل الطلب",
-                textDirection: TextDirection.rtl,
-                style: TextStyle(fontSize: 12, color: Colors.black, fontWeight: FontWeight.w600),
-              ))]),
+              Row(children: const [
+                Expanded(
+                    child: Text(
+                      "تفاصيل الطلب",
+                      textDirection: TextDirection.rtl,
+                      style: TextStyle(fontSize: 12, color: Colors.black, fontWeight: FontWeight.w600),
+                    ))
+              ]),
               const SizedBox(
                 height: 4,
               ),
@@ -322,13 +346,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
     for (int index = 0; index < cart.getCartItemCount(); index++) {
       if (cart.cartItem[index] != null) {
-        items.add(
-            {
-              'id': cart.cartItem[index].productId,
-              'quantity': cart.cartItem[index].quantity,
-              'price': cart.cartItem[index].unitPrice,
-            }
-        );
+        items.add({
+          'id': cart.cartItem[index].productId,
+          'quantity': cart.cartItem[index].quantity,
+          'price': cart.cartItem[index].unitPrice,
+        });
       }
     }
 

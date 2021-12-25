@@ -7,6 +7,7 @@ import 'package:wooow_supermarket/models/custom_cart_item.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
 import 'package:wooow_supermarket/utils/custom_navigator.dart';
 import 'package:wooow_supermarket/utils/global.dart';
+import 'package:wooow_supermarket/utils/route_generator.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -83,7 +84,15 @@ class _CartPageState extends State<CartPage> {
           ElevatedButton(
             style: getButtonStyle(),
             onPressed: () {
-              Navigator.of(context).pushNamed('checkout');
+              if (auth.isAuthenticated) {
+                if (!RouteGenerator.checkIfSameRoute(context, 'checkout')) {
+                  Navigator.of(context).pushReplacementNamed('checkout');
+                }
+              } else {
+                if (!RouteGenerator.checkIfSameRoute(context, 'login')) {
+                  Navigator.of(context).pushNamed('login');
+                }
+              }
             },
             child: const Text(
               "الدفع",
@@ -182,7 +191,11 @@ class _CartPageState extends State<CartPage> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: <Widget>[
                                 GestureDetector(
-                                    onTap: () => newItem.decrement(),
+                                    onTap: () => {
+                                      if (newItem.getQuantity() > 1) {
+                                        newItem.decrement()
+                                      }
+                                    },
                                     child: Icon(
                                       Icons.remove,
                                       size: 24,
@@ -200,7 +213,11 @@ class _CartPageState extends State<CartPage> {
                                   ),
                                 ),
                                 GestureDetector(
-                                    onTap: () => newItem.increment(),
+                                    onTap: () => {
+                                      if (newItem.getQuantity() != newItem.item.productDetails.availableQuantity) {
+                                        newItem.increment()
+                                      }
+                                    },
                                     child: Icon(
                                       Icons.add,
                                       size: 24,
@@ -222,7 +239,10 @@ class _CartPageState extends State<CartPage> {
         Align(
           alignment: Alignment.topRight,
           child: GestureDetector(
-            onTap: () => newItem.removeItem(),
+            onTap: () {
+              newItem.removeItem();
+              setState(() => {});
+            },
             child: Container(
               width: 24,
               height: 24,
@@ -242,7 +262,10 @@ class _CartPageState extends State<CartPage> {
   }
 
   void backToHome(context) {
-    Navigator.of(context).pushNamed('');
+    // Navigator.of(context).pushNamed('');
+    if (!RouteGenerator.checkIfSameRoute(context, '')) {
+      Navigator.of(context).pushReplacementNamed('');
+    }
   }
 
   removeItem(int cartId) {

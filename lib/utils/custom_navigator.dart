@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wooow_supermarket/main.dart';
 import 'package:wooow_supermarket/utils/global.dart';
+import 'package:wooow_supermarket/utils/route_generator.dart';
 
 class CustomNavigator extends StatefulWidget {
   const CustomNavigator({Key? key}) : super(key: key);
@@ -18,7 +19,10 @@ class _CustomNavigatorState extends State<CustomNavigator> {
       selectedIndex = index;
     });
     String page = await getPageFromIndex(index);
-    Navigator.of(context).pushNamed(page);
+    if (!RouteGenerator.checkIfSameRoute(context, page)) {
+      Navigator.of(context).pushNamed(page);
+    }
+    // Navigator.of(context).pushNamed(page);
   }
 
   @override
@@ -59,7 +63,11 @@ class _CustomNavigatorState extends State<CustomNavigator> {
       case 1:
         return 'categories';
       case 2:
-        return 'orders';
+        if (auth.isAuthenticated) {
+          return 'orders';
+        } else {
+          return 'login';
+        }
       case 3:
         if (auth.isAuthenticated) {
           return 'account';

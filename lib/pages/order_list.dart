@@ -6,6 +6,7 @@ import 'package:wooow_supermarket/models/order_status.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
 import 'package:wooow_supermarket/utils/custom_navigator.dart';
 import 'package:wooow_supermarket/utils/global.dart';
+import 'package:wooow_supermarket/utils/route_generator.dart';
 
 List<OrderStatus> statuses = [];
 
@@ -65,7 +66,9 @@ class OrderList extends StatelessWidget {
                   children: [
                     const Text('لا يوجد طلبات'),
                     ElevatedButton(
-                        onPressed: () => Navigator.of(context).pushNamed(''),
+                        onPressed: () => {
+                              if (!RouteGenerator.checkIfSameRoute(context, '')) {Navigator.of(context).pushNamed('')}
+                            },
                         child: const Text(
                           'تسوق الان',
                           style: TextStyle(color: Colors.white),
@@ -80,7 +83,9 @@ class OrderList extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () => {Navigator.of(context).pushNamed('cart')},
+          onPressed: () => {
+                if (!RouteGenerator.checkIfSameRoute(context, 'cart')) {Navigator.of(context).pushNamed('cart')}
+              },
           child: const Icon(
             Icons.shopping_cart,
             color: Colors.white,
@@ -131,7 +136,9 @@ class _OrderWidgetState extends State<OrderWidget> {
                 children: [
                   Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                     ElevatedButton(
-                      onPressed: () => Navigator.of(context).pushNamed('order', arguments: widget.order),
+                      onPressed: () => {
+                        if (!RouteGenerator.checkIfSameRoute(context, 'order')) {Navigator.of(context).pushNamed('order', arguments: widget.order)}
+                      },
                       style: getViewButtonStyle(),
                       child: const Icon(Icons.remove_red_eye_outlined, color: Colors.white),
                     ),

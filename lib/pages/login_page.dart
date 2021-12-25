@@ -3,13 +3,13 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:provider/provider.dart';
 import 'package:wooow_supermarket/main.dart';
 import 'package:wooow_supermarket/models/GoogleSignInController.dart';
-import 'package:wooow_supermarket/pages/register_page.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
 import 'package:wooow_supermarket/utils/custom_border.dart';
 import 'package:wooow_supermarket/utils/custom_navigator.dart';
 import 'package:wooow_supermarket/utils/custom_text_style.dart';
 import 'package:wooow_supermarket/utils/custom_utils.dart';
 import 'package:wooow_supermarket/utils/global.dart';
+import 'package:wooow_supermarket/utils/route_generator.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -88,7 +88,9 @@ class _LoginPageState extends State<LoginPage> {
                                     );
                                     auth.login(emailController.text, passwordController.text).then((user) {
                                       if (user != null) {
-                                        Navigator.of(context).pushReplacementNamed('account');
+                                        if (!RouteGenerator.checkIfSameRoute(context, 'account')) {
+                                          Navigator.of(context).pushReplacementNamed('account');
+                                        }
                                       } else {
                                         error = 'حصل خطأ في تسجيل الدخول تاكد من البريد الالكتروني وكلمة المرور';
                                       }
@@ -145,7 +147,9 @@ class _LoginPageState extends State<LoginPage> {
                                   Buttons.Google,
                                   text: "تسجيل باستخدام GOOGLE",
                                   onPressed: () {
-                                    Provider.of<GoogleSignInController>(context, listen: false).login().then((Object? obj) => Navigator.of(context).pushReplacementNamed(''));
+                                    Provider.of<GoogleSignInController>(context, listen: false).login().then((Object? obj) => {
+                                          if (!RouteGenerator.checkIfSameRoute(context, 'account')) {Navigator.of(context).pushReplacementNamed('account')}
+                                        });
                                   },
                                 )),
                             Utils.getSizedBox(height: 10),
@@ -174,7 +178,9 @@ class _LoginPageState extends State<LoginPage> {
                               width: double.infinity,
                               child: ElevatedButton(
                                   onPressed: () {
-                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RegisterPage()));
+                                    if (!RouteGenerator.checkIfSameRoute(context, 'register')) {
+                                      Navigator.of(context).pushNamed('register');
+                                    }
                                   },
                                   child: Text(
                                     "انشئ حساب جديد",

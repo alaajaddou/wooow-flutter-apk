@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wooow_supermarket/main.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
 import 'package:wooow_supermarket/utils/custom_navigator.dart';
+import 'package:wooow_supermarket/utils/global.dart';
 
 class NotificationPage extends StatefulWidget {
   late List<dynamic> notifications = [];
@@ -21,6 +22,7 @@ class _NotificationPageState extends State<NotificationPage> {
         initialData: [],
         builder: (context, snapshot) {
           if (snapshot.hasData && (snapshot.data as List).isNotEmpty) {
+            ApiBaseHelper().put('read-notifications', {});
             return Column(
               children: notificationList(snapshot.data as List<dynamic>),
             );
@@ -55,29 +57,10 @@ class _NotificationPageState extends State<NotificationPage> {
             flex: 02,
           ),
           Expanded(
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    Text(
-                      notification['title'],
-                      style: const TextStyle(color: Colors.black, fontSize: 16),
-                    ),
-                    IconButton(icon: const Icon(Icons.close), onPressed: () {})
-                  ],
-                ),
-                Container(
-                  margin: const EdgeInsets.only(right: 6),
-                  child: Text(
-                    notification['body'],
-                    softWrap: true,
-                    textAlign: TextAlign.start,
-                    style: const TextStyle(color: Colors.grey, fontSize: 12),
-                  ),
-                )
-              ],
+            child: ListTile(
+              title: Text(notification['title']),
+              subtitle: Text(notification['body']),
+              horizontalTitleGap: 2.0,
             ),
             flex: 98,
           )

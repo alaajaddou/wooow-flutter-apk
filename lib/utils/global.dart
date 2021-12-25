@@ -74,7 +74,6 @@ class ApiBaseHelper {
     var headers = {HttpHeaders.contentTypeHeader: 'application/json', HttpHeaders.acceptHeader: 'application/json'};
     if (auth.isAuthenticated) {
       User user = auth.user;
-      print(user);
       print(user.token);
       headers[HttpHeaders.authorizationHeader] = 'Bearer ' + user.token;
     }

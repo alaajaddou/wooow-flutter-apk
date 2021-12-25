@@ -4,6 +4,7 @@ import 'package:wooow_supermarket/models/item.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
 import 'package:wooow_supermarket/utils/custom_navigator.dart';
 import 'package:wooow_supermarket/utils/global.dart';
+import 'package:wooow_supermarket/utils/route_generator.dart';
 
 class CategoryList extends StatelessWidget {
   const CategoryList({Key? key}) : super(key: key);
@@ -26,31 +27,45 @@ class CategoryList extends StatelessWidget {
                     itemBuilder: (context, index) {
                       var categoryHash = projectSnap.data['categories'][index];
                       List<ItemModel> itemList = prepareItems(categoryHash);
-                      CategoryModel category =
-                          CategoryModel(id: categoryHash['id'], name: categoryHash['name'], imagePath: categoryHash['image'], parent: categoryHash['parent'], items: itemList);
-                      // var category = projectSnap.data['categories'][index];
-                      return GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pushNamed('category', arguments: category);
-                          },
-                          child: Container(
-                              margin: const EdgeInsets.symmetric(vertical: 5.0),
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      fit: BoxFit.fill,
-                                      image: NetworkImage(category.imagePath == ''
-                                          ? "https://i.pinimg.com/originals/87/21/98/872198c2f62aa608f6d657b61c5e65b6.jpg"
-                                          : Global.storagePath + category.imagePath))),
-                              width: MediaQuery.of(context).size.width,
-                              height: 110,
-                              child: Center(
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                          color: getPrimaryColor(),
-                                          borderRadius: const BorderRadius.all(Radius.circular(15.0)),
-                                          boxShadow: const [BoxShadow(color: Color.fromARGB(100, 0, 0, 0), blurRadius: 2.0, offset: Offset(2.0, 2.0))]),
-                                      padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
-                                      child: Text(category.name, style: const TextStyle(color: Colors.white))))));
+                      if (itemList.isNotEmpty) {
+                        CategoryModel category =
+                        CategoryModel(id: categoryHash['id'],
+                            name: categoryHash['name'],
+                            imagePath: categoryHash['image'],
+                            parent: categoryHash['parent'],
+                            items: itemList);
+                        // var category = projectSnap.data['categories'][index];
+                        return GestureDetector(
+                            onTap: () {
+                              if (!RouteGenerator.checkIfSameRoute(context, 'category')) {
+                                Navigator.of(context).pushNamed('category', arguments: category);
+                              }
+                              // Navigator.of(context).pushNamed('category', arguments: category);
+                            },
+                            child: Container(
+                                margin: const EdgeInsets.symmetric(vertical: 5.0),
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: NetworkImage(category.imagePath == ''
+                                            ? "https://i.pinimg.com/originals/87/21/98/872198c2f62aa608f6d657b61c5e65b6.jpg"
+                                            : Global.storagePath + category.imagePath))),
+                                width: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width,
+                                height: 110,
+                                child: Center(
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                            color: getPrimaryColor(),
+                                            borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+                                            boxShadow: const [BoxShadow(color: Color.fromARGB(100, 0, 0, 0), blurRadius: 2.0, offset: Offset(2.0, 2.0))]),
+                                        padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+                                        child: Text(category.name, style: const TextStyle(color: Colors.white))))));
+                      } else {
+                        return Container();
+                      }
                     },
                   )
                 : const Center(child: CircularProgressIndicator());

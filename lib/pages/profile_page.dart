@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wooow_supermarket/main.dart';
+import 'package:wooow_supermarket/models/GoogleSignInController.dart';
 import 'package:wooow_supermarket/pages/about_page.dart';
 import 'package:wooow_supermarket/pages/addresses_page.dart';
 import 'package:wooow_supermarket/pages/edit_profile_page.dart';
@@ -8,6 +9,7 @@ import 'package:wooow_supermarket/pages/order_list.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
 import 'package:wooow_supermarket/utils/custom_navigator.dart';
 import 'package:wooow_supermarket/utils/global.dart';
+import 'package:wooow_supermarket/utils/route_generator.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -59,8 +61,18 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          auth.logout();
-          Navigator.of(context).pushNamed('');
+          GoogleSignInController().logout();
+          print(auth.user.loginProvider);
+          auth.logout().then((response) {
+            print('response');
+            print(response);
+            if (!RouteGenerator.checkIfSameRoute(context, '')) {
+              Navigator.of(context).pushNamed('');
+              selectedIndex = 0;
+            }
+          });
+          // if(auth.user.loginProvider == 'google') {
+          // }
         },
         child: const Icon(
           Icons.logout,
@@ -128,7 +140,7 @@ class _ProfilePageState extends State<ProfilePage> {
             margin: const EdgeInsets.only(top: 8, bottom: 8),
             height: 60,
             decoration: BoxDecoration(
-                image: DecorationImage(image: NetworkImage(Global.storagePath + auth.user.imagePath)), borderRadius: const BorderRadius.all(Radius.circular(24))),
+                image: DecorationImage(image: NetworkImage(getImagePath(auth.user.imagePath))), borderRadius: const BorderRadius.all(Radius.circular(24))),
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -210,6 +222,14 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       );
     });
+  }
+
+  getImagePath(imagePath) {
+    if (imagePath.contains('http')) {
+      return imagePath;
+    } else {
+      return Global.storagePath + imagePath;
+    }
   }
 }
 

@@ -6,6 +6,7 @@ import 'package:wooow_supermarket/utils/alert.dart';
 import 'package:wooow_supermarket/utils/custom_appbar.dart';
 import 'package:wooow_supermarket/utils/custom_navigator.dart';
 import 'package:wooow_supermarket/utils/global.dart';
+import 'package:wooow_supermarket/utils/route_generator.dart';
 
 class AddressesPage extends StatefulWidget {
   bool fromCheckout = false;
@@ -33,7 +34,9 @@ class _AddressesPageState extends State<AddressesPage> {
       ),
       bottomNavigationBar: const CustomNavigator(),
       floatingActionButton: FloatingActionButton(
-          onPressed: () => {Navigator.of(context).pushNamed('new-address', arguments: NewAddressArguments())},
+          onPressed: () => {
+                if (!RouteGenerator.checkIfSameRoute(context, 'new-address')) {Navigator.of(context).pushNamed('new-address', arguments: NewAddressArguments())}
+              },
           child: const Icon(
             Icons.add,
             color: Colors.white,
@@ -66,8 +69,7 @@ class _AddressesPageState extends State<AddressesPage> {
               village: data[index]['village'],
               userId: data[index]['user_id'],
               isDefault: data[index]['is_default'] == 1,
-              deletable: data[index]['deletable']
-          );
+              deletable: data[index]['deletable']);
           if (address.isDefault) {
             auth.address = address;
           }
@@ -100,7 +102,9 @@ class _AddressesPageState extends State<AddressesPage> {
                         NewAddressArguments newAddressArguments = NewAddressArguments();
                         newAddressArguments.fromCheckout = false;
                         newAddressArguments.addressObj = address;
-                        Navigator.of(context).pushNamed('new-address', arguments: newAddressArguments);
+                        if (!RouteGenerator.checkIfSameRoute(context, 'new-address')) {
+                          Navigator.of(context).pushNamed('new-address', arguments: newAddressArguments);
+                        }
                       },
                     ),
                     const SizedBox(width: 8)
@@ -152,7 +156,7 @@ class _AddressesPageState extends State<AddressesPage> {
                 style: getDangerButtonStyle(),
                 child: const Text("حذف", style: TextStyle(color: Colors.white)),
                 onPressed: () {
-                  ApiBaseHelper().delete('remove-address', { 'id': id }).then((response) {
+                  ApiBaseHelper().delete('remove-address', {'id': id}).then((response) {
                     if (response['message'] == 'deleted') {
                       setState(() {});
                     }
@@ -183,9 +187,13 @@ void setDefaultAddress(BuildContext context, Address address, {fromCheckout = fa
       address.isDefault = true;
       showSuccessDialog(context, 'نجاح', 'تم وضع العنوان كافتراضي');
       if (fromCheckout) {
-        Navigator.of(context).pushReplacementNamed('checkout');
+        if (!RouteGenerator.checkIfSameRoute(context, 'checkout')) {
+          Navigator.of(context).pushReplacementNamed('checkout');
+        }
       } else {
-        Navigator.of(context).pushReplacementNamed('account');
+        if (!RouteGenerator.checkIfSameRoute(context, 'account')) {
+          Navigator.of(context).pushReplacementNamed('account');
+        }
       }
     } else {
       showErrorDialog(context, 'خطأ', 'حدث خطأ اثناء العملية.');

@@ -50,7 +50,9 @@ class CustomCartItem extends ValueNotifier<CartItem?> {
     cart.decrementItemFromCart(index);
     if (auth.user.id != 0) {
       var cartItem = cart.getSpecificItemFromCart(item.productId);
-      ApiBaseHelper().post('remove-cart-item', {'user_id': auth.user.id, 'product_id': item.productId, 'quantity': cartItem!.quantity});
+      if (cartItem != null) {
+        ApiBaseHelper().post('remove-cart-item', {'user_id': auth.user.id, 'product_id': item.productId, 'quantity': cartItem.quantity});
+      }
     }
     cartClass.updateCounter();
     notifyListeners();
@@ -66,7 +68,6 @@ class CustomCartItem extends ValueNotifier<CartItem?> {
       ApiBaseHelper().post('remove-cart-item', {'user_id': auth.user.id, 'product_id': item.productId});
     }
     cartClass.updateCounter();
-    cartNotifier.updateItemList();
     notifyListeners();
   }
 }

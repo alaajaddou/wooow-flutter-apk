@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wooow_supermarket/main.dart';
-import 'package:wooow_supermarket/models/address.dart';
 import 'package:wooow_supermarket/models/category.dart';
 import 'package:wooow_supermarket/models/item.dart';
 import 'package:wooow_supermarket/models/order.dart';
@@ -25,12 +23,16 @@ import 'package:wooow_supermarket/utils/custom_navigator.dart';
 
 class RouteGenerator {
   static String? currentRoute;
+  static String? oldRoute;
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final arguments = settings.arguments;
     currentRoute = settings.name;
     switch (settings.name) {
       case '':
-        return MaterialPageRoute(builder: (_) => const HomePage());
+        return MaterialPageRoute(
+            builder: (_) => const HomePage(),
+        );
       // case 'search':
       //   return MaterialPageRoute(builder: (_) => const SearchPage());
       case 'cart':
@@ -72,6 +74,16 @@ class RouteGenerator {
       default:
         return MaterialPageRoute(builder: (_) => const ErrorPage());
     }
+  }
+
+  static bool checkIfSameRoute(context, String newRouteName) {
+    bool isNewRouteSameAsCurrent = false;
+
+    if (RouteGenerator.currentRoute == newRouteName) {
+      isNewRouteSameAsCurrent = true;
+    }
+
+    return isNewRouteSameAsCurrent;
   }
 }
 

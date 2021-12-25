@@ -23,6 +23,14 @@ class _RegisterPageState extends State<RegisterPage> {
   final passwordController = TextEditingController();
   final passwordConfirmationController = TextEditingController();
   final nameController = TextEditingController();
+  bool _nameErrorValidate = false;
+  bool _emailErrorValidate = false;
+  bool _passwordErrorValidate = false;
+  bool _passwordConfirmationErrorValidate = false;
+  String? _nameError;
+  String? _emailError;
+  String? _passwordError;
+  String? _passwordConfirmationError;
 
   @override
   void dispose() {
@@ -73,6 +81,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       errorBorder: CustomBorder.errorBorder,
                                       enabledBorder: CustomBorder.enabledBorder,
                                       floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                      errorText: _nameErrorValidate ? _nameError : null
                                     ),
                                     keyboardType: TextInputType.text),
                                 Utils.getSizedBox(height: 15),
@@ -89,6 +98,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       errorBorder: CustomBorder.errorBorder,
                                       enabledBorder: CustomBorder.enabledBorder,
                                       floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                      errorText: _emailErrorValidate ? _emailError : null
                                     ),
                                     keyboardType: TextInputType.emailAddress),
                                 Utils.getSizedBox(height: 15),
@@ -102,7 +112,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                       focusedBorder: CustomBorder.focusBorder,
                                       errorBorder: CustomBorder.errorBorder,
                                       enabledBorder: CustomBorder.enabledBorder,
-                                      floatingLabelBehavior: FloatingLabelBehavior.auto),
+                                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                      errorText: _passwordErrorValidate ? _passwordError : null
+                                  ),
                                   obscureText: true,
                                 ),
                                 Utils.getSizedBox(height: 15),
@@ -116,7 +128,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                       focusedBorder: CustomBorder.focusBorder,
                                       errorBorder: CustomBorder.errorBorder,
                                       enabledBorder: CustomBorder.enabledBorder,
-                                      floatingLabelBehavior: FloatingLabelBehavior.auto),
+                                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                      errorText: _passwordConfirmationErrorValidate ? _passwordConfirmationError : null),
                                   obscureText: true,
                                 ),
                                 Text(error, textDirection: TextDirection.rtl, style: const TextStyle(color: Colors.red)),
@@ -135,15 +148,35 @@ class _RegisterPageState extends State<RegisterPage> {
                                           const SnackBar(content: Text('Processing Data')),
                                         );
 
+                                        error = '';
+
+                                        _nameError = null;
+                                        _nameErrorValidate = false;
+
+                                        _emailError = null;
+                                        _emailErrorValidate = false;
+
+                                        _passwordError = null;
+                                        _passwordErrorValidate = false;
+
+                                        _passwordConfirmationError = null;
+                                        _passwordConfirmationErrorValidate = false;
+
+                                        setState(() { });
+
                                         dynamic data = {"email": emailController.text, "password": passwordController.text, "password_confirmation": passwordConfirmationController.text, "name": nameController.text};
                                         auth.createWithCredentials(data).then((authResponse) {
-                                          if (authResponse['success'] != null) {
+                                          if (authResponse['success'] == false) {
                                             List errorList = authResponse['data']!.keys.toList();
                                             if (errorList.isNotEmpty) {
                                               /* Error handling */
                                               String errorKey = authResponse['data'].keys.toList()[0];
-                                              error = authResponse['data'][errorKey][0].toString();
+                                              setErrorField(errorKey, authResponse['data'][errorKey][0].toString());
+                                              setState(() { });
                                             }
+                                          } else {
+                                            auth.prepareUser(authResponse, 'email');
+                                            Navigator.of(context).pushReplacementNamed('account');
                                           }
                                         });
                                       }
@@ -193,7 +226,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           Buttons.Google,
                           text: "تسجيل باستخدام GOOGLE",
                           onPressed: () {
-                            Provider.of<GoogleSignInController>(context, listen: false).login().then((Object? obj) => Navigator.of(context).pushReplacementNamed(''));
+                            Provider.of<GoogleSignInController>(context, listen: false).login().then((Object? obj) => Navigator.of(context).pushReplacementNamed('account'));
                           },
                         )),
                     Utils.getSizedBox(height: 10),
@@ -207,5 +240,28 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
       bottomNavigationBar: const CustomNavigator(),
     );
+  }
+
+  void setErrorField(String errorKey, String error) {
+    switch(errorKey) {
+      case 'name':
+        _nameError = error;
+        _nameErrorValidate = true;
+        break;
+      case 'email':
+        _emailError = error;
+        _emailErrorValidate = true;
+        break;
+      case 'password':
+        _passwordError = error;
+        _passwordErrorValidate = true;
+        break;
+      case 'password_confirmation':
+        _passwordConfirmationError = error;
+        _passwordConfirmationErrorValidate = true;
+        break;
+      default:
+        this.error = error;
+    }
   }
 }

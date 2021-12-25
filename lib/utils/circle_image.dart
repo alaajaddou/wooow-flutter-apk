@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wooow_supermarket/models/category.dart';
 import 'package:wooow_supermarket/utils/global.dart';
+import 'package:wooow_supermarket/utils/route_generator.dart';
 
 class CircleImages extends StatefulWidget {
   final List<CategoryModel> categories;
@@ -21,7 +22,9 @@ class CircleWidgets extends State<CircleImages> {
       for (var element in widget.categories) {
         widgets.add(GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed('category', arguments: element);
+              if (!RouteGenerator.checkIfSameRoute(context, 'category')) {
+                Navigator.of(context).pushNamed('category', arguments: element);
+              }
             },
             child: Column(
               children: [
