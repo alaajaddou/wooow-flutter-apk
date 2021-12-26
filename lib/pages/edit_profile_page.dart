@@ -80,14 +80,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 child: TextFormField(
                   controller: emailController,
                   decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-                  border: CustomBorder.enabledBorder,
-                  labelText: "البريد الالكتروني",
-                  focusedBorder: CustomBorder.focusBorder,
-                  errorBorder: CustomBorder.errorBorder,
-                  enabledBorder: CustomBorder.enabledBorder,
-                  labelStyle: CustomTextStyle.textFormFieldMedium.copyWith(fontSize: MediaQuery.of(context).textScaleFactor * 16, color: Colors.black),
-                  floatingLabelBehavior: FloatingLabelBehavior.auto),
+                      contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+                      border: CustomBorder.enabledBorder,
+                      labelText: "البريد الالكتروني",
+                      focusedBorder: CustomBorder.focusBorder,
+                      errorBorder: CustomBorder.errorBorder,
+                      enabledBorder: CustomBorder.enabledBorder,
+                      labelStyle: CustomTextStyle.textFormFieldMedium.copyWith(fontSize: MediaQuery.of(context).textScaleFactor * 16, color: Colors.black),
+                      floatingLabelBehavior: FloatingLabelBehavior.auto),
                 ),
               ),
               const SizedBox(
@@ -116,9 +116,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
   var border = const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(4)), borderSide: BorderSide(width: 1, color: Colors.grey));
 
   // void _saveAction() {
-  //
-  //   ApiBaseHelper().put('update-user', {
-  //     'email'
+  //   String name = nameController.text;
+  //   String email = emailController.text;
+  //   dynamic body = {'name': name, 'email': email};
+  //   ApiBaseHelper().put('edit-user', body).then((result) {
+  //     if (result['statusCode'] == 223) {
+  //       auth.prepareUser(result['user'], 'email').then((user) => auth.user = user);
+  //     }
   //   });
   // }
 }
