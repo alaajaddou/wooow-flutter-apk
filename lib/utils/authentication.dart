@@ -121,7 +121,7 @@ class Authentication {
         name: tempUser['name'],
         imagePath: tempUser['avatar'],
         loginProvider: provider,
-        addressId: tempUser['addressId'],
+        addressId: tempUser['addressId'] ?? 0,
         token: tempUser['api_token'],
         email: tempUser['email'],
         id: tempUser['id']);
